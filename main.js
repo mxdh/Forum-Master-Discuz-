@@ -168,12 +168,8 @@
             display: none;
         }
 
-        #extcreditmenu.a {
-            padding-left: 9px;
-        }
-
         .custom-function-button {
-            margin-right: 4px;
+            margin: 4px 0 0 4px;
             padding: 2px 8px;
             background-color: #f1f1f1;
             border: none;
@@ -373,7 +369,6 @@
             }
 
             .custom-function-button {
-                margin: 4px 0 0 4px;
                 background-color: #e8eff5;
             }
 
