@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.1.3
+// @version      0.1.4
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -60,7 +60,8 @@
     'use strict';
 
     //This is the original author's statement:
-    /* GNU General Public License
+    /**
+     * GNU General Public License
      *
      * Official website: https://hunter.gitlab.io/tools/www.hostloc.com/
      *
@@ -142,7 +143,7 @@
     }
 
     if (global_config.code_beautification === true) {
-        GM_addStyle(`.mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
+        GM_addStyle(`
             .mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
             .blockcode ol li {
                 font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
@@ -172,7 +173,7 @@
         }
 
         .custom-function-button {
-            margin-right: 5px !important;
+            margin-right: 4px;
             padding: 2px 8px;
             background-color: #f1f1f1;
             border: none;
@@ -256,11 +257,12 @@
             display: none;
         }
     `);
+
     const website = window.location.href;
     !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
 
     // Login status
-    const member = !!document.getElementById('extcreditmenu');
+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myrepeats');
 
     // Set as Default avatar
     function default_avatar(src) {
@@ -352,50 +354,54 @@
                 break;
         }
 
+        // DIV
+        const div = document.createElement('div');
+        div.id = 'function-buttons';
+        div.className = 'text-align-right';
+        document.getElementById('pt').appendChild(div);
+
+        const function_buttons = document.getElementById('function-buttons');
+
         // Show users online status
-        if (member) show_status();
-
-        // Create Pipe
-        function create_pipe() {
-            const span = document.createElement('span');
-            span.className = 'pipe';
-            span.innerHTML = '|';
-            document.getElementById('extcreditmenu').parentElement.prepend(span);
-        }
-
-        // Check in
         if (member) {
-            function check_in() {
-                const check_in = document.getElementsByClassName('check-in')[0];
-                check_in.innerHTML = '正在签到';
-                check_in.disabled = true;
-                check_in.classList.add('check-in-disabled');
-                setTimeout(() => {
-                    check_in.innerHTML = '签到完成';
-                }, 1234);
+            show_status(); 
 
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(() => {
-                        let request = new XMLHttpRequest();
-                        let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
-                        request.open('get', space);
-                        request.send();
-                    }, i * 100);
-                }
+    } else {
+        GM_addStyle(`
+            .text-align-right {
+                float: right;
             }
-            create_pipe();
-            const check_in_button = document.createElement('button');
-            check_in_button.className = 'custom-function-button check-in';
-            check_in_button.innerHTML = '每日签到';
-            check_in_button.addEventListener('click', check_in, false);
-            document.getElementById('extcreditmenu').parentElement.prepend(check_in_button);
+
+            .custom-function-button {
+                margin: 4px 0 0 4px;
+                background-color: #e8eff5;
+            }
+
+            .custom-function-button:hover {
+                color: #369;
+                box-shadow: 0 1px 2px #bbb;
+            }
+
+        `);
+    }
+
+        // Home button
+        const home_button = document.createElement('button');
+        home_button.className = 'custom-function-button home-button';
+        home_button.innerHTML = '论坛大师';
+        home_button.addEventListener('click', function () {
+            window.open(HOME);
+        }, false);
+        if (member) {
+            document.getElementById('extcreditmenu').parentElement.appendChild(home_button);
+        } else {
+            function_buttons.appendChild(home_button);
         }
 
         // Switch Mode
         function switch_mode() {
             alert('切换模式功能正在开发……');
         }
-        create_pipe();
         const switch_mode_button = document.createElement('button');
         switch_mode_button.className = 'custom-function-button switch-mode';
         let html = '切换模式';
@@ -422,19 +428,40 @@
         }
         switch_mode_button.innerHTML = html;
         switch_mode_button.addEventListener('click', switch_mode, false);
-        document.getElementById('extcreditmenu').parentElement.prepend(switch_mode_button);
+        if (member) {
+            document.getElementById('extcreditmenu').parentElement.appendChild(switch_mode_button);
+        } else {
+            function_buttons.appendChild(switch_mode_button);
+        }
 
-        // Home button
-        create_pipe();
-        const home_button = document.createElement('button');
-        home_button.className = 'custom-function-button home-button';
-        home_button.innerHTML = '论坛大师';
-        home_button.addEventListener('click', function () {
-            window.open(HOME);
-        }, false);
-        document.getElementById('extcreditmenu').parentElement.prepend(home_button);
+        // Check in
+        if (member) {
+            function check_in() {
+                const check_in = document.getElementsByClassName('check-in')[0];
+                check_in.innerHTML = '正在签到';
+                check_in.disabled = true;
+                check_in.classList.add('check-in-disabled');
+                setTimeout(() => {
+                    check_in.innerHTML = '签到完成';
+                }, 1234);
+
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        let request = new XMLHttpRequest();
+                        let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+                        request.open('get', space);
+                        request.send();
+                    }, i * 100);
+                }
+            }
+            const check_in_button = document.createElement('button');
+            check_in_button.className = 'custom-function-button check-in';
+            check_in_button.innerHTML = '每日签到';
+            check_in_button.addEventListener('click', check_in, false);
+            document.getElementById('extcreditmenu').parentElement.appendChild(check_in_button);
+        }
+
     }
-
 
     // bbs.pcbeta.com
     if (window.location.hostname === 'bbs.pcbeta.com') {
