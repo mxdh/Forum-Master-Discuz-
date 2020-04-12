@@ -3,8 +3,8 @@
 // @name:en      Forum Master・Discuz!
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
-// @namespace    Forum Master・Discuz!
-// @version      0.1.1
+// @namespace    Forum Master・Discuz!-mxdh
+// @version      0.1.2
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
