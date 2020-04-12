@@ -157,6 +157,10 @@
             display: none;
         }
 
+        #extcreditmenu.a {
+            padding-left: 9px;
+        }
+
         .custom-function-button {
             margin-right: 5px !important;
             padding: 2px 8px;
@@ -470,8 +474,9 @@
 
         // Display Mode
         switch (global_config.display_mode) {
-            case 'Private':
-            case '私人':
+            case 'Standard':
+            case '标准':
+            case '標準':
                 break;
 
             case 'Family':
