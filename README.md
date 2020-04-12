@@ -33,5 +33,4 @@ GreasyFork: https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz
 
 After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
 
-Original Author: hostname
-Original project: https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz
+This project is based on hostname https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz, and complies with GPL-3.0

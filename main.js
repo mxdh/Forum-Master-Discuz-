@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.1.2
+// @version      0.1.3
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -58,6 +58,16 @@
 
 (function () {
     'use strict';
+
+    //This is the original author's statement:
+    /* GNU General Public License
+     *
+     * Official website: https://hunter.gitlab.io/tools/www.hostloc.com/
+     *
+     * Publish website: https://greasyfork.org/scripts/400250
+     *
+     * Copyright notice must be retained.
+     */
 
     // Global Settings
     const global_config = {
@@ -249,7 +259,7 @@
     const website = window.location.href;
     !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
 
-    // Member
+    // Login status
     const member = !!document.getElementById('extcreditmenu');
 
     // Set as Default avatar
@@ -469,7 +479,7 @@
 
     // bbs.kafan.cn
     if (window.location.hostname === 'bbs.kafan.cn') {
-        // Member
+        // Login status
         const member = !!document.getElementById('myprompt');
 
         // Display Mode
