@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!
-// @version      0.1.0
+// @version      0.1.1
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
