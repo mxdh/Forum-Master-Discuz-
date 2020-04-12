@@ -19,7 +19,12 @@
 - Status visualization
 - Force display of replies
 - Stay tuned for more features...
+
 ---
+
+Github: https://github.com/mxdh/Forum-Master-Discuz-
+GreasyFork: https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz
+
 ## Improvements
 - Added some settings
 - Enhanced support for 卡饭论坛
