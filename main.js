@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.2.2
+// @version      0.2.3
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -500,8 +500,8 @@
     }
     const locked = document.getElementsByClassName('locked')[0];
     !!locked && skip_bottom(locked.childNodes[1]);
-    const fastre = document.getElementsByClassName('fastre')[0];
-    !!fastre && skip_bottom(fastre);
+    // const fastre = document.getElementsByClassName('fastre')[0];
+    // !!fastre && skip_bottom(fastre);
 
     // www.52pojie.cn
     if (window.location.hostname === 'www.52pojie.cn') {
