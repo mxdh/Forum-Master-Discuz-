@@ -20,6 +20,8 @@
 - Force display of replies
 - Stay tuned for more features...
 
+note: After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
+
 ---
 
 [Github](https://github.com/mxdh/Forum-Master-Discuz-)
@@ -30,8 +32,6 @@
 - Added some settings
 - Enhanced support for 卡饭论坛
 - Some optimizations
-- Removed the advertising button in the original project
-
-After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
+- Removed the homepage and group buttons
 
 **This project is based on hostname‘ [Forum Master・Discuz!](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), and complies with GPL-3.0**
