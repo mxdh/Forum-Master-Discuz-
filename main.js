@@ -113,6 +113,9 @@
         force_display: true
     }
 
+    const website = window.location.href;
+    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
+
     const site=window.location.hostname.split('.').slice(-2,-1).join().toUpperCase();
 
     // Global variables
@@ -324,9 +327,6 @@
             display: none;
         }
     `);
-
-    const website = window.location.href;
-    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
 
     // Login status
     const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myrepeats') || !!document.getElementById('myprompt');
