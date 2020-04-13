@@ -133,6 +133,7 @@
             font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
         }
 
+        .ad,
         .ads {
             display: none;
         }
@@ -182,6 +183,7 @@
         .function-buttons {
             padding: 0 0 4px 0;
             text-align: right;
+            white-space: nowrap;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -276,27 +278,6 @@
         #diynavtop {
             display: none;
         }
-
-        .pls .avatar {
-            overflow: unset;
-        }
-
-        .user-status {
-            margin: 0;
-        }
-
-        .function-buttons {
-            padding: 4px 0;
-            border-radius: 4px;
-        }
-
-        .custom-function-button {
-            background-color: #fff;
-        }
-
-        .custom-function-button:hover {
-            box-shadow: 0 1px 2px #bbb;
-        }
     `);
 
     // Cascading Style Sheets・www.fglt.net
@@ -363,8 +344,13 @@
             }
 
             .pil,
-            p.xg1 {
+            p.xg1,
+            .md_ctrl {
                 display: none;
+            }
+
+            .plhin {
+                background: none !important;
             }
         `);
     }
@@ -450,7 +436,7 @@
         function_buttons.appendChild(display_mode_switch_button);
 
         // Check in
-        if (member && window.location.hostname === 'www.hostloc.com') {
+        if (member) {
             function check_in() {
                 const check_in = document.getElementsByClassName('check-in')[0];
                 check_in.innerHTML = '正在签到';
@@ -460,13 +446,24 @@
                     check_in.innerHTML = '签到完成';
                 }, 1234);
 
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
                         let request = new XMLHttpRequest();
-                        let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+                        let space = './home.php?mod=task&do=apply&id='.concat(i);
                         request.open('get', space);
                         request.send();
                     }, i * 100);
+                }
+
+                if (window.location.hostname === 'www.hostloc.com') {
+                    for (let i = 0; i < 20; i++) {
+                        setTimeout(() => {
+                            let request = new XMLHttpRequest();
+                            let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+                            request.open('get', space);
+                            request.send();
+                        }, i * 100 + 1000);
+                    }
                 }
             }
             const check_in_button = document.createElement('button');
@@ -495,11 +492,13 @@
         params.addEventListener('click', function (event) {
             params.href = 'javascript:;';
             window.scrollTo(0, 54321);
+            let fastPostMessage = document.getElementById('fastpostmessage');
+            !!fastPostMessage && fastPostMessage.focus();
         }, false);
     }
-    const locked = document.getElementsByClassName('locked')[0];
+    const locked = member ? document.getElementsByClassName('locked')[0] : false;
     !!locked && skip_bottom(locked.childNodes[1]);
-    const fastre = document.getElementsByClassName('fastre')[0];
+    const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
     !!fastre && skip_bottom(fastre);
 
     // www.52pojie.cn
@@ -535,11 +534,11 @@
                 break;
 
             case 'Family':
-                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
                 break;
 
             case 'Office':
-                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
                 abbreviated_avatar();
                 hidden_signature();
                 break;
@@ -567,7 +566,7 @@
                 // Set as Default avatar
                 const avatarFamily = document.getElementsByClassName('avatar');
                 for (let i = 0; i < avatarFamily.length - 1; i++) {
-                    avatarFamily[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
+                    avatarFamily[i].innerHTML = '<img src="//uc.pcbeta.com/images/noavatar_middle.gif">';
                 }
                 break;
 
@@ -576,8 +575,58 @@
                 // Set as Default avatar
                 const avatarOffice = document.getElementsByClassName('avatar');
                 for (let i = 0; i < avatarOffice.length - 1; i++) {
-                    avatarOffice[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
+                    avatarOffice[i].innerHTML = '<img src="//uc.pcbeta.com/images/noavatar_middle.gif">';
                 }
+                abbreviated_avatar();
+                hidden_signature();
+                break;
+
+            default:
+                break;
+        }
+
+        // Show users online status
+        !!member && show_users_online_status();
+
+        GM_addStyle(`
+            .pls .avatar {
+                overflow: unset;
+            }
+
+            .user-status {
+                margin: 0;
+            }
+
+            .function-buttons {
+                padding: 4px 0;
+                border-radius: 4px;
+            }
+
+            .custom-function-button {
+                background-color: #fff;
+            }
+
+            .custom-function-button:hover {
+                box-shadow: 0 1px 2px #bbb;
+            }
+        `);
+    }
+
+    // www.fglt.net
+    // www.fglt.cn
+    // www.fgbbs.net
+    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn' || window.location.hostname === 'www.fgbbs.net') {
+        // Display Mode
+        switch (display_mode) {
+            case 'Standard':
+                break;
+
+            case 'Family':
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
+                break;
+
+            case 'Office':
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
                 abbreviated_avatar();
                 hidden_signature();
                 break;

@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.2.3
+// @version      0.2.4
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -183,6 +183,7 @@
         .function-buttons {
             padding: 0 0 4px 0;
             text-align: right;
+            white-space: nowrap;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -294,27 +295,6 @@
         #diynavtop {
             display: none;
         }
-
-        .pls .avatar {
-            overflow: unset;
-        }
-
-        .user-status {
-            margin: 0;
-        }
-
-        .function-buttons {
-            padding: 4px 0;
-            border-radius: 4px;
-        }
-
-        .custom-function-button {
-            background-color: #fff;
-        }
-
-        .custom-function-button:hover {
-            box-shadow: 0 1px 2px #bbb;
-        }
     `);
 
     // Cascading Style Sheets・www.fglt.net
@@ -383,8 +363,13 @@
             }
 
             .pil,
-            p.xg1 {
+            p.xg1,
+            .md_ctrl {
                 display: none;
+            }
+
+            .plhin {
+                background: none !important;
             }
         `);
     }
@@ -469,7 +454,7 @@
                 setTimeout(() => {
                     check_in.innerHTML = '签到完成';
                 }, 1234);
-
+            
                 for (let i = 0; i < 20; i++) {
                     setTimeout(() => {
                         let request = new XMLHttpRequest();
@@ -496,11 +481,13 @@
         params.addEventListener('click', function (event) {
             params.href = 'javascript:;';
             window.scrollTo(0, 54321);
+            let fastPostMessage = document.getElementById('fastpostmessage');
+            !!fastPostMessage && fastPostMessage.focus();
         }, false);
     }
-    const locked = document.getElementsByClassName('locked')[0];
+    const locked = member ? document.getElementsByClassName('locked')[0] : false;
     !!locked && skip_bottom(locked.childNodes[1]);
-    // const fastre = document.getElementsByClassName('fastre')[0];
+    // const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
     // !!fastre && skip_bottom(fastre);
 
     // www.52pojie.cn
@@ -536,11 +523,11 @@
                 break;
 
             case 'Family':
-                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
                 break;
 
             case 'Office':
-                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
                 abbreviated_avatar();
                 hidden_signature();
                 break;
@@ -575,6 +562,56 @@
                 for (let i = 0; i < avatar.length - 1; i++) {
                     avatar[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
                 }
+                abbreviated_avatar();
+                hidden_signature();
+                break;
+
+            default:
+                break;
+        }
+
+        // Show users online status
+        !!member && show_users_online_status();
+
+        GM_addStyle(`
+            .pls .avatar {
+                overflow: unset;
+            }
+
+            .user-status {
+                margin: 0;
+            }
+
+            .function-buttons {
+                padding: 4px 0;
+                border-radius: 4px;
+            }
+
+            .custom-function-button {
+                background-color: #fff;
+            }
+
+            .custom-function-button:hover {
+                box-shadow: 0 1px 2px #bbb;
+            }
+        `);
+    }
+
+    // www.fglt.net
+    // www.fglt.cn
+    // www.fgbbs.net
+    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn' || window.location.hostname === 'www.fgbbs.net') {
+        // Display Mode
+        switch (display_mode) {
+            case 'Standard':
+                break;
+
+            case 'Family':
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
+                break;
+
+            case 'Office':
+                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
                 abbreviated_avatar();
                 hidden_signature();
                 break;

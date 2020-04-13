@@ -1,5 +1,5 @@
---- original.js	2020-04-13 21:32:45.027366400 +0800
-+++ main.js	2020-04-13 22:07:14.962198900 +0800
+--- original.js	2020-04-14 00:21:19.049298300 +0800
++++ main.js	2020-04-14 00:31:43.398074700 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
@@ -14,7 +14,7 @@
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.2.1
++// @version      0.2.4
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -51,7 +51,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -93,21 +86,37 @@
+@@ -93,21 +86,40 @@
       */
  
      // Global Settings
@@ -89,6 +89,9 @@
 -    // Test code
 -    const ua = window.navigator.userAgent;
 -    GM_log(ua);
++    const website = window.location.href;
++    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
++
 +    const site=window.location.hostname.split('.').slice(-2,-1).join().toUpperCase();
  
      // Global variables
@@ -97,7 +100,7 @@
  
      const display_mode_dic = {
          Standard: '标准模式',
-@@ -120,19 +129,8 @@
+@@ -120,20 +132,8 @@
          Office: 'Standard',
      }
  
@@ -114,10 +117,11 @@
 -            font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
 -        }
 -
+-        .ad,
          .ads {
              display: none;
          }
-@@ -213,6 +211,23 @@
+@@ -215,6 +215,23 @@
          }
      `);
  
@@ -141,9 +145,13 @@
      // Cascading Style Sheets・www.52pojie.cn
      GM_addStyle(`
          .dnch_eo_pt,
-@@ -314,12 +329,15 @@
-     !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
+@@ -291,16 +308,16 @@
+         }
+     `);
  
+-    const website = window.location.href;
+-    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
+-
      // Login status
 -    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
 +    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myrepeats') || !!document.getElementById('myprompt');
@@ -158,7 +166,7 @@
          GM_addStyle(`
              .function-buttons {
                  padding-top: 4px;
-@@ -327,12 +345,14 @@
+@@ -308,12 +325,14 @@
  
              .custom-function-button {
                  background-color: #e8eff5;
@@ -174,7 +182,7 @@
          `);
      }
  
-@@ -421,27 +441,17 @@
+@@ -407,27 +426,17 @@
  
          const function_buttons = document.getElementById('function-buttons');
  
@@ -206,7 +214,46 @@
          }
          const display_mode_switch_button = document.createElement('button');
          display_mode_switch_button.className = 'custom-function-button display-mode-switch';
-@@ -475,15 +485,6 @@
+@@ -436,7 +445,7 @@
+         function_buttons.appendChild(display_mode_switch_button);
+ 
+         // Check in
+-        if (member) {
++        if (member && window.location.hostname === 'www.hostloc.com') {
+             function check_in() {
+                 const check_in = document.getElementsByClassName('check-in')[0];
+                 check_in.innerHTML = '正在签到';
+@@ -445,26 +454,15 @@
+                 setTimeout(() => {
+                     check_in.innerHTML = '签到完成';
+                 }, 1234);
+-
+-                for (let i = 0; i < 10; i++) {
++            
++                for (let i = 0; i < 20; i++) {
+                     setTimeout(() => {
+                         let request = new XMLHttpRequest();
+-                        let space = './home.php?mod=task&do=apply&id='.concat(i);
++                        let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+                         request.open('get', space);
+                         request.send();
+                     }, i * 100);
+                 }
+-
+-                if (window.location.hostname === 'www.hostloc.com') {
+-                    for (let i = 0; i < 20; i++) {
+-                        setTimeout(() => {
+-                            let request = new XMLHttpRequest();
+-                            let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+-                            request.open('get', space);
+-                            request.send();
+-                        }, i * 100 + 1000);
+-                    }
+-                }
+             }
+             const check_in_button = document.createElement('button');
+             check_in_button.className = 'custom-function-button check-in';
+@@ -472,15 +470,6 @@
              check_in_button.addEventListener('click', check_in, false);
              function_buttons.appendChild(check_in_button);
          }
@@ -222,7 +269,18 @@
      }
  
      // Create Button Group
-@@ -550,14 +551,12 @@
+@@ -498,8 +487,8 @@
+     }
+     const locked = member ? document.getElementsByClassName('locked')[0] : false;
+     !!locked && skip_bottom(locked.childNodes[1]);
+-    const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
+-    !!fastre && skip_bottom(fastre);
++    // const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
++    // !!fastre && skip_bottom(fastre);
+ 
+     // www.52pojie.cn
+     if (window.location.hostname === 'www.52pojie.cn') {
+@@ -549,14 +538,12 @@
  
          // Show users online status
          !!member && show_users_online_status();
@@ -238,13 +296,13 @@
          switch (display_mode) {
              case 'Standard':
                  break;
-@@ -565,18 +564,16 @@
+@@ -564,18 +551,16 @@
              case 'Family':
                  // default_avatar('//uc.pcbeta.com//images/noavatar_middle.gif');
                  // Set as Default avatar
 -                const avatarFamily = document.getElementsByClassName('avatar');
 -                for (let i = 0; i < avatarFamily.length - 1; i++) {
--                    avatarFamily[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
+-                    avatarFamily[i].innerHTML = '<img src="//uc.pcbeta.com/images/noavatar_middle.gif">';
 +                for (let i = 0; i < avatar.length - 1; i++) {
 +                    avatar[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
                  }
@@ -255,13 +313,13 @@
                  // Set as Default avatar
 -                const avatarOffice = document.getElementsByClassName('avatar');
 -                for (let i = 0; i < avatarOffice.length - 1; i++) {
--                    avatarOffice[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
+-                    avatarOffice[i].innerHTML = '<img src="//uc.pcbeta.com/images/noavatar_middle.gif">';
 +                for (let i = 0; i < avatar.length - 1; i++) {
 +                    avatar[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
                  }
                  abbreviated_avatar();
                  hidden_signature();
-@@ -590,35 +587,65 @@
+@@ -639,35 +624,65 @@
          !!member && show_users_online_status();
      }
  
@@ -350,4 +408,3 @@
 +        !!fastPostSubmit && fastPostSubmit.addEventListener('click', editor_content, false);
 +    }
  })();
-\ No newline at end of file
