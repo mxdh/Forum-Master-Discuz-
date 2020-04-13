@@ -432,6 +432,8 @@
             change_button_style();
             add_display_mode_switch_button('52POJIE', add_div());
         }
+
+        // Check in - No need
     }
 
     // www.hostloc.com
