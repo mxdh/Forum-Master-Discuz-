@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.2.0
+// @version      0.2.2
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -54,6 +54,7 @@
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @grant        GM_log
 // @supportURL   https://github.com/mxdh/Forum-Master-Discuz-
 // @license GPL-3.0
 // ==/UserScript==
@@ -85,27 +86,37 @@
      */
 
     // Global Settings
-    const global_config = {
+    const GLOBAL_CONFIG = {
         // Text Beautification: true/false
-        // 文本美化：true/false
-        // 文字美化：true/false
+        // 文本美化: true/false
+        // 文字美化: true/false
         text_beautification: false,
+
         // Code Beautification: true/false
         // 代码美化：true/false
         // 程式碼美化：true/false
         code_beautification: true,
+
         // Display Mode: 'Standard', 'Family', 'Office'
-        // 显示模式：'Standard', 'Family', 'Office'
-        // 顯示模式：'Standard', 'Family', 'Office'
+        // 显示模式: 'Standard', 'Family', 'Office'
+        // 顯示模式: 'Standard', 'Family', 'Office'
         display_mode: 'Standard',
-        // Force Display: true/false
-        // 回帖强显：true/false
-        // 回帖強顯：true/false
+
+        // Automatically refresh after modifying settings on webpage: true/false,
+        // 在网页上修改设置后自动刷新: true/false,
+        // 在網頁上修改設置後自動刷新: true/false,
+        auto_reload: false,
+
+        // Force Display of Replies: true/false
+        // 回帖强显: true/false
+        // 回帖強顯: true/false
         force_display: true
     }
 
+    const site=window.location.hostname.split('.').slice(-2,-1).join().toUpperCase();
+
     // Global variables
-    var display_mode = global_config.display_mode || 'Standard';
+    var display_mode = GM_getValue(site+'_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
 
     const display_mode_dic = {
         Standard: '标准模式',
@@ -160,9 +171,47 @@
             width: 120px;
             height: 120px;
         }
+
+        #hd .wp,
+        #um {
+            padding-top: 0;
+        }
+
+        .function-buttons {
+            padding: 0 0 4px 0;
+            text-align: right;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .custom-function-button {
+            margin-left: 4px;
+            padding: 2px 8px;
+            background-color: #f1f1f1;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .custom-function-button:hover {
+            box-shadow: 0 1px 2px #bbb;
+        }
+
+        .button-disabled {
+            color: #808080;
+            cursor: default;
+        }
+
+        .button-disabled:hover {
+            box-shadow: none;
+        }
     `);
 
-    if (global_config.text_beautification === true) {
+    if (GLOBAL_CONFIG.text_beautification === true) {
         GM_addStyle(`
             body, table, input, button, select, textarea, a {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", "Noto Sans CJK", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -170,7 +219,7 @@
         `)
     }
 
-    if (global_config.code_beautification === true) {
+    if (GLOBAL_CONFIG.code_beautification === true) {
         GM_addStyle(`
             .mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
             .blockcode ol li {
@@ -194,33 +243,6 @@
         .a_pt,
         .a_pb {
             display: none;
-        }
-
-        .custom-function-button {
-            margin: 4px 0 0 4px;
-            padding: 2px 8px;
-            background-color: #f1f1f1;
-            border: none;
-            border-radius: 4px;
-            outline: none;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .custom-function-button:hover {
-            box-shadow: 0 1px 2px #bbb;
-        }
-
-        .button-disabled {
-            color: #808080;
-            cursor: default;
-        }
-
-        .button-disabled:hover {
-            box-shadow: none;
         }
 
         #hiddenpoststip {
@@ -269,6 +291,27 @@
         #diynavtop {
             display: none;
         }
+
+        .pls .avatar {
+            overflow: unset;
+        }
+
+        .user-status {
+            margin: 0;
+        }
+
+        .function-buttons {
+            padding: 4px 0;
+            border-radius: 4px;
+        }
+
+        .custom-function-button {
+            background-color: #fff;
+        }
+
+        .custom-function-button:hover {
+            box-shadow: 0 1px 2px #bbb;
+        }
     `);
 
     // Cascading Style Sheets・www.fglt.net
@@ -287,6 +330,31 @@
 
     // Login status
     const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myrepeats') || !!document.getElementById('myprompt');
+
+    if (member) {
+        GM_log('Login status: Yes');
+    } else {
+        GM_log('Login status: No');
+    }
+
+    if (!member||site==='KAFAN') {
+        GM_addStyle(`
+            .function-buttons {
+                padding-top: 4px;
+            }
+
+            .custom-function-button {
+                background-color: #e8eff5;
+                border:1px solid;
+                font-weight: bold;
+                padding: 3px 8px;
+            }
+
+            .custom-function-button:hover {
+                box-shadow: 0 1px 2px #bbb;
+            }
+        `);
+    }
 
     // Set as Default avatar
     function default_avatar(src) {
@@ -314,12 +382,8 @@
                 border-radius: 0;
             }
 
-            #scbar_txt {
-                display: inline;
-            }
-
             .pil,
-            .xg1 {
+            p.xg1 {
                 display: none;
             }
         `);
@@ -334,7 +398,8 @@
         `);
     }
 
-    function show_status() {
+    // Show users online status
+    function show_users_online_status() {
         const avatar = document.getElementsByClassName('avatar');
         const info = document.getElementsByClassName('i');
 
@@ -353,127 +418,49 @@
         }
     }
 
-    function change_button_style() {
-        GM_addStyle(`
-            .text-align-right {
-                float: right;
-            }
+    // Create Button Group
+    function create_button_group() {
+        // Box - For tourists
+        const box = document.createElement('div');
+        box.id = 'function-buttons';
+        box.className = 'function-buttons';
+        let box_strong;
+        switch (true) {
+            case !!document.getElementById('extcreditmenu'):
+                box_strong = document.getElementById('extcreditmenu').parentElement;
+                break;
 
-            .custom-function-button {
-                background-color: #e8eff5;
-            }
+            case !!document.getElementById('pt'):
+                box_strong = document.getElementById('pt');
+                break;
 
-            .custom-function-button:hover {
-                color: #369;
-                box-shadow: 0 1px 2px #bbb;
-            }
+            default:
+                break;
+        }
+        box_strong.appendChild(box);
 
-        `);
-    }
+        const function_buttons = document.getElementById('function-buttons');
 
-    function display_mode_switch(value) {
-        const display_mode_switch_button = document.getElementsByClassName('display-mode-switch')[0];
-        display_mode_switch_button.disabled = true;
-        display_mode_switch_button.classList.add('button-disabled');
-        display_mode = display_mode_cutover_dic[display_mode];
-        display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
-        GM_setValue(value, display_mode);
-        display_mode_switch_button.disabled = false;
-        display_mode_switch_button.classList.remove('button-disabled');
-    }
-
-    function add_div() {
-        // DIV
-        const div = document.createElement('div');
-        div.id = 'function-buttons';
-        div.className = 'text-align-right';
-        document.getElementById('pt').appendChild(div);
-
-        return document.getElementById('function-buttons');
-    }
-
-    function add_display_mode_switch_button(site, pos) {
+        // Switch Mode button
+        function display_mode_switch() {
+            const display_mode_switch_button = document.getElementsByClassName('display-mode-switch')[0];
+            display_mode_switch_button.disabled = true;
+            display_mode_switch_button.classList.add('button-disabled');
+            display_mode = display_mode_cutover_dic[display_mode];
+            display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
+            GM_setValue(site+'_DISPLAY_MODE', display_mode);
+            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
+            display_mode_switch_button.disabled = false;
+            display_mode_switch_button.classList.remove('button-disabled');
+        }
         const display_mode_switch_button = document.createElement('button');
         display_mode_switch_button.className = 'custom-function-button display-mode-switch';
         display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
-        display_mode_switch_button.addEventListener('click', function () { display_mode_switch(site + '_DISPLAY_MODE'); }, false);
-        pos.appendChild(display_mode_switch_button);
-    }
-
-    // www.52pojie.cn
-    if (window.location.hostname === 'www.52pojie.cn') {
-        // Display Mode
-        display_mode = GM_getValue('52POJIE_DISPLAY_MODE') || display_mode;
-        switch (display_mode) {
-            case 'Standard':
-                break;
-
-            case 'Family':
-                default_avatar('//avatar.52pojie.cn/images/noavatar_middle.gif');
-                break;
-
-            case 'Office':
-                default_avatar('//avatar.52pojie.cn/images/noavatar_middle.gif');
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
-        }
-
-        // Show users online status
-        if (member) show_status();
-
-        // Switch Mode
-        if (member) {
-            add_display_mode_switch_button('52POJIE', document.getElementById('extcreditmenu').parentElement);
-        } else {
-            change_button_style();
-            add_display_mode_switch_button('52POJIE', add_div());
-        }
-
-        // Check in - No need
-    }
-
-    // www.hostloc.com
-    if (window.location.hostname === 'www.hostloc.com') {
-        // Display Mode
-        display_mode = GM_getValue('HOSTLOC_DISPLAY_MODE') || display_mode;
-        switch (display_mode) {
-            case 'Standard':
-                break;
-
-            case 'Family':
-                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
-                break;
-
-            case 'Office':
-                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
-        }
-
-        // Show all posts
-        // display_blocked_post();
-
-        // Show users online status
-        if (member) show_status();
-
-        // Switch Mode
-        if (member) {
-            add_display_mode_switch_button('HOSTLOC', document.getElementById('extcreditmenu').parentElement);
-        } else {
-            change_button_style();
-            add_display_mode_switch_button('HOSTLOC', add_div());
-        }
+        display_mode_switch_button.addEventListener('click', display_mode_switch, false);
+        function_buttons.appendChild(display_mode_switch_button);
 
         // Check in
-        if (member) {
+        if (member && window.location.hostname === 'www.hostloc.com') {
             function check_in() {
                 const check_in = document.getElementsByClassName('check-in')[0];
                 check_in.innerHTML = '正在签到';
@@ -496,9 +483,74 @@
             check_in_button.className = 'custom-function-button check-in';
             check_in_button.innerHTML = '每日签到';
             check_in_button.addEventListener('click', check_in, false);
-            document.getElementById('extcreditmenu').parentElement.appendChild(check_in_button);
+            function_buttons.appendChild(check_in_button);
+        }
+    }
+
+    // Create Button Group
+    create_button_group();
+
+    // Click the main building reply to skip to the bottom of the page
+    function skip_bottom(params) {
+        params.removeAttribute('onclick');
+        params.addEventListener('click', function (event) {
+            params.href = 'javascript:;';
+            window.scrollTo(0, 54321);
+        }, false);
+    }
+    const locked = document.getElementsByClassName('locked')[0];
+    !!locked && skip_bottom(locked.childNodes[1]);
+    const fastre = document.getElementsByClassName('fastre')[0];
+    !!fastre && skip_bottom(fastre);
+
+    // www.52pojie.cn
+    if (window.location.hostname === 'www.52pojie.cn') {
+        // Display Mode
+        switch (display_mode) {
+            case 'Standard':
+                break;
+
+            case 'Family':
+                default_avatar('//avatar.52pojie.cn/images/noavatar_middle.gif');
+                break;
+
+            case 'Office':
+                default_avatar('//avatar.52pojie.cn/images/noavatar_middle.gif');
+                abbreviated_avatar();
+                hidden_signature();
+                break;
+
+            default:
+                break;
         }
 
+        // Show users online status
+        !!member && show_users_online_status();
+    }
+
+    // www.hostloc.com
+    if (window.location.hostname === 'www.hostloc.com') {
+        // Display Mode
+        switch (display_mode) {
+            case 'Standard':
+                break;
+
+            case 'Family':
+                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
+                break;
+
+            case 'Office':
+                default_avatar('//www.hostloc.com/uc_server/images/noavatar_middle.gif');
+                abbreviated_avatar();
+                hidden_signature();
+                break;
+
+            default:
+                break;
+        }
+
+        // Show users online status
+        !!member && show_users_online_status();
     }
 
     // bbs.pcbeta.com
@@ -532,13 +584,12 @@
         }
 
         // Show users online status
-        if (member) show_status();
+        !!member && show_users_online_status();
     }
 
     // bbs.kafan.cn
     if (window.location.hostname === 'bbs.kafan.cn') {
         // Display Mode
-        display_mode = GM_getValue('KAFAN_DISPLAY_MODE') || display_mode;
         switch (display_mode) {
             case 'Standard':
                 break;
@@ -558,17 +609,10 @@
         }
 
         // Show users online status
-        if (member) {
-            show_status();
-        } else {
-            change_button_style();
-        }
-
-        // Switch Mode
-        add_display_mode_switch_button('KAFAN', add_div());
+        !!member && show_users_online_status();
     }
 
-    if (global_config.force_display === true) {
+    if (GLOBAL_CONFIG.force_display === true) {
         const attachContent = '[img]https://www.fb.com/security/hsts-pixel.gif[/img]';
 
         const fastPostMessage = document.getElementById('fastpostmessage');
@@ -601,6 +645,7 @@
             }
         }, false);
 
-        document.getElementById('fastpostsubmit').addEventListener('click', editor_content, false);
+        const fastPostSubmit = document.getElementById('fastpostsubmit');
+        !!fastPostSubmit && fastPostSubmit.addEventListener('click', editor_content, false);
     }
 })();
