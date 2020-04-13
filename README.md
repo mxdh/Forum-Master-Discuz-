@@ -1,21 +1,21 @@
 # Forum Master・Discuz!
 ## Support List
-- 吾爱破解
-- 全球主机交流论坛
-- 卡饭论坛
-- 远景论坛（微软极客社区）
-- 恩山无线论坛
-- 矿渣社区
-- 隔壁网
-- 富贵论坛
-- 赚客吧
-- 爱好论坛
+- 吾爱破解(www.52pojie.cn)
+- 全球主机交流论坛(www.hostloc.com)
+- 卡饭论坛(bbs.kafan.cn)
+- 远景论坛（微软极客社区）(bbs.pcbeta.com)
+- 恩山无线论坛(www.right.com.cn)
+- 矿渣社区(bbs.nas66.com)
+- 隔壁网(www.gebi1.com)
+- 富贵论坛(www.fglt.cn)(www.fgbbs.net)
+- 赚客吧(www.zuanke8.com)
+- 爱好论坛(www.aihao.cc)
 
 ## Function introduction
 - Beautify the interface
 - Remove ads
 - Enhance functions
-- Daily check-in
+- Daily check-in(Currently only supports 全球主机交流论坛)
 - Status visualization
 - Force display of replies
 - Stay tuned for more features...
@@ -30,6 +30,7 @@
 - Added some settings
 - Enhanced support for 卡饭论坛
 - Some optimizations
+- Removed the advertising button in the original project
 
 After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
 
