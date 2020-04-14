@@ -41,8 +41,6 @@
 // @match        https://www.fglt.net/forum.php?mod=viewthread&tid=*
 // @match        https://www.fglt.cn/thread-*.html
 // @match        https://www.fglt.cn/forum.php?mod=viewthread&tid=*
-// @match        https://www.fgbbs.net/thread-*.html
-// @match        https://www.fgbbs.net/forum.php?mod=viewthread&tid=*
 // @match        http://www.zuanke8.com/thread-*.html
 // @match        http://www.zuanke8.com/forum.php?mod=viewthread&tid=*
 // @match        https://www.zuanke8.com/thread-*.html
@@ -103,6 +101,9 @@
         // 顯示模式: 'Standard', 'Family', 'Office'
         display_mode: 'Standard',
 
+        // Show all posts
+        show_all_posts: false,
+
         // Automatically refresh after modifying settings on webpage: true/false,
         // 在网页上修改设置后自动刷新: true/false,
         // 在網頁上修改設置後自動刷新: true/false,
@@ -119,8 +120,9 @@
 
     const site=window.location.hostname.split('.').slice(-2,-1).join().toUpperCase();
 
-    // Global variables
+    // Save global settings as global variables
     var display_mode = GM_getValue(site+'_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
+    var show_all_posts = GM_getValue(site+'_SHOW_ALL_POSTS') || GLOBAL_CONFIG.show_all_posts;
 
     const display_mode_dic = {
         Standard: '标准模式',
@@ -427,17 +429,21 @@
 
         const function_buttons = document.getElementById('function-buttons');
 
-        // Switch Mode button
+        // Display mode button
+        function display_mode_mouseenter() {
+            display_mode = GM_getValue('DISPLAY_MODE') || display_mode;
+            this.innerHTML = display_mode_dic[display_mode];
+        }
         function display_mode_switch() {
-            const display_mode_switch_button = document.getElementsByClassName('display-mode-switch')[0];
-            display_mode_switch_button.disabled = true;
-            display_mode_switch_button.classList.add('button-disabled');
+            this.disabled = true;
+            this.classList.add('button-disabled');
+            setTimeout(() => {
+                this.disabled = false;
+                this.classList.remove('button-disabled');
+            }, 1000);
             display_mode = display_mode_cutover_dic[display_mode];
-            display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
-            GM_setValue(site+'_DISPLAY_MODE', display_mode);
-            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
-            display_mode_switch_button.disabled = false;
-            display_mode_switch_button.classList.remove('button-disabled');
+            this.innerHTML = display_mode_dic[display_mode];
+            GM_setValue('DISPLAY_MODE', display_mode);
         }
         const display_mode_switch_button = document.createElement('button');
         display_mode_switch_button.className = 'custom-function-button display-mode-switch';

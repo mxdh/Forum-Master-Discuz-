@@ -20,8 +20,13 @@
 - Force display of replies
 - Stay tuned for more features...
 
+**note：Only works on post pages**
+note: Choose from three display modes: standard, family, and office
 note: After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
 note: Solve the problem that the links with `& extra =` and `& mobile =` cannot be opened
+note: Click the main building reply to skip to the bottom of the page
+
+The above is the function realized by the original author
 
 ---
 
@@ -35,7 +40,7 @@ note: Solve the problem that the links with `& extra =` and `& mobile =` cannot 
 - Added some settings
 - Enhanced support for 卡饭论坛(Status visualization,display mode selection)
 - Some optimizations
-- Removed the homepage and group buttons
+- Removed the homepage and group buttons(Original project [homepage](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), [group](https://t.me/joinchat/Bc2EjlPZ0aOwiA-Gn73xKA), about Questions about this project can be feedback on [GreasyFork](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz/feedback)、[GitHub](https://github.com/mxdh/Forum-Master-Discuz-/issues)、[卡饭论坛](https://bbs.kafan.cn/thread-2178786-1-1.html))
 - The original script implements a method to force the display of replies by appending a 1-pixel white picture (using zero-width spaces on 全球主机交流论坛) after the short post. For some reasons, this picture may not be loaded and will be displayed A non-stop rotating circle (always loaded), but there is no limit on the length of the post in 卡饭论坛, so this function is turned off in 卡饭论坛
 - Support each website to choose different display mode
 - Make the display mode selection button more prominent when you are not logged in or on 卡饭论坛

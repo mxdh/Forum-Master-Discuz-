@@ -7,7 +7,7 @@
 // @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
 // @namespace    Forum Master・Discuz!
 // @homepage     https://greasyfork.org/scripts/400250
-// @version      0.0.4
+// @version      0.0.5
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -46,8 +46,6 @@
 // @match        https://www.fglt.net/forum.php?mod=viewthread&tid=*
 // @match        https://www.fglt.cn/thread-*.html
 // @match        https://www.fglt.cn/forum.php?mod=viewthread&tid=*
-// @match        https://www.fgbbs.net/thread-*.html
-// @match        https://www.fgbbs.net/forum.php?mod=viewthread&tid=*
 // @match        http://www.zuanke8.com/thread-*.html
 // @match        http://www.zuanke8.com/forum.php?mod=viewthread&tid=*
 // @match        https://www.zuanke8.com/thread-*.html
@@ -106,8 +104,9 @@
     const ua = window.navigator.userAgent;
     GM_log(ua);
 
-    // Global variables
+    // Save global settings as global variables
     var display_mode = GM_getValue('DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
+    var show_all_posts = GM_getValue('SHOW_ALL_POSTS') || GLOBAL_CONFIG.show_all_posts;
 
     const display_mode_dic = {
         Standard: '标准模式',
@@ -366,6 +365,7 @@
 
     // Show users online status
     function show_users_online_status() {
+        console.log('ok');
         const avatar = document.getElementsByClassName('avatar');
         const info = document.getElementsByClassName('i');
 
@@ -416,24 +416,28 @@
         }, false);
         function_buttons.appendChild(open_home_button);
 
-        // Switch Mode button
+        // Display mode button
+        function display_mode_mouseenter() {
+            display_mode = GM_getValue('DISPLAY_MODE') || display_mode;
+            this.innerHTML = display_mode_dic[display_mode];
+        }
         function display_mode_switch() {
-            const display_mode_switch_button = document.getElementsByClassName('display-mode-switch')[0];
-            display_mode_switch_button.disabled = true;
-            display_mode_switch_button.classList.add('button-disabled');
+            this.disabled = true;
+            this.classList.add('button-disabled');
             setTimeout(() => {
-                display_mode_switch_button.disabled = false;
-                display_mode_switch_button.classList.remove('button-disabled');
+                this.disabled = false;
+                this.classList.remove('button-disabled');
             }, 1000);
             display_mode = display_mode_cutover_dic[display_mode];
-            display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
+            this.innerHTML = display_mode_dic[display_mode];
             GM_setValue('DISPLAY_MODE', display_mode);
         }
-        const display_mode_switch_button = document.createElement('button');
-        display_mode_switch_button.className = 'custom-function-button display-mode-switch';
-        display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
-        display_mode_switch_button.addEventListener('click', display_mode_switch, false);
-        function_buttons.appendChild(display_mode_switch_button);
+        const display_mode_button = document.createElement('button');
+        display_mode_button.className = 'custom-function-button display-mode-button';
+        display_mode_button.innerHTML = display_mode_dic[display_mode];
+        display_mode_button.addEventListener('mouseenter', display_mode_mouseenter, false);
+        display_mode_button.addEventListener('click', display_mode_switch, false);
+        function_buttons.appendChild(display_mode_button);
 
         // Check in
         if (member) {
@@ -496,10 +500,12 @@
             !!fastPostMessage && fastPostMessage.focus();
         }, false);
     }
-    const locked = member ? document.getElementsByClassName('locked')[0] : false;
-    !!locked && skip_bottom(locked.childNodes[1]);
-    const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
-    !!fastre && skip_bottom(fastre);
+    if (document.getElementsByClassName('prev').length === 0) {
+        const locked = member ? document.getElementsByClassName('locked')[0] : false;
+        !!locked && skip_bottom(locked.childNodes[1]);
+        const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
+        !!fastre && skip_bottom(fastre);
+    }
 
     // www.52pojie.cn
     if (window.location.hostname === 'www.52pojie.cn') {
@@ -551,7 +557,7 @@
         !!member && show_users_online_status();
 
         // Show all posts
-        !!GLOBAL_CONFIG.show_all_posts && display_blocked_post();
+        !!show_all_posts && display_blocked_post();
     }
 
     // bbs.pcbeta.com
@@ -614,8 +620,7 @@
 
     // www.fglt.net
     // www.fglt.cn
-    // www.fgbbs.net
-    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn' || window.location.hostname === 'www.fgbbs.net') {
+    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn') {
         // Display Mode
         switch (display_mode) {
             case 'Standard':
