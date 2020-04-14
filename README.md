@@ -25,9 +25,11 @@ note: Solve the problem that the links with `& extra =` and `& mobile =` cannot 
 
 ---
 
-[Github](https://github.com/mxdh/Forum-Master-Discuz-)
+## Installation
 
-[GreasyFork](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz)
+**[Github](https://github.com/mxdh/Forum-Master-Discuz-)**
+
+**[GreasyFork(recommend)](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz)**
 
 ## Improvements
 - Added some settings
