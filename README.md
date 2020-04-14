@@ -20,11 +20,17 @@
 - Force display of replies
 - Stay tuned for more features...
 
-## note
+## other instructions
+
+### Three modes
+- Standard mode: full function (system default);
+- Family mode: block custom avatar (restore the default avatar of the forum);
+- Office mode: block custom avatars (restore the default avatar of the forum, reduce the avatar, simplify the information below the avatar, remove the background image of the user's custom post, hide the signature of the forum user.
+
+### note
 - **Only works on post pages**
 - Choose from three display modes: standard, family, and office
 - After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
-- Solve the problem that the links with `& extra =` and `& mobile =` cannot be opened
 - Click the main building reply to skip to the bottom of the page
 
 The above is the function realized by the original author
