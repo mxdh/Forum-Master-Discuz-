@@ -15,16 +15,17 @@
 - Beautify the interface
 - Remove ads
 - Enhance functions
-- Daily check-in(Currently only supports 全球主机交流论坛)
+- Daily check-in
 - Status visualization
 - Force display of replies
 - Stay tuned for more features...
 
-**note：Only works on post pages**
-note: Choose from three display modes: standard, family, and office
-note: After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
-note: Solve the problem that the links with `& extra =` and `& mobile =` cannot be opened
-note: Click the main building reply to skip to the bottom of the page
+## note
+- **Only works on post pages**
+- Choose from three display modes: standard, family, and office
+- After enabling the forced display of replies, you can use Ctrl + Enter or Alt + S to quickly reply
+- Solve the problem that the links with `& extra =` and `& mobile =` cannot be opened
+- Click the main building reply to skip to the bottom of the page
 
 The above is the function realized by the original author
 
