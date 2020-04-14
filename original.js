@@ -365,7 +365,6 @@
 
     // Show users online status
     function show_users_online_status() {
-        console.log('ok');
         const avatar = document.getElementsByClassName('avatar');
         const info = document.getElementsByClassName('i');
 

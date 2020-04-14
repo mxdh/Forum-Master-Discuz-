@@ -1,5 +1,5 @@
---- original.js	2020-04-14 00:21:19.049298300 +0800
-+++ main.js	2020-04-14 00:31:43.398074700 +0800
+--- original.js	2020-04-14 14:45:55.423833900 +0800
++++ main.js	2020-04-14 14:42:45.133460200 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
@@ -10,11 +10,11 @@
 -// @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
 -// @namespace    Forum Master・Discuz!
 -// @homepage     https://greasyfork.org/scripts/400250
--// @version      0.0.4
+-// @version      0.0.5
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.2.4
++// @version      0.3.0
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -27,19 +27,18 @@
  // @match        https://www.discuz.net/thread-*.html
  // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
  // @match        https://www.52pojie.cn/thread-*.html
-@@ -57,19 +52,17 @@
+@@ -55,19 +50,18 @@
  // @match        https://www.aihao.cc/thread-*.html
  // @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
  // @grant        GM_addStyle
 -// @grant        GM_getResourceText
  // @grant        GM_getValue
--// @grant        GM_log
+ // @grant        GM_log
  // @grant        GM_setValue
--// @grant        GM_xmlhttpRequest
+ // @grant        GM_xmlhttpRequest
 -// @grant        unsafeWindow
 -// @supportURL   https://greasyfork.org/scripts/400250
 -// @license      MPL-2.0
-+// @grant        GM_log
 +// @supportURL   https://github.com/mxdh/Forum-Master-Discuz-
 +// @license GPL-3.0
  // ==/UserScript==
@@ -51,7 +50,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -93,21 +86,40 @@
+@@ -91,22 +85,41 @@
       */
  
      // Global Settings
@@ -75,6 +74,7 @@
  
 -        // Show all posts
 -        show_all_posts: false,
++
 +        // Automatically refresh after modifying settings on webpage: true/false,
 +        // 在网页上修改设置后自动刷新: true/false,
 +        // 在網頁上修改設置後自動刷新: true/false,
@@ -92,15 +92,16 @@
 +    const website = window.location.href;
 +    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
 +
-+    const site=window.location.hostname.split('.').slice(-2,-1).join().toUpperCase();
++    const site = window.location.hostname.split('.').slice(-2, -1).join().toUpperCase();
  
-     // Global variables
+     // Save global settings as global variables
 -    var display_mode = GM_getValue('DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
-+    var display_mode = GM_getValue(site+'_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
+-    var show_all_posts = GM_getValue('SHOW_ALL_POSTS') || GLOBAL_CONFIG.show_all_posts;
++    var display_mode = GM_getValue(site + '_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
  
      const display_mode_dic = {
          Standard: '标准模式',
-@@ -120,20 +132,8 @@
+@@ -119,20 +132,8 @@
          Office: 'Standard',
      }
  
@@ -121,7 +122,7 @@
          .ads {
              display: none;
          }
-@@ -215,6 +215,23 @@
+@@ -214,6 +215,23 @@
          }
      `);
  
@@ -145,7 +146,7 @@
      // Cascading Style Sheets・www.52pojie.cn
      GM_addStyle(`
          .dnch_eo_pt,
-@@ -291,16 +308,16 @@
+@@ -290,16 +308,16 @@
          }
      `);
  
@@ -162,11 +163,11 @@
          GM_log('Login status: No');
 +    }
 +
-+    if (!member||site==='KAFAN') {
++    if (!member || site === 'KAFAN') {
          GM_addStyle(`
              .function-buttons {
                  padding-top: 4px;
-@@ -308,12 +325,14 @@
+@@ -307,12 +325,14 @@
  
              .custom-function-button {
                  background-color: #e8eff5;
@@ -182,7 +183,7 @@
          `);
      }
  
-@@ -407,27 +426,17 @@
+@@ -406,30 +426,20 @@
  
          const function_buttons = document.getElementById('function-buttons');
  
@@ -195,65 +196,39 @@
 -        }, false);
 -        function_buttons.appendChild(open_home_button);
 -
-         // Switch Mode button
+         // Display mode button
+         function display_mode_mouseenter() {
+-            display_mode = GM_getValue('DISPLAY_MODE') || display_mode;
++            display_mode = GM_getValue(site + '_DISPLAY_MODE') || display_mode;
+             this.innerHTML = display_mode_dic[display_mode];
+         }
          function display_mode_switch() {
-             const display_mode_switch_button = document.getElementsByClassName('display-mode-switch')[0];
-             display_mode_switch_button.disabled = true;
-             display_mode_switch_button.classList.add('button-disabled');
+             this.disabled = true;
+             this.classList.add('button-disabled');
 -            setTimeout(() => {
--                display_mode_switch_button.disabled = false;
--                display_mode_switch_button.classList.remove('button-disabled');
+-                this.disabled = false;
+-                this.classList.remove('button-disabled');
 -            }, 1000);
              display_mode = display_mode_cutover_dic[display_mode];
-             display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
+             this.innerHTML = display_mode_dic[display_mode];
 -            GM_setValue('DISPLAY_MODE', display_mode);
-+            GM_setValue(site+'_DISPLAY_MODE', display_mode);
++            GM_setValue(site + '_DISPLAY_MODE', display_mode);
 +            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
-+            display_mode_switch_button.disabled = false;
-+            display_mode_switch_button.classList.remove('button-disabled');
++            this.disabled = false;
++            this.classList.remove('button-disabled');
          }
-         const display_mode_switch_button = document.createElement('button');
-         display_mode_switch_button.className = 'custom-function-button display-mode-switch';
-@@ -436,7 +445,7 @@
-         function_buttons.appendChild(display_mode_switch_button);
+         const display_mode_button = document.createElement('button');
+         display_mode_button.className = 'custom-function-button display-mode-button';
+@@ -439,7 +449,7 @@
+         function_buttons.appendChild(display_mode_button);
  
          // Check in
 -        if (member) {
-+        if (member && window.location.hostname === 'www.hostloc.com') {
++        if (member && site != 'KAFAN') {
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -445,26 +454,15 @@
-                 setTimeout(() => {
-                     check_in.innerHTML = '签到完成';
-                 }, 1234);
--
--                for (let i = 0; i < 10; i++) {
-+            
-+                for (let i = 0; i < 20; i++) {
-                     setTimeout(() => {
-                         let request = new XMLHttpRequest();
--                        let space = './home.php?mod=task&do=apply&id='.concat(i);
-+                        let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
-                         request.open('get', space);
-                         request.send();
-                     }, i * 100);
-                 }
--
--                if (window.location.hostname === 'www.hostloc.com') {
--                    for (let i = 0; i < 20; i++) {
--                        setTimeout(() => {
--                            let request = new XMLHttpRequest();
--                            let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
--                            request.open('get', space);
--                            request.send();
--                        }, i * 100 + 1000);
--                    }
--                }
-             }
-             const check_in_button = document.createElement('button');
-             check_in_button.className = 'custom-function-button check-in';
-@@ -472,15 +470,6 @@
+@@ -475,15 +485,6 @@
              check_in_button.addEventListener('click', check_in, false);
              function_buttons.appendChild(check_in_button);
          }
@@ -269,24 +244,13 @@
      }
  
      // Create Button Group
-@@ -498,8 +487,8 @@
-     }
-     const locked = member ? document.getElementsByClassName('locked')[0] : false;
-     !!locked && skip_bottom(locked.childNodes[1]);
--    const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
--    !!fastre && skip_bottom(fastre);
-+    // const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
-+    // !!fastre && skip_bottom(fastre);
- 
-     // www.52pojie.cn
-     if (window.location.hostname === 'www.52pojie.cn') {
-@@ -549,14 +538,12 @@
+@@ -554,14 +555,12 @@
  
          // Show users online status
          !!member && show_users_online_status();
 -
 -        // Show all posts
--        !!GLOBAL_CONFIG.show_all_posts && display_blocked_post();
+-        !!show_all_posts && display_blocked_post();
      }
  
      // bbs.pcbeta.com
@@ -296,7 +260,7 @@
          switch (display_mode) {
              case 'Standard':
                  break;
-@@ -564,18 +551,16 @@
+@@ -569,18 +568,16 @@
              case 'Family':
                  // default_avatar('//uc.pcbeta.com//images/noavatar_middle.gif');
                  // Set as Default avatar
@@ -319,7 +283,7 @@
                  }
                  abbreviated_avatar();
                  hidden_signature();
-@@ -639,35 +624,65 @@
+@@ -643,35 +640,70 @@
          !!member && show_users_online_status();
      }
  
@@ -330,10 +294,16 @@
 +        switch (display_mode) {
 +            case 'Standard':
 +                break;
- 
--    const fastPostMessage = document.getElementById('fastpostmessage');
++
 +            case 'Family':
 +                default_avatar('//b.kafan.cn/5/middle.gif');
++                break;
+ 
+-    const fastPostMessage = document.getElementById('fastpostmessage');
++            case 'Office':
++                default_avatar('//b.kafan.cn/5/middle.gif');
++                abbreviated_avatar();
++                hidden_signature();
 +                break;
  
 -    function editor_content() {
@@ -345,32 +315,31 @@
 -            } else {
 -                fastPostMessage.value = fastPostMessageContent.concat('\n\n', attachContent);
 -            }
-+            case 'Office':
-+                default_avatar('//b.kafan.cn/5/middle.gif');
-+                abbreviated_avatar();
-+                hidden_signature();
-+                break;
-+
 +            default:
 +                break;
          }
-+
-+        // Show users online status
-+        !!member && show_users_online_status();
-     }
+-    }
  
 -    !!fastPostMessage && fastPostMessage.removeAttribute('onkeydown');
-+    if (GLOBAL_CONFIG.force_display === true) {
-+        const attachContent = '[img]https://www.fb.com/security/hsts-pixel.gif[/img]';
++        // Show users online status
++        !!member && show_users_online_status();
  
 -    !!fastPostMessage && fastPostMessage.addEventListener('keydown', function (event) {
 -        if (event.ctrlKey && event.which === 13) {
 -            editor_content();
 -            seditor_ctlent(event, 'fastpostvalidate($(\'fastpostform\'))');
--        }
++        //Auto Check-in
++        if (member && document.getElementsByClassName('qq_bind')[0].src === 'https://a.kafan.cn/plugin/dsu_amupper/images/dk.png') {
++            document.getElementById('pper_a').click();
+         }
 -        if (event.altKey && event.which === 83) {
 -            editor_content();
 -            seditor_ctlent(event, 'fastpostvalidate($(\'fastpostform\'))');
++    }
++
++    if (GLOBAL_CONFIG.force_display === true) {
++        const attachContent = '[img]https://www.fb.com/security/hsts-pixel.gif[/img]';
++
 +        const fastPostMessage = document.getElementById('fastpostmessage');
 +
 +        function editor_content() {

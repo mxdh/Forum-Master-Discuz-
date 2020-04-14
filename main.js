@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.2.4
+// @version      0.3.0
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -101,8 +101,6 @@
         // 顯示模式: 'Standard', 'Family', 'Office'
         display_mode: 'Standard',
 
-        // Show all posts
-        show_all_posts: false,
 
         // Automatically refresh after modifying settings on webpage: true/false,
         // 在网页上修改设置后自动刷新: true/false,
@@ -118,11 +116,10 @@
     const website = window.location.href;
     !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
 
-    const site=window.location.hostname.split('.').slice(-2,-1).join().toUpperCase();
+    const site = window.location.hostname.split('.').slice(-2, -1).join().toUpperCase();
 
     // Save global settings as global variables
-    var display_mode = GM_getValue(site+'_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
-    var show_all_posts = GM_getValue(site+'_SHOW_ALL_POSTS') || GLOBAL_CONFIG.show_all_posts;
+    var display_mode = GM_getValue(site + '_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
 
     const display_mode_dic = {
         Standard: '标准模式',
@@ -320,7 +317,7 @@
         GM_log('Login status: No');
     }
 
-    if (!member||site==='KAFAN') {
+    if (!member || site === 'KAFAN') {
         GM_addStyle(`
             .function-buttons {
                 padding-top: 4px;
@@ -431,28 +428,28 @@
 
         // Display mode button
         function display_mode_mouseenter() {
-            display_mode = GM_getValue('DISPLAY_MODE') || display_mode;
+            display_mode = GM_getValue(site + '_DISPLAY_MODE') || display_mode;
             this.innerHTML = display_mode_dic[display_mode];
         }
         function display_mode_switch() {
             this.disabled = true;
             this.classList.add('button-disabled');
-            setTimeout(() => {
-                this.disabled = false;
-                this.classList.remove('button-disabled');
-            }, 1000);
             display_mode = display_mode_cutover_dic[display_mode];
             this.innerHTML = display_mode_dic[display_mode];
-            GM_setValue('DISPLAY_MODE', display_mode);
+            GM_setValue(site + '_DISPLAY_MODE', display_mode);
+            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
+            this.disabled = false;
+            this.classList.remove('button-disabled');
         }
-        const display_mode_switch_button = document.createElement('button');
-        display_mode_switch_button.className = 'custom-function-button display-mode-switch';
-        display_mode_switch_button.innerHTML = display_mode_dic[display_mode];
-        display_mode_switch_button.addEventListener('click', display_mode_switch, false);
-        function_buttons.appendChild(display_mode_switch_button);
+        const display_mode_button = document.createElement('button');
+        display_mode_button.className = 'custom-function-button display-mode-button';
+        display_mode_button.innerHTML = display_mode_dic[display_mode];
+        display_mode_button.addEventListener('mouseenter', display_mode_mouseenter, false);
+        display_mode_button.addEventListener('click', display_mode_switch, false);
+        function_buttons.appendChild(display_mode_button);
 
         // Check in
-        if (member && window.location.hostname === 'www.hostloc.com') {
+        if (member && site != 'KAFAN') {
             function check_in() {
                 const check_in = document.getElementsByClassName('check-in')[0];
                 check_in.innerHTML = '正在签到';
@@ -461,14 +458,25 @@
                 setTimeout(() => {
                     check_in.innerHTML = '签到完成';
                 }, 1234);
-            
-                for (let i = 0; i < 20; i++) {
+
+                for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
                         let request = new XMLHttpRequest();
-                        let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+                        let space = './home.php?mod=task&do=apply&id='.concat(i);
                         request.open('get', space);
                         request.send();
                     }, i * 100);
+                }
+
+                if (window.location.hostname === 'www.hostloc.com') {
+                    for (let i = 0; i < 20; i++) {
+                        setTimeout(() => {
+                            let request = new XMLHttpRequest();
+                            let space = '//www.hostloc.com/space-uid-'.concat(Math.ceil(Math.random() * 47000 + 100), '.html');
+                            request.open('get', space);
+                            request.send();
+                        }, i * 100 + 1000);
+                    }
                 }
             }
             const check_in_button = document.createElement('button');
@@ -492,10 +500,12 @@
             !!fastPostMessage && fastPostMessage.focus();
         }, false);
     }
-    const locked = member ? document.getElementsByClassName('locked')[0] : false;
-    !!locked && skip_bottom(locked.childNodes[1]);
-    // const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
-    // !!fastre && skip_bottom(fastre);
+    if (document.getElementsByClassName('prev').length === 0) {
+        const locked = member ? document.getElementsByClassName('locked')[0] : false;
+        !!locked && skip_bottom(locked.childNodes[1]);
+        const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
+        !!fastre && skip_bottom(fastre);
+    }
 
     // www.52pojie.cn
     if (window.location.hostname === 'www.52pojie.cn') {
@@ -606,8 +616,7 @@
 
     // www.fglt.net
     // www.fglt.cn
-    // www.fgbbs.net
-    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn' || window.location.hostname === 'www.fgbbs.net') {
+    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn') {
         // Display Mode
         switch (display_mode) {
             case 'Standard':
@@ -654,6 +663,11 @@
 
         // Show users online status
         !!member && show_users_online_status();
+
+        //Auto Check-in
+        if (member && document.getElementsByClassName('qq_bind')[0].src === 'https://a.kafan.cn/plugin/dsu_amupper/images/dk.png') {
+            document.getElementById('pper_a').click();
+        }
     }
 
     if (GLOBAL_CONFIG.force_display === true) {
