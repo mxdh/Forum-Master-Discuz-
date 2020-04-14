@@ -56,7 +56,6 @@
 // @grant        GM_log
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
-// @grant        unsafeWindow
 // @supportURL   https://github.com/mxdh/Forum-Master-Discuz-
 // @license GPL-3.0
 // ==/UserScript==
