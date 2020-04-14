@@ -53,8 +53,10 @@
 // @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
-// @grant        GM_setValue
 // @grant        GM_log
+// @grant        GM_setValue
+// @grant        GM_xmlhttpRequest
+// @grant        unsafeWindow
 // @supportURL   https://github.com/mxdh/Forum-Master-Discuz-
 // @license GPL-3.0
 // ==/UserScript==
