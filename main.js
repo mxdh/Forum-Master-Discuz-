@@ -8,8 +8,8 @@
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
-// @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强、回帖强显……
-// @description:zh-TW 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
+// @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强……
+// @description:zh-TW 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
 // @author       hostname,mxdh
 // @match        https://www.discuz.net/thread-*.html
 // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
@@ -111,7 +111,7 @@
         // Automatically refresh after modifying settings on webpage: true/false,
         // 在网页上修改设置后自动刷新: true/false,
         // 在網頁上修改設置後自動刷新: true/false,
-        auto_reload: false
+        auto_reload: true
     }
     // Global Settings · End
 
