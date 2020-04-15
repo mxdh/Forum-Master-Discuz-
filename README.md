@@ -29,7 +29,9 @@
 - Standard mode: full function (system default)
 - Family mode: block custom avatar (restore the default avatar of the forum)
 - Office mode: block custom avatars (restore the default avatar of the forum,reduce the avatar, simplify the information below the avatar, remove the background image of the user's custom post, hide the signature of the forum user)
+
 ---
+
 ## Installation
 **[Github](https://github.com/mxdh/Forum-Master-Discuz-)**
 
