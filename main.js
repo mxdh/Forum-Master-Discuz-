@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.5.0
+// @version      0.5.1
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -644,7 +644,18 @@
         !!fastre && skip_bottom(fastre);
     }
 
-    const attachContent = site === 'HOSTLOC' ? '󠀠'.repeat(10) : '\n\n[img=1,1]https://img.alicdn.com/dot.gif[/img]';
+    function get_attach_content() {
+        switch (site) {
+            case 'KAFAN':
+                return '';
+            case 'HOSTLOC':
+                return '󠀠'.repeat(10);
+            default:
+                '\n\n[img=1,1]https://img.alicdn.com/dot.gif[/img]'
+        }
+    }
+
+    const attachContent = get_attach_content();
 
     const fastPostMessage = document.getElementById('fastpostmessage');
 
