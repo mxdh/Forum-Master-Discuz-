@@ -53,6 +53,8 @@
 - Active detection of **online status** may be slow and can be turned off to use normal mode(online:blue square offline:gray square)
 - Click the main building **reply** to jump to the bottom of the page
 
+![Rendering](https://i.loli.net/2020/04/15/zpPlQCsg83qSoGY.png)
+
 [Tutorial](https://bbs.kafan.cn/thread-2178786-1-1.html)
 
 **This project is based on hostname‘ [Forum Master・Discuz!](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), and complies with GPL-3.0**
