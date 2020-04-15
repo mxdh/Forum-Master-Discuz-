@@ -1,35 +1,36 @@
---- original.js	2020-04-15 13:35:28.043286000 +0800
-+++ main.js	2020-04-15 13:35:28.065384300 +0800
+--- original.js	2020-04-15 22:51:42.362416900 +0800
++++ main.js	2020-04-15 22:51:42.363430700 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
  // @name:en      Forum Master・Discuz!
--// @name:zh      论坛大师・Discuz!　界面美化、移除广告、功能增强、回帖强显……
--// @name:zh-CN   论坛大师・Discuz!　界面美化、移除广告、功能增强、回帖强显……
--// @name:zh-HK   論壇大師・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
--// @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
+-// @name:zh      论坛大师・Discuz!　界面美化、移除广告、功能增强……
+-// @name:zh-CN   论坛大师・Discuz!　界面美化、移除广告、功能增强……
+-// @name:zh-HK   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
+-// @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
 -// @namespace    Forum Master・Discuz!
 -// @homepage     https://greasyfork.org/scripts/400250
--// @version      0.0.8
+-// @version      0.0.9
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.4.0
++// @version      0.5.0
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
--// @description:zh    论坛大师（中文）・Discuz!　界面美化、移除广告、功能增强、回帖强显……
- // @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强、回帖强显……
--// @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
- // @description:zh-TW 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強、回帖強顯……
+-// @description:zh    论坛大师（中文）・Discuz!　界面美化、移除广告、功能增强……
+ // @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强……
+-// @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
+-// @description:zh-TW 論壇大師（正體中文）・Discuz!　界面美化、移除廣告、功能增強……
 -// @author       hostname
++// @description:zh-TW 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
 +// @author       hostname,mxdh
  // @match        https://www.discuz.net/thread-*.html
  // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
  // @match        https://www.52pojie.cn/thread-*.html
-@@ -57,19 +52,18 @@
- // @match        https://www.advertcn.com/thread-*.html
- // @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+@@ -59,19 +54,18 @@
+ // @match        https://iya.app/thread-*.html
+ // @match        https://iya.app/forum.php?mod=viewthread&tid=*
  // @grant        GM_addStyle
 -// @grant        GM_getResourceText
  // @grant        GM_getValue
@@ -50,7 +51,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -92,23 +86,46 @@
+@@ -94,23 +88,46 @@
       * == END LICENSE ==
       */
  
@@ -83,7 +84,7 @@
 +        // Automatically refresh after modifying settings on webpage: true/false,
 +        // 在网页上修改设置后自动刷新: true/false,
 +        // 在網頁上修改設置後自動刷新: true/false,
-+        auto_reload: false
++        auto_reload: true
      }
      // Global Settings · End
  
@@ -103,7 +104,7 @@
  
      // Test code
      const ua = window.navigator.userAgent;
-@@ -119,34 +136,23 @@
+@@ -121,33 +138,23 @@
      GM_log("Display the user's real online status:", display_users_real_online_status);
      GM_log("");
  
@@ -140,11 +141,42 @@
 -            font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
 -        }
 -
--        .ad,
-         .ads {
-             display: none;
+         .ad,
+         .ads,
+         .dnch_eo_pt,
+@@ -169,9 +176,9 @@
+             border-radius: 50%;
          }
-@@ -261,6 +267,23 @@
+ 
+-        #um .avt img:hover {
+-            border-radius: 0;
+-        }
++        // #um .avt img:hover {
++        //     border-radius: 0;
++        // }
+ 
+         .pls .avatar {
+             padding-top: 1px;
+@@ -195,14 +202,15 @@
+             box-shadow: 0 2px 8px #bbb;
+         }
+ 
+-        .pls .avatar img:hover {
+-            border-radius: 0;
+-        }
++        // .pls .avatar img:hover {
++        //     border-radius: 0;
++        // }
+ 
+         .pls .m img {
+             width: 120px;
+             height: 120px;
+             object-fit: contain;
++            border-radius: 50%;
+         }
+ 
+         .user-online-status {
+@@ -278,8 +286,25 @@
          }
      `);
  
@@ -165,44 +197,44 @@
 +        `)
 +    }
 +
-     // Cascading Style Sheets・www.52pojie.cn
-     GM_addStyle(`
-         .dnch_eo_pt,
-@@ -329,16 +352,13 @@
+     // Cascading Style Sheets・www.hostloc.com
+-    !!~hn.indexOf('hostloc.com') && GM_addStyle(`
++    site === 'HOSTLOC' && GM_addStyle(`
+         #hiddenpoststip {
+             padding: 0;
          }
+@@ -305,7 +330,7 @@
      `);
  
--    const website = window.location.href;
--    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
--
      // Login status
 -    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
 +    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
  
      GM_log('Login status:', member);
      GM_log('');
+@@ -325,18 +350,37 @@
  
--    if (member === false) {
-+    if (member === false || site === 'KAFAN') {
-         GM_addStyle(`
-             .function-buttons {
-                 padding-top: 4px;
-@@ -346,27 +366,29 @@
+     `);
  
-             .custom-function-button {
-                 background-color: #e8eff5;
-+                border:1px solid;
-+                font-weight: bold;
-+                padding: 3px 8px;
-             }
- 
-             .custom-function-button:hover {
-                 box-shadow: 0 1px 2px #bbb;
-             }
--
-         `);
-     }
- 
++    if (site === 'KAFAN') {
++        GM_addStyle(`
++            .custom-function-button {
++                background-color: #fff;
++                border: 1px solid #ddd;
++                border-radius: 5px;
++                padding: 0 8px;
++                height: 26px;
++            }
++
++            .custom-function-button:hover {
++                background-color: #ff9900;
++                color: #fff;
++                border-color: #ff9900;
++                box-shadow: none;
++            }
++        `);
++    }
++
      // Set as Default avatar src
      var default_avatar_src;
 -    switch (window.location.hostname) {
@@ -222,7 +254,16 @@
              default_avatar_src = '//uc.pcbeta.com/images/noavatar_middle.gif';
              break;
  
-@@ -499,7 +521,6 @@
+@@ -443,7 +487,7 @@
+ 
+         if (display_users_real_online_status) {
+             // Show real users online status
+-            let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 2000 : 1111;
++            let wait = site === 'PCBETA' ? 2000 : 1111;
+             for (let i = 0; i < info.length; i++) {
+                 setTimeout(() => {
+                     let html = avatar[i].innerHTML;
+@@ -469,7 +513,6 @@
                  }
              }
          }
@@ -230,7 +271,7 @@
      }
  
      // Execution as Show users online status
-@@ -528,30 +549,20 @@
+@@ -498,30 +541,20 @@
  
          const function_buttons = document.getElementById('function-buttons');
  
@@ -266,7 +307,7 @@
          }
          const display_mode_button = document.createElement('button');
          display_mode_button.className = 'custom-function-button display-mode-button';
-@@ -560,8 +571,30 @@
+@@ -530,8 +563,30 @@
          display_mode_button.addEventListener('click', display_mode_switch, false);
          function_buttons.appendChild(display_mode_button);
  
@@ -298,7 +339,7 @@
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -580,7 +613,7 @@
+@@ -550,7 +605,7 @@
                      }, i * 100);
                  }
  
@@ -307,7 +348,7 @@
                      for (let i = 0; i < 20; i++) {
                          setTimeout(() => {
                              let request = new XMLHttpRequest();
-@@ -597,15 +630,6 @@
+@@ -567,15 +622,6 @@
              check_in_button.addEventListener('click', check_in, false);
              function_buttons.appendChild(check_in_button);
          }
@@ -323,7 +364,7 @@
      }
  
      // Execution as Create Button Group
-@@ -628,7 +652,7 @@
+@@ -598,7 +644,7 @@
          !!fastre && skip_bottom(fastre);
      }
  
@@ -332,7 +373,7 @@
  
      const fastPostMessage = document.getElementById('fastpostmessage');
  
-@@ -658,14 +682,9 @@
+@@ -628,14 +674,9 @@
  
      // Attach Content
  
@@ -348,12 +389,10 @@
          GM_addStyle(`
              .pls .avatar {
                  overflow: unset;
-@@ -685,4 +704,12 @@
+@@ -655,4 +696,12 @@
              }
          `);
      }
--})();
-\ No newline at end of file
 +
 +    // bbs.kafan.cn
 +    if (site === 'KAFAN') {
@@ -362,4 +401,4 @@
 +            document.getElementById('pper_a').click();
 +        }
 +    }
-+})();
+ })();

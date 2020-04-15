@@ -7,14 +7,14 @@
 // @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
 // @namespace    Forum Master・Discuz!
 // @homepage     https://greasyfork.org/scripts/400250
-// @version      0.0.8
+// @version      0.0.9
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:zh    论坛大师（中文）・Discuz!　界面美化、移除广告、功能增强……
 // @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强……
 // @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
-// @description:zh-TW 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
+// @description:zh-TW 論壇大師（正體中文）・Discuz!　界面美化、移除廣告、功能增強……
 // @author       hostname
 // @match        https://www.discuz.net/thread-*.html
 // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
@@ -56,6 +56,8 @@
 // @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @match        https://www.advertcn.com/thread-*.html
 // @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+// @match        https://iya.app/thread-*.html
+// @match        https://iya.app/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getResourceText
 // @grant        GM_getValue
@@ -147,7 +149,19 @@
         }
 
         .ad,
-        .ads {
+        .ads,
+        .dnch_eo_pt,
+        .dnch_eo_pb,
+        #diynavtop,
+        #drk_colee_left1,
+        #drk_colee_left2,
+        #drk_ledtd,
+        #hd .wp .a_mu,
+        table .a_pr,
+        .a_h,
+        .a_t,
+        .a_pt,
+        .a_pb {
             display: none;
         }
 
@@ -173,6 +187,8 @@
         .pls .avatar img {
             width: 120px;
             height: 120px;
+            object-fit: contain;
+            background: none;
             border-radius: 50%;
             padding: 0;
             border: 4px solid #fff;
@@ -181,6 +197,12 @@
 
         .pls .avatar img:hover {
             border-radius: 0;
+        }
+
+        .pls .m img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
         }
 
         .user-online-status {
@@ -214,11 +236,6 @@
             -ms-filter: grayscale(100%);
             -o-filter: grayscale(100%);
             filter: grayscale(100%);
-        }
-
-        .pls .m img {
-            width: 120px;
-            height: 120px;
         }
 
         #hd .wp,
@@ -261,23 +278,8 @@
         }
     `);
 
-    // Cascading Style Sheets・www.52pojie.cn
-    GM_addStyle(`
-        .dnch_eo_pt,
-        .dnch_eo_pb {
-            display: none;
-        }
-    `);
-
     // Cascading Style Sheets・www.hostloc.com
-    GM_addStyle(`
-        .a_h,
-        .a_t,
-        .a_pt,
-        .a_pb {
-            display: none;
-        }
-
+    !!~hn.indexOf('hostloc.com') && GM_addStyle(`
         #hiddenpoststip {
             padding: 0;
         }
@@ -302,58 +304,26 @@
         }
     `);
 
-    // Cascading Style Sheets・bbs.pcbeta.com
-    GM_addStyle(`
-        #diynavtop {
-            display: none;
-        }
-    `);
-
-    // Cascading Style Sheets・www.fglt.net
-    GM_addStyle(`
-        #drk_colee_left1,
-        #drk_colee_left2,
-        #drk_ledtd,
-        #hd .wp .a_mu,
-        table .a_pr {
-            display: none;
-        }
-    `);
-
-    // Cascading Style Sheets・www.advertcn.com
-    GM_addStyle(`
-        #hd .wp .a_mu,
-        #wp.wp .wp.a_t,
-        table .a_pr {
-            display: none;
-        }
-    `);
-
-    const website = window.location.href;
-    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
-
     // Login status
     const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
 
     GM_log('Login status:', member);
     GM_log('');
 
-    if (member === false) {
-        GM_addStyle(`
-            .function-buttons {
-                padding-top: 4px;
-            }
+    !!member || GM_addStyle(`
+        .function-buttons {
+            padding-top: 4px;
+        }
 
-            .custom-function-button {
-                background-color: #e8eff5;
-            }
+        .custom-function-button {
+            background-color: #e8eff5;
+        }
 
-            .custom-function-button:hover {
-                box-shadow: 0 1px 2px #bbb;
-            }
+        .custom-function-button:hover {
+            box-shadow: 0 1px 2px #bbb;
+        }
 
-        `);
-    }
+    `);
 
     // Set as Default avatar src
     var default_avatar_src;

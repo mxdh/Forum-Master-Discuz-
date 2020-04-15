@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.4.0
+// @version      0.5.0
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -51,6 +51,8 @@
 // @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @match        https://www.advertcn.com/thread-*.html
 // @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+// @match        https://iya.app/thread-*.html
+// @match        https://iya.app/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_log
@@ -153,7 +155,20 @@
 
     // Cascading Style Sheets・Global
     GM_addStyle(`
-        .ads {
+        .ad,
+        .ads,
+        .dnch_eo_pt,
+        .dnch_eo_pb,
+        #diynavtop,
+        #drk_colee_left1,
+        #drk_colee_left2,
+        #drk_ledtd,
+        #hd .wp .a_mu,
+        table .a_pr,
+        .a_h,
+        .a_t,
+        .a_pt,
+        .a_pb {
             display: none;
         }
 
@@ -161,9 +176,9 @@
             border-radius: 50%;
         }
 
-        #um .avt img:hover {
-            border-radius: 0;
-        }
+        // #um .avt img:hover {
+        //     border-radius: 0;
+        // }
 
         .pls .avatar {
             padding-top: 1px;
@@ -179,14 +194,23 @@
         .pls .avatar img {
             width: 120px;
             height: 120px;
+            object-fit: contain;
+            background: none;
             border-radius: 50%;
             padding: 0;
             border: 4px solid #fff;
             box-shadow: 0 2px 8px #bbb;
         }
 
-        .pls .avatar img:hover {
-            border-radius: 0;
+        // .pls .avatar img:hover {
+        //     border-radius: 0;
+        // }
+
+        .pls .m img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 50%;
         }
 
         .user-online-status {
@@ -220,11 +244,6 @@
             -ms-filter: grayscale(100%);
             -o-filter: grayscale(100%);
             filter: grayscale(100%);
-        }
-
-        .pls .m img {
-            width: 120px;
-            height: 120px;
         }
 
         #hd .wp,
@@ -284,23 +303,8 @@
         `)
     }
 
-    // Cascading Style Sheets・www.52pojie.cn
-    GM_addStyle(`
-        .dnch_eo_pt,
-        .dnch_eo_pb {
-            display: none;
-        }
-    `);
-
     // Cascading Style Sheets・www.hostloc.com
-    GM_addStyle(`
-        .a_h,
-        .a_t,
-        .a_pt,
-        .a_pb {
-            display: none;
-        }
-
+    site === 'HOSTLOC' && GM_addStyle(`
         #hiddenpoststip {
             padding: 0;
         }
@@ -325,54 +329,42 @@
         }
     `);
 
-    // Cascading Style Sheets・bbs.pcbeta.com
-    GM_addStyle(`
-        #diynavtop {
-            display: none;
-        }
-    `);
-
-    // Cascading Style Sheets・www.fglt.net
-    GM_addStyle(`
-        #drk_colee_left1,
-        #drk_colee_left2,
-        #drk_ledtd,
-        #hd .wp .a_mu,
-        table .a_pr {
-            display: none;
-        }
-    `);
-
-    // Cascading Style Sheets・www.advertcn.com
-    GM_addStyle(`
-        #hd .wp .a_mu,
-        #wp.wp .wp.a_t,
-        table .a_pr {
-            display: none;
-        }
-    `);
-
     // Login status
     const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
 
     GM_log('Login status:', member);
     GM_log('');
 
-    if (member === false || site === 'KAFAN') {
-        GM_addStyle(`
-            .function-buttons {
-                padding-top: 4px;
-            }
+    !!member || GM_addStyle(`
+        .function-buttons {
+            padding-top: 4px;
+        }
 
+        .custom-function-button {
+            background-color: #e8eff5;
+        }
+
+        .custom-function-button:hover {
+            box-shadow: 0 1px 2px #bbb;
+        }
+
+    `);
+
+    if (site === 'KAFAN') {
+        GM_addStyle(`
             .custom-function-button {
-                background-color: #e8eff5;
-                border:1px solid;
-                font-weight: bold;
-                padding: 3px 8px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 0 8px;
+                height: 26px;
             }
 
             .custom-function-button:hover {
-                box-shadow: 0 1px 2px #bbb;
+                background-color: #ff9900;
+                color: #fff;
+                border-color: #ff9900;
+                box-shadow: none;
             }
         `);
     }
@@ -495,7 +487,7 @@
 
         if (display_users_real_online_status) {
             // Show real users online status
-            let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 2000 : 1111;
+            let wait = site === 'PCBETA' ? 2000 : 1111;
             for (let i = 0; i < info.length; i++) {
                 setTimeout(() => {
                     let html = avatar[i].innerHTML;
