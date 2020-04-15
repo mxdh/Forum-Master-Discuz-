@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.3.0
+// @version      0.4.0
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -49,6 +49,8 @@
 // @match        http://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @match        https://www.aihao.cc/thread-*.html
 // @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
+// @match        https://www.advertcn.com/thread-*.html
+// @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_log
@@ -84,8 +86,13 @@
      * == END LICENSE ==
      */
 
-    // Global Settings
+    // Global Settings · Start
     const GLOBAL_CONFIG = {
+        // Display the user's real online status: true/false
+        // 显示用户的真实在线状态: true/false
+        // 顯示用戶的真實在線狀態: true/false
+        display_users_real_online_status: true,
+
         // Text Beautification: true/false
         // 文本美化: true/false
         // 文字美化: true/false
@@ -101,35 +108,47 @@
         // 顯示模式: 'Standard', 'Family', 'Office'
         display_mode: 'Standard',
 
-
         // Automatically refresh after modifying settings on webpage: true/false,
         // 在网页上修改设置后自动刷新: true/false,
         // 在網頁上修改設置後自動刷新: true/false,
-        auto_reload: false,
-
-        // Force Display of Replies: true/false
-        // 回帖强显: true/false
-        // 回帖強顯: true/false
-        force_display: true
+        auto_reload: false
     }
+    // Global Settings · End
 
-    const website = window.location.href;
-    !!~website.indexOf('&extra=') && !!~website.indexOf('&mobile=') && window.location.replace(website.split('&extra=')[0]);
+    // Below is the core code
 
-    const site = window.location.hostname.split('.').slice(-2, -1).join().toUpperCase();
+    // Host Name
+    const hn = window.location.hostname;
+    const site = hn.split('.').slice(-2, -1).join().toUpperCase();
 
-    // Save global settings as global variables
-    var display_mode = GM_getValue(site + '_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode || 'Standard';
+    // Display Mode: Standard, Family, Office
+    var display_mode = GM_getValue(site + '_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode;
 
+    // Display the user's real online status
+    var display_users_real_online_status = GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS') === undefined ? GLOBAL_CONFIG.display_users_real_online_status : GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS');
+
+    // Test code
+    const ua = window.navigator.userAgent;
+    GM_log("User-Agent:", ua);
+    GM_log("");
+
+    GM_log("Display Mode:", display_mode);
+    GM_log("Display the user's real online status:", display_users_real_online_status);
+    GM_log("");
+
+    const boolean_dic = {
+        true: '开',
+        false: '关'
+    }
     const display_mode_dic = {
         Standard: '标准模式',
         Family: '家庭模式',
-        Office: '办公模式',
+        Office: '办公模式'
     }
     const display_mode_cutover_dic = {
         Standard: 'Family',
         Family: 'Office',
-        Office: 'Standard',
+        Office: 'Standard'
     }
 
     // Cascading Style Sheets・Global
@@ -168,6 +187,39 @@
 
         .pls .avatar img:hover {
             border-radius: 0;
+        }
+
+        .user-online-status {
+            display: block;
+            margin: 0;
+            border-collapse: collapse;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            cursor: help;
+        }
+
+        .user-real-online-status {
+            display: block;
+            margin: 0;
+            text-indent: 2px;
+            border-collapse: collapse;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: help;
+        }
+
+        .offline {
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
         }
 
         .pls .m img {
@@ -271,23 +323,6 @@
             padding-left: 8px;
             content: "🌛";
         }
-
-        .user-status {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 10px;
-            height: 10px;
-            cursor: help;
-        }
-
-        .offline {
-            -webkit-filter: grayscale(100%);
-            -moz-filter: grayscale(100%);
-            -ms-filter: grayscale(100%);
-            -o-filter: grayscale(100%);
-            filter: grayscale(100%);
-        }
     `);
 
     // Cascading Style Sheets・bbs.pcbeta.com
@@ -308,16 +343,22 @@
         }
     `);
 
+    // Cascading Style Sheets・www.advertcn.com
+    GM_addStyle(`
+        #hd .wp .a_mu,
+        #wp.wp .wp.a_t,
+        table .a_pr {
+            display: none;
+        }
+    `);
+
     // Login status
-    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myrepeats') || !!document.getElementById('myprompt');
+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
 
-    if (member) {
-        GM_log('Login status: Yes');
-    } else {
-        GM_log('Login status: No');
-    }
+    GM_log('Login status:', member);
+    GM_log('');
 
-    if (!member || site === 'KAFAN') {
+    if (member === false || site === 'KAFAN') {
         GM_addStyle(`
             .function-buttons {
                 padding-top: 4px;
@@ -336,11 +377,32 @@
         `);
     }
 
-    // Set as Default avatar
-    function default_avatar(src) {
+    // Set as Default avatar src
+    var default_avatar_src;
+    switch (site) {
+        case '52POJIE':
+            default_avatar_src = '//avatar.52pojie.cn/images/noavatar_middle.gif';
+            break;
+
+        case 'KAFAN':
+            default_avatar_src = '//b.kafan.cn/small.gif';
+            break;
+
+        case 'PCBETA':
+            default_avatar_src = '//uc.pcbeta.com/images/noavatar_middle.gif';
+            break;
+
+        default:
+            default_avatar_src = '//' + hn + '/uc_server/images/noavatar_middle.gif';
+            break;
+    }
+
+    // Default avatar
+    function default_avatar() {
         const avtm = document.getElementsByClassName('avtm');
-        for (let i = 0; i < avtm.length; i++) {
-            avtm[i].innerHTML = '<img src="' + src + '">';
+        const avatar = !!avtm.length ? avtm : document.getElementsByClassName('avatar');
+        for (let i = 0; i < avatar.length; i++) {
+            avatar[i].innerHTML = '<img src="' + default_avatar_src + '">';
         }
     }
 
@@ -364,7 +426,9 @@
 
             .pil,
             p.xg1,
-            .md_ctrl {
+            .md_ctrl,
+            nav.toc,
+            fieldset {
                 display: none;
             }
 
@@ -383,25 +447,84 @@
         `);
     }
 
+    // Display Mode
+    switch (display_mode) {
+        case 'Standard':
+            break;
+
+        case 'Family':
+            // Set as Default avatar
+            default_avatar();
+            break;
+
+        case 'Office':
+            // Set as Default avatar
+            default_avatar();
+            // Set as Abbreviated avatar
+            abbreviated_avatar();
+            // Set as Hidden Signature
+            hidden_signature();
+            break;
+
+        default:
+            break;
+    }
+
+    // Display the user real online status
+    function display_user_real_online_status(avatar, id) {
+        let request = new XMLHttpRequest();
+        let url = './home.php?mod=spacecp&ac=pm&op=showmsg&touid=' + id + '&inajax=1';
+        request.open('GET', url);
+        request.send();
+        request.addEventListener('readystatechange', function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let status = !!~this.response.indexOf('[在线]');
+                let span = document.createElement('span');
+                span.className = 'user-real-online-status';
+                span.title = status ? '当前在线（真实状态）' : '当前离线（真实状态）';
+                span.innerHTML = status ? '🌝' : '🌚';
+                avatar.appendChild(span);
+            }
+        }, false);
+    }
+
     // Show users online status
     function show_users_online_status() {
         const avatar = document.getElementsByClassName('avatar');
         const info = document.getElementsByClassName('i');
 
-        for (let i = 0; i < info.length; i++) {
-            if (!!~info[i].innerHTML.indexOf('<em>当前在线</em>')) {
-                let div = document.createElement('div');
-                div.className = 'user-status online gol';
-                avatar[i].appendChild(div);
-            } else {
-                let div = document.createElement('div');
-                div.className = 'user-status offline gol';
-                avatar[i].appendChild(div);
+        if (display_users_real_online_status) {
+            // Show real users online status
+            let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 2000 : 1111;
+            for (let i = 0; i < info.length; i++) {
+                setTimeout(() => {
+                    let html = avatar[i].innerHTML;
+                    let id = /\d/.test(html) ? html.match(/\d+/)[0] : info[i].innerHTML.match(/\d+/)[0];
+                    display_user_real_online_status(avatar[i], id);
+                }, i * wait + 1000);
+            }
+        } else {
+            // Show default users online status
+            for (let i = 0; i < info.length; i++) {
+                if (!!~info[i].innerHTML.indexOf('<em>当前在线</em>')) {
+                    let div = document.createElement('div');
+                    div.className = 'user-online-status online gol';
+                    div.title = '当前在线';
+                    avatar[i].appendChild(div);
+                } else {
+                    let div = document.createElement('div');
+                    div.className = 'user-online-status offline gol';
+                    div.title = '当前离线';
+                    avatar[i].appendChild(div);
 
-                // avatar[i].classList.add('offline');
+                    // avatar[i].classList.add('offline');
+                }
             }
         }
     }
+
+    // Execution as Show users online status
+    !!member && show_users_online_status();
 
     // Create Button Group
     function create_button_group() {
@@ -448,6 +571,28 @@
         display_mode_button.addEventListener('click', display_mode_switch, false);
         function_buttons.appendChild(display_mode_button);
 
+        // Online status mode button
+        function online_status_mode_mouseenter() {
+            display_users_real_online_status = GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS') || display_users_real_online_status;
+            this.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
+        }
+        function online_status_mode_switch() {
+            this.disabled = true;
+            this.classList.add('button-disabled');
+            display_users_real_online_status = !display_users_real_online_status;
+            this.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
+            GM_setValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS', display_users_real_online_status);
+            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
+            this.disabled = false;
+            this.classList.remove('button-disabled');
+        }
+        const online_status_mode_button = document.createElement('button');
+        online_status_mode_button.className = 'custom-function-button online-status-mode-button';
+        online_status_mode_button.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
+        online_status_mode_button.addEventListener('mouseenter', online_status_mode_mouseenter, false);
+        online_status_mode_button.addEventListener('click', online_status_mode_switch, false);
+        function_buttons.appendChild(online_status_mode_button);
+
         // Check in
         if (member && site != 'KAFAN') {
             function check_in() {
@@ -468,7 +613,7 @@
                     }, i * 100);
                 }
 
-                if (window.location.hostname === 'www.hostloc.com') {
+                if (site === 'HOSTLOC') {
                     for (let i = 0; i < 20; i++) {
                         setTimeout(() => {
                             let request = new XMLHttpRequest();
@@ -487,7 +632,7 @@
         }
     }
 
-    // Create Button Group
+    // Execution as Create Button Group
     create_button_group();
 
     // Click the main building reply to skip to the bottom of the page
@@ -507,96 +652,42 @@
         !!fastre && skip_bottom(fastre);
     }
 
-    // www.52pojie.cn
-    if (window.location.hostname === 'www.52pojie.cn') {
-        // Display Mode
-        switch (display_mode) {
-            case 'Standard':
-                break;
+    const attachContent = site === 'HOSTLOC' ? '󠀠'.repeat(10) : '\n\n[img=1,1]https://img.alicdn.com/dot.gif[/img]';
 
-            case 'Family':
-                default_avatar('//avatar.52pojie.cn/images/noavatar_middle.gif');
-                break;
+    const fastPostMessage = document.getElementById('fastpostmessage');
 
-            case 'Office':
-                default_avatar('//avatar.52pojie.cn/images/noavatar_middle.gif');
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
+    function editor_content() {
+        let fastPostMessageContent = fastPostMessage.value;
+        if (fastPostMessageContent && fastPostMessageContent.length < 20) {
+            fastPostMessageContent = fastPostMessageContent.trim();
+            fastPostMessage.value = fastPostMessageContent.concat(attachContent);
         }
-
-        // Show users online status
-        !!member && show_users_online_status();
     }
 
-    // www.hostloc.com
-    if (window.location.hostname === 'www.hostloc.com') {
-        // Display Mode
-        switch (display_mode) {
-            case 'Standard':
-                break;
+    !!fastPostMessage && fastPostMessage.removeAttribute('onkeydown');
 
-            case 'Family':
-                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
-                break;
-
-            case 'Office':
-                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
+    !!fastPostMessage && fastPostMessage.addEventListener('keydown', function (event) {
+        if (event.ctrlKey && event.which === 13) {
+            editor_content();
+            seditor_ctlent(event, 'fastpostvalidate($(\'fastpostform\'))');
         }
+        if (event.altKey && event.which === 83) {
+            editor_content();
+            seditor_ctlent(event, 'fastpostvalidate($(\'fastpostform\'))');
+        }
+    }, false);
 
-        // Show users online status
-        !!member && show_users_online_status();
-    }
+    const fastPostSubmit = document.getElementById('fastpostsubmit');
+    !!fastPostSubmit && fastPostSubmit.addEventListener('click', editor_content, false);
+
+    // Attach Content
+
 
     // bbs.pcbeta.com
-    if (window.location.hostname === 'bbs.pcbeta.com') {
-        // Display Mode
-        const avatar = document.getElementsByClassName('avatar');
-        switch (display_mode) {
-            case 'Standard':
-                break;
-
-            case 'Family':
-                // default_avatar('//uc.pcbeta.com//images/noavatar_middle.gif');
-                // Set as Default avatar
-                for (let i = 0; i < avatar.length - 1; i++) {
-                    avatar[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
-                }
-                break;
-
-            case 'Office':
-                // default_avatar('//uc.pcbeta.com//images/noavatar_middle.gif');
-                // Set as Default avatar
-                for (let i = 0; i < avatar.length - 1; i++) {
-                    avatar[i].innerHTML = '<img src="//uc.pcbeta.com//images/noavatar_middle.gif">';
-                }
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
-        }
-
-        // Show users online status
-        !!member && show_users_online_status();
-
+    if (site === 'PCBETA') {
         GM_addStyle(`
             .pls .avatar {
                 overflow: unset;
-            }
-
-            .user-status {
-                margin: 0;
             }
 
             .function-buttons {
@@ -614,96 +705,11 @@
         `);
     }
 
-    // www.fglt.net
-    // www.fglt.cn
-    if (window.location.hostname === 'www.fglt.net' || window.location.hostname === 'www.fglt.cn') {
-        // Display Mode
-        switch (display_mode) {
-            case 'Standard':
-                break;
-
-            case 'Family':
-                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
-                break;
-
-            case 'Office':
-                default_avatar('//' + window.location.hostname + '/uc_server/images/noavatar_middle.gif');
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
-        }
-
-        // Show users online status
-        !!member && show_users_online_status();
-    }
-
     // bbs.kafan.cn
-    if (window.location.hostname === 'bbs.kafan.cn') {
-        // Display Mode
-        switch (display_mode) {
-            case 'Standard':
-                break;
-
-            case 'Family':
-                default_avatar('//b.kafan.cn/5/middle.gif');
-                break;
-
-            case 'Office':
-                default_avatar('//b.kafan.cn/5/middle.gif');
-                abbreviated_avatar();
-                hidden_signature();
-                break;
-
-            default:
-                break;
-        }
-
-        // Show users online status
-        !!member && show_users_online_status();
-
+    if (site === 'KAFAN') {
         //Auto Check-in
-        if (member && document.getElementsByClassName('qq_bind')[0].src === 'https://a.kafan.cn/plugin/dsu_amupper/images/dk.png') {
+        if (member && document.getElementsByClassName('qq_bind')[0].src.slice(-6, -4) === 'dk') {
             document.getElementById('pper_a').click();
         }
-    }
-
-    if (GLOBAL_CONFIG.force_display === true) {
-        const attachContent = '[img]https://www.fb.com/security/hsts-pixel.gif[/img]';
-
-        const fastPostMessage = document.getElementById('fastpostmessage');
-
-        function editor_content() {
-            let fastPostMessageContent = fastPostMessage.value;
-            if (fastPostMessageContent && fastPostMessageContent.length < 20) {
-                fastPostMessageContent = fastPostMessageContent.trim();
-                switch (window.location.hostname) {
-                    case 'bbs.kafan.cn': break;
-                    case 'www.hostloc.com':
-                        fastPostMessage.value = fastPostMessageContent.concat('󠀠'.repeat(10)); // Zero Width Space
-                        break;
-                    default:
-                        fastPostMessage.value = fastPostMessageContent.concat('\n\n', attachContent);
-                }
-            }
-        }
-
-        !!fastPostMessage && fastPostMessage.removeAttribute('onkeydown');
-
-        !!fastPostMessage && fastPostMessage.addEventListener('keydown', function (event) {
-            if (event.ctrlKey && event.which === 13) { // Ctrl+Enter
-                editor_content();
-                seditor_ctlent(event, 'fastpostvalidate($(\'fastpostform\'))');
-            }
-            if (event.altKey && event.which === 83) { // Alt+S
-                editor_content();
-                seditor_ctlent(event, 'fastpostvalidate($(\'fastpostform\'))');
-            }
-        }, false);
-
-        const fastPostSubmit = document.getElementById('fastpostsubmit');
-        !!fastPostSubmit && fastPostSubmit.addEventListener('click', editor_content, false);
     }
 })();
