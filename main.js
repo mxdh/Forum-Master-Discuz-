@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         Forum Master・Discuz!
-// @name:en      Forum Master・Discuz!
-// @name:zh-CN   论坛大师・Discuz!
-// @name:zh-TW   論壇大師・Discuz!
+// @name         Forum Master・Discuz! Revision
+// @name:en      Forum Master・Discuz! Revision
+// @name:zh-CN   论坛大师・Discuz！修改版
+// @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.7.1
+// @version      0.7.2
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -41,6 +41,10 @@
 // @match        https://www.fglt.net/forum.php?mod=viewthread&tid=*
 // @match        https://www.fglt.cn/thread-*.html
 // @match        https://www.fglt.cn/forum.php?mod=viewthread&tid=*
+// @match        http://www.zuanke8.com/thread-*.html
+// @match        http://www.zuanke8.com/forum.php?mod=viewthread&tid=*
+// @match        https://www.zuanke8.com/thread-*.html
+// @match        https://www.zuanke8.com/forum.php?mod=viewthread&tid=*
 // @match        http://www.aihao.cc/thread-*.html
 // @match        http://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @match        https://www.aihao.cc/thread-*.html
@@ -51,6 +55,8 @@
 // @match        https://iya.app/forum.php?mod=viewthread&tid=*
 // @match        http://bbs.huorong.cn/thread-*.html
 // @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.17500.cn/thread-*.html
+// @match        https://bbs.17500.cn/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_log
@@ -265,21 +271,18 @@
         }
 
         .custom-function-button {
-            margin: 4px 4px;
-            padding: 4px 8px;
-            background-color: #FFFFFF;
-            border:#DCDCDC solid 1px;
+            margin-left: 4px;
+            padding: 2px 8px;
+            background-color: #f1f1f1;
             text-align: center;
+            border: none;
             border-radius: 4px;
             outline: none;
             cursor: pointer;
-            font-weight: bold;
         }
 
         .custom-function-button:hover {
             box-shadow: 0 1px 2px #bbb;
-            border-top: #00BFFF solid 1px;
-            background-color: #F0FFFF;
         }
 
         .button-disabled {
@@ -340,6 +343,40 @@
 
     GM_log('Login status:', member);
     GM_log('');
+
+    !!member || GM_addStyle(`
+        .function-buttons {
+            padding-top: 4px;
+        }
+
+        .custom-function-button {
+            background-color: #e8eff5;
+        }
+
+        .custom-function-button:hover {
+            box-shadow: 0 1px 2px #bbb;
+        }
+
+    `);
+
+    if (site === 'KAFAN') {
+        GM_addStyle(`
+            .custom-function-button {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 0 8px;
+                height: 26px;
+            }
+
+            .custom-function-button:hover {
+                background-color: #ff9900;
+                color: #fff;
+                border-color: #ff9900;
+                box-shadow: none;
+            }
+        `);
+    }
 
     // Set as Default avatar src
     var default_avatar_src;
