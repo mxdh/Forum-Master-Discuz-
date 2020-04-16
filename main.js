@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.5.2
+// @version      0.5.3
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -516,7 +516,8 @@
     }
 
     // Execution as Show users online status
-    !!member && show_users_online_status();
+    display_users_real_online_status = !!member && display_users_real_online_status;
+    show_users_online_status();
 
     // Create Button Group
     function create_button_group() {
@@ -578,12 +579,14 @@
             this.disabled = false;
             this.classList.remove('button-disabled');
         }
-        const online_status_mode_button = document.createElement('button');
-        online_status_mode_button.className = 'custom-function-button online-status-mode-button';
-        online_status_mode_button.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
-        online_status_mode_button.addEventListener('mouseenter', online_status_mode_mouseenter, false);
-        online_status_mode_button.addEventListener('click', online_status_mode_switch, false);
-        function_buttons.appendChild(online_status_mode_button);
+        if (member) {
+            const online_status_mode_button = document.createElement('button');
+            online_status_mode_button.className = 'custom-function-button online-status-mode-button';
+            online_status_mode_button.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
+            online_status_mode_button.addEventListener('mouseenter', online_status_mode_mouseenter, false);
+            online_status_mode_button.addEventListener('click', online_status_mode_switch, false);
+            function_buttons.appendChild(online_status_mode_button);
+        }
 
         // Check in
         if (member && site != 'KAFAN') {

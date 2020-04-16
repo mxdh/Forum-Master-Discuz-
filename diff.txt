@@ -1,5 +1,5 @@
 --- original.js	2020-04-15 22:51:42.362416900 +0800
-+++ main.js	2020-04-16 08:21:54.888571300 +0800
++++ main.js	2020-04-16 09:23:36.204957800 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
@@ -14,7 +14,7 @@
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.5.2
++// @version      0.5.3
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -263,7 +263,7 @@
              for (let i = 0; i < info.length; i++) {
                  setTimeout(() => {
                      let html = avatar[i].innerHTML;
-@@ -469,7 +513,6 @@
+@@ -469,11 +513,11 @@
                  }
              }
          }
@@ -271,7 +271,13 @@
      }
  
      // Execution as Show users online status
-@@ -498,30 +541,20 @@
+-    !!member && show_users_online_status();
++    display_users_real_online_status = !!member && display_users_real_online_status;
++    show_users_online_status();
+ 
+     // Create Button Group
+     function create_button_group() {
+@@ -498,30 +542,20 @@
  
          const function_buttons = document.getElementById('function-buttons');
  
@@ -307,10 +313,11 @@
          }
          const display_mode_button = document.createElement('button');
          display_mode_button.className = 'custom-function-button display-mode-button';
-@@ -530,8 +563,30 @@
+@@ -530,8 +564,32 @@
          display_mode_button.addEventListener('click', display_mode_switch, false);
          function_buttons.appendChild(display_mode_button);
  
+-        // Check in
 +        // Online status mode button
 +        function online_status_mode_mouseenter() {
 +            display_users_real_online_status = GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS') || display_users_real_online_status;
@@ -326,20 +333,21 @@
 +            this.disabled = false;
 +            this.classList.remove('button-disabled');
 +        }
-+        const online_status_mode_button = document.createElement('button');
-+        online_status_mode_button.className = 'custom-function-button online-status-mode-button';
-+        online_status_mode_button.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
-+        online_status_mode_button.addEventListener('mouseenter', online_status_mode_mouseenter, false);
-+        online_status_mode_button.addEventListener('click', online_status_mode_switch, false);
-+        function_buttons.appendChild(online_status_mode_button);
+         if (member) {
++            const online_status_mode_button = document.createElement('button');
++            online_status_mode_button.className = 'custom-function-button online-status-mode-button';
++            online_status_mode_button.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
++            online_status_mode_button.addEventListener('mouseenter', online_status_mode_mouseenter, false);
++            online_status_mode_button.addEventListener('click', online_status_mode_switch, false);
++            function_buttons.appendChild(online_status_mode_button);
++        }
 +
-         // Check in
--        if (member) {
++        // Check in
 +        if (member && site != 'KAFAN') {
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -550,7 +605,7 @@
+@@ -550,7 +608,7 @@
                      }, i * 100);
                  }
  
@@ -348,7 +356,7 @@
                      for (let i = 0; i < 20; i++) {
                          setTimeout(() => {
                              let request = new XMLHttpRequest();
-@@ -567,15 +622,6 @@
+@@ -567,15 +625,6 @@
              check_in_button.addEventListener('click', check_in, false);
              function_buttons.appendChild(check_in_button);
          }
@@ -364,7 +372,7 @@
      }
  
      // Execution as Create Button Group
-@@ -598,7 +644,18 @@
+@@ -598,7 +647,18 @@
          !!fastre && skip_bottom(fastre);
      }
  
@@ -384,7 +392,7 @@
  
      const fastPostMessage = document.getElementById('fastpostmessage');
  
-@@ -628,14 +685,9 @@
+@@ -628,14 +688,9 @@
  
      // Attach Content
  
@@ -400,7 +408,7 @@
          GM_addStyle(`
              .pls .avatar {
                  overflow: unset;
-@@ -655,4 +707,12 @@
+@@ -655,4 +710,12 @@
              }
          `);
      }
