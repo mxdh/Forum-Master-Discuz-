@@ -1,4 +1,4 @@
-# Forum Master・Discuz!
+# Forum Master・Discuz! Revision
 
 [简体中文](https://github.com/mxdh/Forum-Master-Discuz-/blob/master/%E8%87%AA%E8%BF%B0%E6%96%87%E4%BB%B6.md)
 [繁體中文](https://github.com/mxdh/Forum-Master-Discuz-/blob/master/%E8%87%AA%E8%BF%B0%E6%AA%94%E6%A1%88%20.md)
@@ -50,6 +50,8 @@
 - Automatic refresh after switching modes
 - Some minor changes to improve the user experience
 - Some optimizations
+
+---
 
 ## Supplementary explanation
 - Forum Master does not take effect on the **Forum Homepage** and **Post List** pages, you need to open the post to take effect
