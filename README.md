@@ -38,7 +38,7 @@
 ## Installation
 **[Github](https://github.com/mxdh/Forum-Master-Discuz-)**
 
-**[GreasyFork(recommend)](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz)**
+**[GreasyFork(recommend)](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz-revision)**
 
 ## Improvements
 - **Added some settings**
