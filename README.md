@@ -33,6 +33,8 @@
 
 ---
 
+**This project is based on hostname‘ [Forum Master・Discuz!](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), and complies with GPL-3.0**
+
 ## Installation
 **[Github](https://github.com/mxdh/Forum-Master-Discuz-)**
 
@@ -59,5 +61,3 @@
 ![Rendering](https://i.loli.net/2020/04/15/zpPlQCsg83qSoGY.png)
 
 [Tutorial](https://bbs.kafan.cn/thread-2178786-1-1.html)
-
-**This project is based on hostname‘ [Forum Master・Discuz!](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), and complies with GPL-3.0**
