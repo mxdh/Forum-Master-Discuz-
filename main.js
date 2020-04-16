@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.5.3
+// @version      0.5.4
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -53,6 +53,8 @@
 // @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
 // @match        https://iya.app/thread-*.html
 // @match        https://iya.app/forum.php?mod=viewthread&tid=*
+// @match        http://bbs.huorong.cn/thread-*.html
+// @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_log
@@ -516,8 +518,12 @@
     }
 
     // Execution as Show users online status
-    display_users_real_online_status = !!member && display_users_real_online_status;
-    show_users_online_status();
+    if (member) {
+        show_users_online_status();
+    } else if (site === 'PCBETA') {
+        display_users_real_online_status = false;
+        show_users_online_status();
+    }
 
     // Create Button Group
     function create_button_group() {
@@ -589,7 +595,12 @@
         }
 
         // Check in
-        if (member && site != 'KAFAN') {
+        function apply_to_site() {
+            if (site === 'KAFAN' || site === 'HUORONG') return false;
+            return true;
+        }
+
+        if (member && apply_to_site()) {
             function check_in() {
                 const check_in = document.getElementsByClassName('check-in')[0];
                 check_in.innerHTML = '正在签到';

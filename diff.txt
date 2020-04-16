@@ -1,5 +1,5 @@
 --- original.js	2020-04-15 22:51:42.362416900 +0800
-+++ main.js	2020-04-16 09:23:36.204957800 +0800
++++ main.js	2020-04-16 10:35:22.941256700 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
@@ -14,7 +14,7 @@
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.5.3
++// @version      0.5.4
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -28,9 +28,12 @@
  // @match        https://www.discuz.net/thread-*.html
  // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
  // @match        https://www.52pojie.cn/thread-*.html
-@@ -59,19 +54,18 @@
+@@ -58,20 +53,21 @@
+ // @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
  // @match        https://iya.app/thread-*.html
  // @match        https://iya.app/forum.php?mod=viewthread&tid=*
++// @match        http://bbs.huorong.cn/thread-*.html
++// @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
  // @grant        GM_addStyle
 -// @grant        GM_getResourceText
  // @grant        GM_getValue
@@ -51,7 +54,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -94,23 +88,46 @@
+@@ -94,23 +90,46 @@
       * == END LICENSE ==
       */
  
@@ -104,7 +107,7 @@
  
      // Test code
      const ua = window.navigator.userAgent;
-@@ -121,33 +138,23 @@
+@@ -121,33 +140,23 @@
      GM_log("Display the user's real online status:", display_users_real_online_status);
      GM_log("");
  
@@ -144,7 +147,7 @@
          .ad,
          .ads,
          .dnch_eo_pt,
-@@ -169,9 +176,9 @@
+@@ -169,9 +178,9 @@
              border-radius: 50%;
          }
  
@@ -157,7 +160,7 @@
  
          .pls .avatar {
              padding-top: 1px;
-@@ -195,14 +202,15 @@
+@@ -195,14 +204,15 @@
              box-shadow: 0 2px 8px #bbb;
          }
  
@@ -176,7 +179,7 @@
          }
  
          .user-online-status {
-@@ -278,8 +286,25 @@
+@@ -278,8 +288,25 @@
          }
      `);
  
@@ -203,7 +206,7 @@
          #hiddenpoststip {
              padding: 0;
          }
-@@ -305,7 +330,7 @@
+@@ -305,7 +332,7 @@
      `);
  
      // Login status
@@ -212,7 +215,7 @@
  
      GM_log('Login status:', member);
      GM_log('');
-@@ -325,18 +350,37 @@
+@@ -325,18 +352,37 @@
  
      `);
  
@@ -254,7 +257,7 @@
              default_avatar_src = '//uc.pcbeta.com/images/noavatar_middle.gif';
              break;
  
-@@ -443,7 +487,7 @@
+@@ -443,7 +489,7 @@
  
          if (display_users_real_online_status) {
              // Show real users online status
@@ -263,7 +266,7 @@
              for (let i = 0; i < info.length; i++) {
                  setTimeout(() => {
                      let html = avatar[i].innerHTML;
-@@ -469,11 +513,11 @@
+@@ -469,11 +515,15 @@
                  }
              }
          }
@@ -272,12 +275,16 @@
  
      // Execution as Show users online status
 -    !!member && show_users_online_status();
-+    display_users_real_online_status = !!member && display_users_real_online_status;
-+    show_users_online_status();
++    if (member) {
++        show_users_online_status();
++    } else if (site === 'PCBETA') {
++        display_users_real_online_status = false;
++        show_users_online_status();
++    }
  
      // Create Button Group
      function create_button_group() {
-@@ -498,30 +542,20 @@
+@@ -498,30 +548,20 @@
  
          const function_buttons = document.getElementById('function-buttons');
  
@@ -313,7 +320,7 @@
          }
          const display_mode_button = document.createElement('button');
          display_mode_button.className = 'custom-function-button display-mode-button';
-@@ -530,8 +564,32 @@
+@@ -530,8 +570,37 @@
          display_mode_button.addEventListener('click', display_mode_switch, false);
          function_buttons.appendChild(display_mode_button);
  
@@ -343,11 +350,16 @@
 +        }
 +
 +        // Check in
-+        if (member && site != 'KAFAN') {
++        function apply_to_site() {
++            if (site === 'KAFAN' || site === 'HUORONG') return false;
++            return true;
++        }
++
++        if (member && apply_to_site()) {
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -550,7 +608,7 @@
+@@ -550,7 +619,7 @@
                      }, i * 100);
                  }
  
@@ -356,7 +368,7 @@
                      for (let i = 0; i < 20; i++) {
                          setTimeout(() => {
                              let request = new XMLHttpRequest();
-@@ -567,15 +625,6 @@
+@@ -567,15 +636,6 @@
              check_in_button.addEventListener('click', check_in, false);
              function_buttons.appendChild(check_in_button);
          }
@@ -372,7 +384,7 @@
      }
  
      // Execution as Create Button Group
-@@ -598,7 +647,18 @@
+@@ -598,7 +658,18 @@
          !!fastre && skip_bottom(fastre);
      }
  
@@ -392,7 +404,7 @@
  
      const fastPostMessage = document.getElementById('fastpostmessage');
  
-@@ -628,14 +688,9 @@
+@@ -628,14 +699,9 @@
  
      // Attach Content
  
@@ -408,7 +420,7 @@
          GM_addStyle(`
              .pls .avatar {
                  overflow: unset;
-@@ -655,4 +710,12 @@
+@@ -655,4 +721,12 @@
              }
          `);
      }
