@@ -41,6 +41,7 @@
 ## Improvements
 - **Added some settings**
 - **Strengthen the support for 卡饭论坛(automatic check-in, etc.)**
+- **Let the forum support display emoji!😜😜😜Have fun!**
 - **Support each website to choose different display mode(In the original script, all websites share one setting)**
 - Support 火绒安全论坛
 - Removed the homepage and group buttons(Original project [homepage](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), [group](https://t.me/joinchat/Bc2EjlPZ0aOwiA-Gn73xKA), about Questions about this project can be feedback on [GreasyFork](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz/feedback)、[GitHub](https://github.com/mxdh/Forum-Master-Discuz-/issues)、[卡饭论坛](https://bbs.kafan.cn/thread-2178786-1-1.html))
