@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz!
 // @name:zh-TW   論壇大師・Discuz!
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.6.0
+// @version      0.7.0
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -115,7 +115,12 @@
         // Automatically refresh after modifying settings on webpage: true/false,
         // 在网页上修改设置后自动刷新: true/false,
         // 在網頁上修改設置後自動刷新: true/false,
-        auto_reload: true
+        auto_reload: true,
+
+        // Display Eomji: true/false
+        // 显示Emoji: true/false
+        // 顯示Emoji: true/false
+        display_emoji: true
     }
     // Global Settings · End
 
@@ -699,6 +704,18 @@
 
     // Attach Content
 
+    // Display Emoji
+    if (GLOBAL_CONFIG.display_emoji) {
+        const post = document.getElementsByClassName('t_f');
+        for (let i = 0; i < post.length; i++) {
+            post[i].innerHTML = post[i].innerHTML.replace(/\&amp;#.*?;/g, function (char) {
+                if (char.length === 13)
+                    return String.fromCodePoint(parseInt(char.match(/[0-9]+/)));
+                return char;
+            }
+            );
+        }
+    }
 
     // bbs.pcbeta.com
     if (site === 'PCBETA') {

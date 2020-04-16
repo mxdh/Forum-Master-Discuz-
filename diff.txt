@@ -1,5 +1,5 @@
 --- original.js	2020-04-15 22:51:42.362416900 +0800
-+++ main.js	2020-04-16 10:38:25.494085200 +0800
++++ main.js	2020-04-16 13:52:51.929326000 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
@@ -14,7 +14,7 @@
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.6.0
++// @version      0.7.0
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -54,7 +54,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -94,23 +90,46 @@
+@@ -94,23 +90,51 @@
       * == END LICENSE ==
       */
  
@@ -87,7 +87,12 @@
 +        // Automatically refresh after modifying settings on webpage: true/false,
 +        // 在网页上修改设置后自动刷新: true/false,
 +        // 在網頁上修改設置後自動刷新: true/false,
-+        auto_reload: true
++        auto_reload: true,
++
++        // Display Eomji: true/false
++        // 显示Emoji: true/false
++        // 顯示Emoji: true/false
++        display_emoji: true
      }
      // Global Settings · End
  
@@ -107,7 +112,7 @@
  
      // Test code
      const ua = window.navigator.userAgent;
-@@ -121,33 +140,23 @@
+@@ -121,33 +145,23 @@
      GM_log("Display the user's real online status:", display_users_real_online_status);
      GM_log("");
  
@@ -147,7 +152,7 @@
          .ad,
          .ads,
          .dnch_eo_pt,
-@@ -169,9 +178,9 @@
+@@ -169,9 +183,9 @@
              border-radius: 50%;
          }
  
@@ -160,7 +165,7 @@
  
          .pls .avatar {
              padding-top: 1px;
-@@ -195,14 +204,15 @@
+@@ -195,14 +209,15 @@
              box-shadow: 0 2px 8px #bbb;
          }
  
@@ -179,7 +184,7 @@
          }
  
          .user-online-status {
-@@ -278,8 +288,25 @@
+@@ -278,8 +293,25 @@
          }
      `);
  
@@ -206,7 +211,7 @@
          #hiddenpoststip {
              padding: 0;
          }
-@@ -305,7 +332,7 @@
+@@ -305,7 +337,7 @@
      `);
  
      // Login status
@@ -215,7 +220,7 @@
  
      GM_log('Login status:', member);
      GM_log('');
-@@ -325,18 +352,37 @@
+@@ -325,18 +357,37 @@
  
      `);
  
@@ -257,7 +262,7 @@
              default_avatar_src = '//uc.pcbeta.com/images/noavatar_middle.gif';
              break;
  
-@@ -443,7 +489,7 @@
+@@ -443,7 +494,7 @@
  
          if (display_users_real_online_status) {
              // Show real users online status
@@ -266,7 +271,7 @@
              for (let i = 0; i < info.length; i++) {
                  setTimeout(() => {
                      let html = avatar[i].innerHTML;
-@@ -469,11 +515,15 @@
+@@ -469,11 +520,15 @@
                  }
              }
          }
@@ -284,7 +289,7 @@
  
      // Create Button Group
      function create_button_group() {
-@@ -498,30 +548,20 @@
+@@ -498,30 +553,20 @@
  
          const function_buttons = document.getElementById('function-buttons');
  
@@ -320,7 +325,7 @@
          }
          const display_mode_button = document.createElement('button');
          display_mode_button.className = 'custom-function-button display-mode-button';
-@@ -530,8 +570,37 @@
+@@ -530,8 +575,37 @@
          display_mode_button.addEventListener('click', display_mode_switch, false);
          function_buttons.appendChild(display_mode_button);
  
@@ -359,7 +364,7 @@
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -550,7 +619,7 @@
+@@ -550,7 +624,7 @@
                      }, i * 100);
                  }
  
@@ -368,7 +373,7 @@
                      for (let i = 0; i < 20; i++) {
                          setTimeout(() => {
                              let request = new XMLHttpRequest();
-@@ -567,15 +636,6 @@
+@@ -567,15 +641,6 @@
              check_in_button.addEventListener('click', check_in, false);
              function_buttons.appendChild(check_in_button);
          }
@@ -384,7 +389,7 @@
      }
  
      // Execution as Create Button Group
-@@ -598,7 +658,18 @@
+@@ -598,7 +663,18 @@
          !!fastre && skip_bottom(fastre);
      }
  
@@ -404,7 +409,7 @@
  
      const fastPostMessage = document.getElementById('fastpostmessage');
  
-@@ -628,14 +699,9 @@
+@@ -628,14 +704,21 @@
  
      // Attach Content
  
@@ -412,7 +417,18 @@
 -    if (!!~hn.indexOf('hostloc.com') && typeof display_blocked_post === 'function') {
 -        // Automatically expand all posts
 -        // display_blocked_post();
--    }
++    // Display Emoji
++    if (GLOBAL_CONFIG.display_emoji) {
++        const post = document.getElementsByClassName('t_f');
++        for (let i = 0; i < post.length; i++) {
++            post[i].innerHTML = post[i].innerHTML.replace(/\&amp;#.*?;/g, function (char) {
++                if (char.length === 13)
++                    return String.fromCodePoint(parseInt(char.match(/[0-9]+/)));
++                return char;
++            }
++            );
++        }
+     }
  
      // bbs.pcbeta.com
 -    if (hn === 'bbs.pcbeta.com') {
@@ -420,7 +436,7 @@
          GM_addStyle(`
              .pls .avatar {
                  overflow: unset;
-@@ -655,4 +721,12 @@
+@@ -655,4 +738,12 @@
              }
          `);
      }
