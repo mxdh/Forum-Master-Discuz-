@@ -1,5 +1,5 @@
 --- original.js	2020-04-15 22:51:42.362416900 +0800
-+++ main.js	2020-04-16 10:35:22.941256700 +0800
++++ main.js	2020-04-16 10:38:25.494085200 +0800
 @@ -1,21 +1,16 @@
  // ==UserScript==
  // @name         Forum Master・Discuz!
@@ -14,7 +14,7 @@
 +// @name:zh-CN   论坛大师・Discuz!
 +// @name:zh-TW   論壇大師・Discuz!
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.5.4
++// @version      0.6.0
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
