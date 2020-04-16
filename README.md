@@ -15,6 +15,7 @@
 - 赚客吧(www.zuanke8.com)
 - 爱好论坛(www.aihao.cc)
 - 广告中国(www.advertcn.com)
+- 火绒安全论坛(bbs.huorong.cn)
 
 ## Function introduction(original)
 - Beautify the interface
@@ -41,6 +42,7 @@
 - **Added some settings**
 - **Strengthen the support for 卡饭论坛(automatic check-in, etc.)**
 - **Support each website to choose different display mode(In the original script, all websites share one setting)**
+- Support 火绒安全论坛
 - Removed the homepage and group buttons(Original project [homepage](https://greasyfork.org/zh-CN/scripts/400250-forum-master-discuz), [group](https://t.me/joinchat/Bc2EjlPZ0aOwiA-Gn73xKA), about Questions about this project can be feedback on [GreasyFork](https://greasyfork.org/zh-CN/scripts/400489-forum-master-discuz/feedback)、[GitHub](https://github.com/mxdh/Forum-Master-Discuz-/issues)、[卡饭论坛](https://bbs.kafan.cn/thread-2178786-1-1.html))
 - Automatic refresh after switching modes
 - Some minor changes to improve the user experience
