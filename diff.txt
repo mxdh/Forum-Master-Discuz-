@@ -1,41 +1,76 @@
---- original.js	2020-04-15 22:51:42.362416900 +0800
-+++ main.js	2020-04-16 16:50:44.712369400 +0800
-@@ -1,21 +1,16 @@
+--- original.js	2020-04-18 16:29:30.671711400 +0800
++++ main.js	2020-04-18 16:29:30.671711400 +0800
+@@ -1,23 +1,16 @@
  // ==UserScript==
- // @name         Forum Master・Discuz!
- // @name:en      Forum Master・Discuz!
--// @name:zh      论坛大师・Discuz!　界面美化、移除广告、功能增强……
--// @name:zh-CN   论坛大师・Discuz!　界面美化、移除广告、功能增强……
--// @name:zh-HK   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
--// @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
+-// @name         Forum Master・Discuz!
+-// @name:en      Forum Master・Discuz!
+-// @name:zh      论坛大师・Discuz!　界面美化、广告移除、功能增强……
+-// @name:zh-CN   论坛大师・Discuz!　界面美化、广告移除、功能增强……
+-// @name:zh-HK   論壇大師・Discuz!　界面美化、廣告移除、功能增強……
+-// @name:zh-TW   論壇大師・Discuz!　界面美化、廣告移除、功能增強……
 -// @namespace    Forum Master・Discuz!
 -// @homepage     https://greasyfork.org/scripts/400250
--// @version      0.0.9
-+// @name:zh-CN   论坛大师・Discuz!
-+// @name:zh-TW   論壇大師・Discuz!
+-// @version      0.1.1
++// @name         Forum Master・Discuz! Revision
++// @name:en      Forum Master・Discuz! Revision
++// @name:zh-CN   论坛大师・Discuz！修改版
++// @name:zh-TW   論壇大師・Discuz！修改版
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.7.1
++// @version      0.8.0
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
--// @description:zh    论坛大师（中文）・Discuz!　界面美化、移除广告、功能增强……
- // @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强……
--// @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
--// @description:zh-TW 論壇大師（正體中文）・Discuz!　界面美化、移除廣告、功能增強……
+-// @description:zh    论坛大师（中文）・Discuz!　界面美化、广告移除、功能增强……
+-// @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、广告移除、功能增强……
+-// @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、廣告移除、功能增強……
+-// @description:zh-TW 論壇大師（正體中文）・Discuz!　界面美化、廣告移除、功能增強……
 -// @author       hostname
+-// @match        https://www.discuz.net/thread-*.html
+-// @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
++// @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强……
 +// @description:zh-TW 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
 +// @author       hostname,mxdh
- // @match        https://www.discuz.net/thread-*.html
- // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
  // @match        https://www.52pojie.cn/thread-*.html
-@@ -58,20 +53,23 @@
- // @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+ // @match        https://www.52pojie.cn/forum.php?mod=viewthread&tid=*
+ // @match        https://www.right.com.cn/forum/thread-*.html
+@@ -34,53 +27,28 @@
+ // @match        https://bbs.pcbeta.com/thread-*.html
+ // @match        https://bbs.pcbeta.com/forum.php?mod=viewthread&tid=*
+ // @match        https://bbs.pcbeta.com/viewthread-*.html
+-// @match        http://www.zuanke8.com/thread-*.html
+-// @match        http://www.zuanke8.com/forum.php?mod=viewthread&tid=*
+-// @match        https://www.zuanke8.com/thread-*.html
+-// @match        https://www.zuanke8.com/forum.php?mod=viewthread&tid=*
+-// @match        https://bbs.fobshanghai.com/thread-*.html
+-// @match        https://bbs.fobshanghai.com/forum.php?mod=viewthread&tid=*
+-// @match        https://bbs.fobshanghai.com/viewthread.php?tid=*
++// @match        https://bbs.pcbeta.com/forum.php?mod=viewthread&tid=*
+ // @match        http://bbs.huorong.cn/thread-*.html
+ // @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
+ // @match        https://bbs.huorong.cn/thread-*.html
+ // @match        https://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
+ // @match        https://bbs.360.cn/thread-*.html
+ // @match        https://bbs.360.cn/forum.php?mod=viewthread&tid=*
+-// @match        http://www.gebi1.com/thread-*.html
+-// @match        http://www.gebi1.com/forum.php?mod=viewthread&tid=*
+-// @match        https://www.gebi1.com/thread-*.html
+-// @match        https://www.gebi1.com/forum.php?mod=viewthread&tid=*
+-// @match        https://www.advertcn.com/thread-*.html
+-// @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+-// @match        https://www.fglt.net/thread-*.html
+-// @match        https://www.fglt.net/forum.php?mod=viewthread&tid=*
+-// @match        https://www.fglt.cn/thread-*.html
+-// @match        https://www.fglt.cn/forum.php?mod=viewthread&tid=*
+-// @match        http://www.aihao.cc/thread-*.html
+-// @match        http://www.aihao.cc/forum.php?mod=viewthread&tid=*
+-// @match        https://www.aihao.cc/thread-*.html
+-// @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
+-// @match        http://bbs.nas66.com/thread-*.html
+-// @match        http://bbs.nas66.com/forum.php?mod=viewthread&tid=*
+-// @match        https://bbs.nas66.com/thread-*.html
+-// @match        https://bbs.nas66.com/forum.php?mod=viewthread&tid=*
  // @match        https://iya.app/thread-*.html
  // @match        https://iya.app/forum.php?mod=viewthread&tid=*
-+// @match        http://bbs.huorong.cn/thread-*.html
-+// @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
-+// @match        https://bbs.17500.cn/thread-*.html
-+// @match        https://bbs.17500.cn/forum.php?mod=viewthread&tid=*
  // @grant        GM_addStyle
 -// @grant        GM_getResourceText
  // @grant        GM_getValue
@@ -56,7 +91,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -94,23 +92,51 @@
+@@ -103,23 +71,61 @@
       * == END LICENSE ==
       */
  
@@ -65,11 +100,12 @@
 -
      // Global Settings · Start
      const GLOBAL_CONFIG = {
--        // Display the user's real online status
-+        // Display the user's real online status: true/false
-+        // 显示用户的真实在线状态: true/false
-+        // 顯示用戶的真實在線狀態: true/false
-         display_users_real_online_status: true,
+-        // Display the users online status: None, Standard, Advanced
+-        display_users_online_status: 'Advanced',
++        // Display the users' online status: 'None', 'Standard', 'Advanced'
++        // 显示用户的在线状态: 'None', 'Standard', 'Advanced'
++        // 顯示用戶的在線狀態: 'None', 'Standard', 'Advanced'
++        detection_mode: 'Advanced',
 +
 +        // Text Beautification: true/false
 +        // 文本美化: true/false
@@ -81,10 +117,10 @@
 +        // 程式碼美化：true/false
 +        code_beautification: true,
 +
-+        // Display Mode: 'Standard', 'Family', 'Office'
-+        // 显示模式: 'Standard', 'Family', 'Office'
-+        // 顯示模式: 'Standard', 'Family', 'Office'
-+        display_mode: 'Standard',
++        // Scene Mode: 'Standard', 'Family', 'Office'
++        // 场景模式: 'Standard', 'Family', 'Office'
++        // 場景模式: 'Standard', 'Family', 'Office'
++        scene_mode: 'Standard',
 +
 +        // Automatically refresh after modifying settings on webpage: true/false,
 +        // 在网页上修改设置后自动刷新: true/false,
@@ -94,7 +130,7 @@
 +        // Display Eomji: true/false
 +        // 显示Emoji: true/false
 +        // 顯示Emoji: true/false
-+        display_emoji: true
++        display_emoji: true,
      }
      // Global Settings · End
  
@@ -102,36 +138,60 @@
  
 +    // Host Name
 +    const hn = window.location.hostname;
-+    const site = hn.split('.').slice(-2, -1).join().toUpperCase();
 +
-     // Display Mode: Standard, Family, Office
--    var display_mode = GM_getValue('DISPLAY_MODE') || 'Standard';
-+    var display_mode = GM_getValue(site + '_DISPLAY_MODE') || GLOBAL_CONFIG.display_mode;
++    function get_site_pos() {
++        if (!!~hn.indexOf('.com.cn')) return -3;
++        return -2;
++    }
++
++    const site_pos = get_site_pos();
++    const site = hn.split('.').slice(site_pos, site_pos + 1).join().toUpperCase();
++
++    GM_log("Site name:", site);
++
+     // Scene mode: Standard, Family, Office
+-    var scene_mode = GM_getValue('SCENE_MODE') || 'Standard';
++    var scene_mode = GM_getValue(site + '_SCENE_MODE') || GLOBAL_CONFIG.scene_mode;
  
-     // Display the user's real online status
--    var display_users_real_online_status = GM_getValue('DISPLAY_USERS_REAL_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_real_online_status;
-+    var display_users_real_online_status = GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS') === undefined ? GLOBAL_CONFIG.display_users_real_online_status : GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS');
+     // Display the users online status
+-    var display_users_online_status = GM_getValue('DISPLAY_USERS_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_online_status;
++    // GM_deleteValue(site + '_DETECTION_MODE');
++    var detection_mode = GM_getValue(site + '_DETECTION_MODE') || GLOBAL_CONFIG.detection_mode;
  
      // Test code
      const ua = window.navigator.userAgent;
-@@ -121,33 +147,23 @@
-     GM_log("Display the user's real online status:", display_users_real_online_status);
-     GM_log("");
+@@ -127,26 +133,35 @@
+     GM_log('');
+ 
+     GM_log('Scene mode:', scene_mode);
+-    GM_log('Display the users online status:', display_users_online_status);
++    GM_log(typeof scene_mode);
++    GM_log('Detection mode:', detection_mode);
++    GM_log(typeof detection_mode);
+     GM_log('');
  
 -    // Host Name
 -    const hn = window.location.hostname;
--
-+    const boolean_dic = {
-+        true: '开',
-+        false: '关'
++    const detection_mode_dic = {
++        None: '关闭',
++        Standard: '普通',
++        Advanced: '高级'
 +    }
-     const display_mode_dic = {
++
++    const detection_mode_cutover_dic = {
++        None: 'Standard',
++        Standard: 'Advanced',
++        Advanced: 'None'
++    }
+ 
+     const scene_mode_dic = {
          Standard: '标准模式',
          Family: '家庭模式',
 -        Office: '办公模式',
 +        Office: '办公模式'
      }
-     const display_mode_cutover_dic = {
+ 
+     const scene_mode_cutover_dic = {
          Standard: 'Family',
          Family: 'Office',
 -        Office: 'Standard',
@@ -142,54 +202,154 @@
 -
      // Cascading Style Sheets・Global
      GM_addStyle(`
+         :root {
+@@ -180,15 +195,6 @@
+             --font-family-monospace: "Fira Code", Hack, "Source Code Pro", "Source Code Variable", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Noto Sans Mono CJK", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", monospace;
+         }
+ 
 -        body, table, input, button, select, textarea, a {
--            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", "Noto Sans CJK", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Noto Sans CJK", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 -        }
 -
 -        .mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
 -        .blockcode ol li {
--            font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
+-            font-family: "Fira Code", Hack, "Source Code Pro", "Source Code Variable", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Noto Sans Mono CJK", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", monospace !important;
 -        }
 -
-         .ad,
          .ads,
-         .dnch_eo_pt,
-@@ -169,9 +185,9 @@
-             border-radius: 50%;
+         .plc .dnch_eo_pt,
+         .plc .dnch_eo_pb,
+@@ -207,14 +213,6 @@
+             display: none;
          }
  
+-        #um .avt img {
+-            border-radius: 50%;
+-        }
+-
 -        #um .avt img:hover {
 -            border-radius: 0;
 -        }
-+        // #um .avt img:hover {
-+        //     border-radius: 0;
-+        // }
- 
+-
          .pls .avatar {
              padding-top: 1px;
-@@ -195,14 +211,15 @@
-             box-shadow: 0 2px 8px #bbb;
-         }
- 
+             position: relative;
+@@ -229,27 +227,26 @@
+             background: none;
+             border-radius: 50%;
+             padding: 0;
+-            border: 4px solid #fff;
+-            box-shadow: 0 0 4px #bbb;
+-        }
+-
 -        .pls .avatar img:hover {
 -            border-radius: 0;
--        }
-+        // .pls .avatar img:hover {
-+        //     border-radius: 0;
-+        // }
++            border: 2px solid #fff;
++            box-shadow: 0 0 10px #00BFFF;
+         }
  
          .pls .m img {
              width: 120px;
              height: 120px;
+-            background: none;
              object-fit: contain;
+-            box-shadow: 0 0 4px #bbb;
 +            border-radius: 50%;
++            background: none;
          }
  
-         .user-online-status {
-@@ -278,8 +295,25 @@
+         .pls .m img:hover {
+             background: #fff;
++            object-fit: contain;
++            background: #fff;
++            border-radius: 0;
          }
+ 
+-        #um .avt img,
++        .avt img,
+         #tath img,
+         .rate table img,
+         .cm .vm img,
+@@ -259,7 +256,7 @@
+             box-shadow: 0 0 2px #bbb;
+         }
+ 
+-        #um .avt img:hover,
++        .avt img:hover,
+         #tath img:hover,
+         .rate table img:hover,
+         .cm .vm img:hover,
+@@ -268,6 +265,34 @@
+             box-shadow: none;
+         }
+ 
++        .pls .avatar img,
++        .avtm img,
++        .avt img,
++        #tath img,
++        .rate table img,
++        .cm .vm img,
++        .card_mn .avt img,
++        .pls .m img {
++            -webkit-transition: 0.5s;
++            -moz-transition: 0.5s;
++            -ms-transition: 0.5s;
++            -o-transition: 0.5s;
++            transition: 0.5s;
++        }
++
++        .pls .avatar img:hover,
++        .avt img:hover,
++        #tath img:hover,
++        .rate table img:hover,
++        .cm .vm img:hover,
++        .card_mn .avt img:hover {
++            -webkit-transform: rotate(360deg);
++            -moz-transform: rotate(360deg);
++            -ms-transform: rotate(360deg);
++            -o-transform: rotate(360deg);
++            transform: rotate(360deg);
++        }
++
+         .user-online-status {
+             display: block;
+             margin: 0;
+@@ -325,18 +350,21 @@
+         }
+ 
+         .custom-function-button {
+-            margin-left: 4px;
++            margin: 4px 4px;
+             padding: 2px 8px;
+-            background-color: #f1f1f1;
++            background-color: #FFFFFF;
+             text-align: center;
+-            border: none;
++            border:#DCDCDC solid 1px;
+             border-radius: 4px;
+             outline: none;
+             cursor: pointer;
++            font-weight: bold;
+         }
+ 
+         .custom-function-button:hover {
+             box-shadow: 0 1px 2px #bbb;
++            border-top: #00BFFF solid 1px;
++            background-color: #F0FFFF;
+         }
+ 
+         .button-disabled {
+@@ -350,17 +378,36 @@
      `);
  
+     // Login status
+-    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats') || !!document.getElementById('qmenu'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
++    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
+ 
+     GM_log('Login status:', member);
+     GM_log('');
+ 
++
 +    if (GLOBAL_CONFIG.text_beautification === true) {
 +        GM_addStyle(`
 +            body, table, input, button, select, textarea, a {
@@ -207,93 +367,151 @@
 +        `)
 +    }
 +
-     // Cascading Style Sheets・www.hostloc.com
--    !!~hn.indexOf('hostloc.com') && GM_addStyle(`
-+    site === 'HOSTLOC' && GM_addStyle(`
-         #hiddenpoststip {
-             padding: 0;
-         }
-@@ -305,7 +339,7 @@
-     `);
- 
-     // Login status
--    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
-+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
- 
-     GM_log('Login status:', member);
-     GM_log('');
-@@ -325,18 +359,37 @@
- 
-     `);
- 
-+    if (site === 'KAFAN') {
-+        GM_addStyle(`
-+            .custom-function-button {
-+                background-color: #fff;
-+                border: 1px solid #ddd;
-+                border-radius: 5px;
-+                padding: 0 8px;
-+                height: 26px;
-+            }
 +
-+            .custom-function-button:hover {
-+                background-color: #ff9900;
-+                color: #fff;
-+                border-color: #ff9900;
-+                box-shadow: none;
-+            }
-+        `);
-+    }
-+
-     // Set as Default avatar src
-     var default_avatar_src;
--    switch (window.location.hostname) {
--        case 'www.52pojie.cn':
-+    switch (site) {
-+        case '52POJIE':
-             default_avatar_src = '//avatar.52pojie.cn/images/noavatar_middle.gif';
-             break;
- 
--        case 'bbs.kafan.cn':
-+        case 'KAFAN':
-             default_avatar_src = '//b.kafan.cn/small.gif';
-             break;
- 
--        case 'bbs.pcbeta.com':
-+        case 'PCBETA':
-             default_avatar_src = '//uc.pcbeta.com/images/noavatar_middle.gif';
-             break;
- 
-@@ -443,7 +496,7 @@
- 
-         if (display_users_real_online_status) {
-             // Show real users online status
--            let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 2000 : 1111;
-+            let wait = site === 'PCBETA' ? 2000 : 1111;
-             for (let i = 0; i < info.length; i++) {
-                 setTimeout(() => {
-                     let html = avatar[i].innerHTML;
-@@ -469,11 +522,15 @@
-                 }
-             }
-         }
+     // Default avatar
+     function default_avatar() {
+         // https://herder.cdn.bcebos.com/uc_server/images/noavatar_big.gif
+         // https://herder.cdn.bcebos.com/uc_server/images/noavatar_middle.gif
+         // https://herder.cdn.bcebos.com/uc_server/images/noavatar_small.gif
+-        if (!!~hn.indexOf('www.52pojie.cn')) {
++        if (site === '52POJIE') {
+             GM_addStyle(`
+                 .pls .avatar img,
+                 .avtm img {
+@@ -396,71 +443,15 @@
+     // Default avatar for Family attach
+     function default_avatar_for_family_attach() {
+         GM_addStyle(`
+-            .pls .avatar img,
+-            .avtm img,
+-            #um .avt img,
+-            #tath img,
+-            .rate table img,
+-            .rate .avt img,
+-            .cm .vm img,
+-            .card_mn .avt img {
+-                border-radius: 50%;
+-                -webkit-transition: 0.5s;
+-                -moz-transition: 0.5s;
+-                -ms-transition: 0.5s;
+-                -o-transition: 0.5s;
+-                transition: 0.5s;
+-            }
 -
+             .pls .avatar img:hover,
+             .avtm img:hover,
+-            #um .avt img:hover,
++            .avt img:hover,
+             #tath img:hover,
+             .rate table img:hover,
+-            .rate .avt img:hover,
+             .cm .vm img:hover,
+-            .card_mn .avt img:hover {
+-                content: none;
+-                border-radius: 50%;
+-                -webkit-transform: rotate(360deg);
+-                -moz-transform: rotate(360deg);
+-                -ms-transform: rotate(360deg);
+-                -o-transform: rotate(360deg);
+-                transform: rotate(360deg);
+-            }
+-
++            .card_mn .avt img:hover,
+             .pls .m img {
+                 content: none;
+-                border-radius: 50%;
+-            }
+-
+-            .pls .m img:hover {
+-                content: none;
+-                border-radius: 0;
+-                -webkit-transform: none;
+-                -moz-transform: none;
+-                -ms-transform: none;
+-                -o-transform: none;
+-                transform: none;
+-            }
+-        `);
+-
+-        // Cascading Style Sheets・bbs.pcbeta.com
+-        !!~hn.indexOf('bbs.pcbeta.com') && GM_addStyle(`
+-            .pls .m img,
+-            .pb_pls .avatar img {
+-                content: none;
+-                border-radius: 50%;
+-                -webkit-transition: 0.5s;
+-                -moz-transition: 0.5s;
+-                -ms-transition: 0.5s;
+-                -o-transition: 0.5s;
+-                transition: 0.5s;
+-            }
+-
+-            .pls .m img:hover,
+-            .pb_pls .avatar img:hover {
+-                border-radius: 0;
+             }
+         `);
+     }
+@@ -572,8 +563,9 @@
+     function show_users_online_status() {
+         const avatar = document.getElementsByClassName('avatar');
+         const info = document.getElementsByClassName('i');
++        const wait = site === 'PCBETA' ? 3000 : 1111;
+ 
+-        switch (display_users_online_status) {
++        switch (detection_mode) {
+             case 'None':
+                 break;
+ 
+@@ -598,7 +590,6 @@
+ 
+             case 'Advanced':
+                 // Show real users online status
+-                let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 3000 : 1111;
+                 for (let i = 0; i < info.length; i++) {
+                     setTimeout(() => {
+                         let html = avatar[i].innerHTML;
+@@ -614,7 +605,27 @@
      }
  
      // Execution as Show users online status
 -    !!member && show_users_online_status();
 +    if (member) {
 +        show_users_online_status();
-+    } else if (site === 'PCBETA' || site === '17500') {
-+        display_users_real_online_status = false;
++    } else if (site === 'PCBETA') {
++        detection_mode = 'Standard';
 +        show_users_online_status();
 +    }
++
++    var display_check_in_button = true;
++
++    if (site === 'KAFAN') {
++        // Auto Check-in
++        if (member) {
++            const status_images = document.getElementsByClassName('qq_bind');
++            if (!!status_images.length) {
++                !!status_images[0].src.slice(-6, -4) === 'dk' && document.getElementById('pper_a').click();
++                display_check_in_button = false;
++            }
++        }
++    }
++
++    if (site === 'HUORONG') display_check_in_button = false;
  
      // Create Button Group
      function create_button_group() {
-@@ -498,30 +555,20 @@
+@@ -632,7 +643,7 @@
+                 function_buttons_package = document.getElementById('extcreditmenu').parentElement;
+                 break;
  
-         const function_buttons = document.getElementById('function-buttons');
+-            case !!~hn.indexOf('bbs.pcbeta.com') && !!document.getElementsByClassName('hdc').length:
++            case site === 'PCBETA' && !!document.getElementsByClassName('hdc').length:
+                 function_buttons_package = document.getElementsByClassName('hdc')[0];
+                 break;
+ 
+@@ -653,32 +664,26 @@
+             return false;
+         }
  
 -        // Open Home button
 -        const open_home_button = document.createElement('button');
@@ -303,70 +521,96 @@
 -            window.open(OPEN_HOME);
 -        }, false);
 -        function_buttons.appendChild(open_home_button);
--
-         // Display mode button
-         function display_mode_mouseenter() {
--            display_mode = GM_getValue('DISPLAY_MODE') || display_mode;
-+            display_mode = GM_getValue(site + '_DISPLAY_MODE') || display_mode;
-             this.innerHTML = display_mode_dic[display_mode];
+ 
+         // Scene mode button
+         function scene_mode_mouseenter() {
+-            scene_mode = GM_getValue('SCENE_MODE') || scene_mode;
++            scene_mode = GM_getValue(site + '_SCENE_MODE') || scene_mode;
+             this.innerHTML = scene_mode_dic[scene_mode];
          }
-         function display_mode_switch() {
+         function scene_mode_switch() {
              this.disabled = true;
              this.classList.add('button-disabled');
 -            setTimeout(() => {
 -                this.disabled = false;
 -                this.classList.remove('button-disabled');
 -            }, 1000);
-             display_mode = display_mode_cutover_dic[display_mode];
-             this.innerHTML = display_mode_dic[display_mode];
--            GM_setValue('DISPLAY_MODE', display_mode);
-+            GM_setValue(site + '_DISPLAY_MODE', display_mode);
-+            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
+             scene_mode = scene_mode_cutover_dic[scene_mode];
+             this.innerHTML = scene_mode_dic[scene_mode];
+-            GM_setValue('SCENE_MODE', scene_mode);
++            GM_setValue(site + '_SCENE_MODE', scene_mode);
++            if (GLOBAL_CONFIG.auto_reload) {
++                window.location.reload();
++                return;
++            }
+             let message = '场景模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
+             show_dialog(message);
 +            this.disabled = false;
 +            this.classList.remove('button-disabled');
          }
-         const display_mode_button = document.createElement('button');
-         display_mode_button.className = 'custom-function-button display-mode-button';
-@@ -530,8 +577,37 @@
-         display_mode_button.addEventListener('click', display_mode_switch, false);
-         function_buttons.appendChild(display_mode_button);
+         const scene_mode_button = document.createElement('button');
+         scene_mode_button.className = 'custom-function-button scene-mode-button';
+@@ -687,8 +692,36 @@
+         scene_mode_button.addEventListener('click', scene_mode_switch, false);
+         function_buttons.appendChild(scene_mode_button);
  
 -        // Check in
-+        // Online status mode button
-+        function online_status_mode_mouseenter() {
-+            display_users_real_online_status = GM_getValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS') || display_users_real_online_status;
-+            this.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
++        // Detection mode button
++        function detection_mode_mouseenter() {
++            detection_mode = GM_getValue(site + '_DETECTION_MODE') || detection_mode;
++            this.innerHTML = '探测模式：' + detection_mode_dic[detection_mode];
 +        }
-+        function online_status_mode_switch() {
++        function detection_mode_switch() {
 +            this.disabled = true;
 +            this.classList.add('button-disabled');
-+            display_users_real_online_status = !display_users_real_online_status;
-+            this.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
-+            GM_setValue(site + '_DISPLAY_USERS_REAL_ONLINE_STATUS', display_users_real_online_status);
-+            !!GLOBAL_CONFIG.auto_reload && window.location.reload();
-+            this.disabled = false;
++            detection_mode = detection_mode_cutover_dic[detection_mode];
++            this.innerHTML = '探测模式：' + detection_mode_dic[detection_mode];
++            GM_setValue(site + '_DETECTION_MODE', detection_mode);
++            if (GLOBAL_CONFIG.auto_reload) {
++                window.location.reload();
++                return;
++            }
++            let message = '探测模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
++            show_dialog(message);
 +            this.classList.remove('button-disabled');
 +        }
          if (member) {
-+            const online_status_mode_button = document.createElement('button');
-+            online_status_mode_button.className = 'custom-function-button online-status-mode-button';
-+            online_status_mode_button.innerHTML = '主动探测：' + boolean_dic[display_users_real_online_status];
-+            online_status_mode_button.addEventListener('mouseenter', online_status_mode_mouseenter, false);
-+            online_status_mode_button.addEventListener('click', online_status_mode_switch, false);
-+            function_buttons.appendChild(online_status_mode_button);
++            const detection_mode_button = document.createElement('button');
++            detection_mode_button.className = 'custom-function-button detection-mode-button';
++            detection_mode_button.innerHTML = '探测模式：' + detection_mode_dic[detection_mode];
++            detection_mode_button.addEventListener('mouseenter', detection_mode_mouseenter, false);
++            detection_mode_button.addEventListener('click', detection_mode_switch, false);
++            function_buttons.appendChild(detection_mode_button);
 +        }
 +
 +        // Check in
-+        function apply_to_site() {
-+            if (site === 'KAFAN' || site === 'HUORONG') return false;
-+            return true;
-+        }
-+
-+        if (member && apply_to_site()) {
++        if (member && display_check_in_button) {
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -550,7 +626,7 @@
+@@ -697,14 +730,19 @@
+                 setTimeout(() => {
+                     let message = '签到完成';
+                     check_in.innerHTML = message;
+-                    show_dialog(message)
++                    if (site != 'KAFAN') show_dialog(message)
+                 }, 1234);
+ 
+-                if (!!~hn.indexOf('bbs.pcbeta.com')) {
++                if (site === 'PCBETA') {
+                     window.open('//i.pcbeta.com/home.php?mod=task&do=apply&id=149');
+                     return false;
+                 }
+ 
++                if (site === 'KAFAN') {
++                    showWindow('dsu_amupper', 'plugin.php?id=dsu_amupper&ppersubmit=true&formhash=' + document.getElementsByName('formhash')[0].value);
++                    return false;
++                }
++
+                 for (let i = 0; i < 10; i++) {
+                     setTimeout(() => {
+                         let request = new XMLHttpRequest();
+@@ -714,7 +752,7 @@
                      }, i * 100);
                  }
  
@@ -375,11 +619,10 @@
                      for (let i = 0; i < 20; i++) {
                          setTimeout(() => {
                              let request = new XMLHttpRequest();
-@@ -567,15 +643,6 @@
-             check_in_button.addEventListener('click', check_in, false);
+@@ -732,15 +770,6 @@
              function_buttons.appendChild(check_in_button);
          }
--
+ 
 -        // Group button
 -        const group_button = document.createElement('button');
 -        group_button.className = 'custom-function-button group-button';
@@ -388,14 +631,16 @@
 -            window.open('https://t.me/joinchat/Bc2EjlPZ0aOwiA-Gn73xKA');
 -        }, false);
 -        function_buttons.appendChild(group_button);
+-
+         function_buttons_package.appendChild(function_buttons);
      }
  
-     // Execution as Create Button Group
-@@ -598,7 +665,18 @@
+@@ -772,7 +801,19 @@
          !!fastre && skip_bottom(fastre);
      }
  
--    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[img=1,1]https://img.alicdn.com/dot.gif[/img]';
+-    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[img]' + window.location.protocol + '//herder.cdn.bcebos.com/images/dot.gif[/img]';
++
 +    function get_attach_content() {
 +        switch (site) {
 +            case 'KAFAN':
@@ -403,7 +648,7 @@
 +            case 'HOSTLOC':
 +                return '󠀠'.repeat(10);
 +            default:
-+                return '\n\n[img=1,1]https://img.alicdn.com/dot.gif[/img]';
++                return '\n\n[img]' + window.location.protocol + '//herder.cdn.bcebos.com/images/dot.gif[/img]';
 +        }
 +    }
 +
@@ -411,43 +656,186 @@
  
      const fastPostMessage = document.getElementById('fastpostmessage');
  
-@@ -628,14 +706,21 @@
+@@ -804,10 +845,24 @@
+     // Automatically expand all posts
+     // if (typeof display_blocked_post === 'function') display_blocked_post();
  
-     // Attach Content
- 
--    // www.hostloc.com
--    if (!!~hn.indexOf('hostloc.com') && typeof display_blocked_post === 'function') {
--        // Automatically expand all posts
--        // display_blocked_post();
 +    // Display Emoji
 +    if (GLOBAL_CONFIG.display_emoji) {
 +        const post = document.getElementsByClassName('t_f');
 +        for (let i = 0; i < post.length; i++) {
 +            post[i].innerHTML = post[i].innerHTML.replace(/\&amp;#.*?;/g, function (char) {
-+                if (char.length === 13)
++                if (char.length === 13) {
 +                    return String.fromCodePoint(parseInt(char.match(/[0-9]+/)));
++                }
 +                return char;
 +            }
 +            );
 +        }
-     }
++    }
++
+     // Compatibility settings
  
-     // bbs.pcbeta.com
--    if (hn === 'bbs.pcbeta.com') {
+     // Cascading Style Sheets・www.hostloc.com
+-    !!~hn.indexOf('hostloc.com') && GM_addStyle(`
++    site === 'HOSTLOC' && GM_addStyle(`
+         #hiddenpoststip {
+             padding: 0;
+         }
+@@ -826,6 +881,7 @@
+             padding-right: 8px;
+             content: "🌜";
+         }
++
+         #hiddenpoststip a::after {
+             padding-left: 8px;
+             content: "🌛";
+@@ -833,7 +889,7 @@
+     `);
+ 
+     // Cascading Style Sheets・bbs.pcbeta.com
+-    if (!!~hn.indexOf('bbs.pcbeta.com')) {
 +    if (site === 'PCBETA') {
          GM_addStyle(`
-             .pls .avatar {
+             #wp > div,
+             #nv_forum > span,
+@@ -855,26 +911,14 @@
                  overflow: unset;
-@@ -655,4 +740,12 @@
+             }
+ 
+-            .pls .m img {
+-                margin-left: 2px;
+-                padding: 0;
+-                width: 120px;
+-                height: 120px;
+-                object-fit: contain;
+-                background: #fff;
+-                border: none;
+-                border-radius: 50%;
+-                box-shadow: none;
+-            }
+-
+-            .pls .m img:hover {
+-                border-radius: 0;
+-                box-shadow: none;
+-            }
+-
+             .pb_pls .avatar img {
+                 border-radius: 50%;
+                 background: none;
++                -webkit-transition: 0.5s;
++                -moz-transition: 0.5s;
++                -ms-transition: 0.5s;
++                -o-transition: 0.5s;
++                transition: 0.5s;
+             }
+ 
+             .pb_pls .avatar img:hover {
+@@ -888,19 +932,11 @@
+             .function-buttons {
+                 position: absolute;
+                 right: 0;
+-                padding: 2px 8px 4px 0;
+-                border-radius: 4px;
++                padding: 0 8px 4px 0;
+             }
+ 
+             .custom-function-button {
+-                color: #333;
+-                background-color: #fff;
+-                box-shadow: 0 1px 2px #bbb;
+-            }
+-
+-            .custom-function-button:hover {
+-                color: #1985db;
+-                box-shadow: 0 2px 4px #bbb;
++                margin: 0 4px;
+             }
+ 
+             .wp .pgs {
+@@ -910,85 +946,5 @@
+                 user-select: none;
              }
          `);
+-
+-        if (member === false) {
+-            GM_addStyle(`
+-                .function-buttons {
+-                    padding-top: 4px;
+-                    padding-right: 0;
+-                }
+-            `);
+-        }
      }
-+
-+    // bbs.kafan.cn
-+    if (site === 'KAFAN') {
-+        //Auto Check-in
-+        if (member && document.getElementsByClassName('qq_bind')[0].src.slice(-6, -4) === 'dk') {
-+            document.getElementById('pper_a').click();
-+        }
-+    }
+-
+-    // Cascading Style Sheets・bbs.fobshanghai.com
+-    !!~hn.indexOf('bbs.fobshanghai.com') && GM_addStyle(`
+-        #function-buttons.function-buttons {
+-            padding-top: 48px !important;
+-        }
+-
+-        .maintable > .spaceborder > table:first-child,
+-        .line div,
+-        .t_infoline .line {
+-            display: none;
+-        }
+-
+-        #aaaa {
+-            display: block;
+-        }
+-
+-        .mainheader {
+-            -moz-user-select: none;
+-            -ms-user-select: none;
+-            -webkit-user-select: none;
+-            user-select: none;
+-        }
+-    `);
+-
+-    // Cascading Style Sheets・bbs.huorong.cn
+-    !!~hn.indexOf('bbs.huorong.cn') && GM_addStyle(`
+-        .function-buttons {
+-            margin-top: 10px;
+-            padding-right: 6px;
+-        }
+-
+-        .custom-function-button {
+-            background-color: #fff;
+-        }
+-    `);
+-
+-    // Cascading Style Sheets・bbs.360.cn
+-    !!~hn.indexOf('bbs.360.cn') && GM_addStyle(`
+-        .custom-function-button {
+-            margin-top: -20px;
+-            padding: 0 8px;
+-            background-color: #f1f2f6;
+-        }
+-
+-        .custom-function-button:hover {
+-            color: #f33;
+-            background-color: #fff;
+-        }
+-
+-        .apk-download,
+-        .apk-download-pannel,
+-        .pls .tip,
+-        ignore_js_op .tip {
+-            display: none;
+-        }
+-
+-        .pls .avatar img {
+-            padding: 0;
+-            background: none;
+-            width: 54px;
+-            height: 54px;
+-            border: none;
+-            border-radius: 50% !important;
+-            box-shadow: 0 0 2px #bbb !important;
+-        }
+-
+-        .pls .avatar img:hover {
+-            border-radius: 0 !important;
+-        }
+-    `);
  })();

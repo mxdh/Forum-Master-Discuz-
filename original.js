@@ -1,61 +1,70 @@
 // ==UserScript==
 // @name         Forum Master・Discuz!
 // @name:en      Forum Master・Discuz!
-// @name:zh      论坛大师・Discuz!　界面美化、移除广告、功能增强……
-// @name:zh-CN   论坛大师・Discuz!　界面美化、移除广告、功能增强……
-// @name:zh-HK   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
-// @name:zh-TW   論壇大師・Discuz!　界面美化、移除廣告、功能增強……
+// @name:zh      论坛大师・Discuz!　界面美化、广告移除、功能增强……
+// @name:zh-CN   论坛大师・Discuz!　界面美化、广告移除、功能增强……
+// @name:zh-HK   論壇大師・Discuz!　界面美化、廣告移除、功能增強……
+// @name:zh-TW   論壇大師・Discuz!　界面美化、廣告移除、功能增強……
 // @namespace    Forum Master・Discuz!
 // @homepage     https://greasyfork.org/scripts/400250
-// @version      0.0.9
+// @version      0.1.1
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
-// @description:zh    论坛大师（中文）・Discuz!　界面美化、移除广告、功能增强……
-// @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、移除广告、功能增强……
-// @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、移除廣告、功能增強……
-// @description:zh-TW 論壇大師（正體中文）・Discuz!　界面美化、移除廣告、功能增強……
+// @description:zh    论坛大师（中文）・Discuz!　界面美化、广告移除、功能增强……
+// @description:zh-CN 论坛大师（简体中文）・Discuz!　界面美化、广告移除、功能增强……
+// @description:zh-HK 論壇大師（繁體中文）・Discuz!　界面美化、廣告移除、功能增強……
+// @description:zh-TW 論壇大師（正體中文）・Discuz!　界面美化、廣告移除、功能增強……
 // @author       hostname
 // @match        https://www.discuz.net/thread-*.html
 // @match        https://www.discuz.net/forum.php?mod=viewthread&tid=*
 // @match        https://www.52pojie.cn/thread-*.html
 // @match        https://www.52pojie.cn/forum.php?mod=viewthread&tid=*
+// @match        https://www.right.com.cn/forum/thread-*.html
+// @match        https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.kafan.cn/thread-*.html
+// @match        https://bbs.kafan.cn/forum.php?mod=viewthread&tid=*
 // @match        https://hostloc.com/thread-*.html
 // @match        https://hostloc.com/forum.php?mod=viewthread&tid=*
 // @match        https://www.hostloc.com/thread-*.html
 // @match        https://www.hostloc.com/forum.php?mod=viewthread&tid=*
-// @match        https://bbs.kafan.cn/thread-*.html
-// @match        https://bbs.kafan.cn/forum.php?mod=viewthread&tid=*
 // @match        http://bbs.pcbeta.com/thread-*.html
-// @match        http://bbs.pcbeta.com/viewthread-*.html
 // @match        http://bbs.pcbeta.com/forum.php?mod=viewthread&tid=*
+// @match        http://bbs.pcbeta.com/viewthread-*.html
 // @match        https://bbs.pcbeta.com/thread-*.html
-// @match        https://bbs.pcbeta.com/viewthread-*.html
 // @match        https://bbs.pcbeta.com/forum.php?mod=viewthread&tid=*
-// @match        https://www.right.com.cn/forum/thread-*.html
-// @match        https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=*
-// @match        http://bbs.nas66.com/thread-*.html
-// @match        http://bbs.nas66.com/forum.php?mod=viewthread&tid=*
-// @match        https://bbs.nas66.com/thread-*.html
-// @match        https://bbs.nas66.com/forum.php?mod=viewthread&tid=*
-// @match        http://www.gebi1.com/thread-*.html
-// @match        http://www.gebi1.com/forum.php?mod=viewthread&tid=*
-// @match        https://www.gebi1.com/thread-*.html
-// @match        https://www.gebi1.com/forum.php?mod=viewthread&tid=*
-// @match        https://www.fglt.net/thread-*.html
-// @match        https://www.fglt.net/forum.php?mod=viewthread&tid=*
-// @match        https://www.fglt.cn/thread-*.html
-// @match        https://www.fglt.cn/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.pcbeta.com/viewthread-*.html
 // @match        http://www.zuanke8.com/thread-*.html
 // @match        http://www.zuanke8.com/forum.php?mod=viewthread&tid=*
 // @match        https://www.zuanke8.com/thread-*.html
 // @match        https://www.zuanke8.com/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.fobshanghai.com/thread-*.html
+// @match        https://bbs.fobshanghai.com/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.fobshanghai.com/viewthread.php?tid=*
+// @match        http://bbs.huorong.cn/thread-*.html
+// @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.huorong.cn/thread-*.html
+// @match        https://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.360.cn/thread-*.html
+// @match        https://bbs.360.cn/forum.php?mod=viewthread&tid=*
+// @match        http://www.gebi1.com/thread-*.html
+// @match        http://www.gebi1.com/forum.php?mod=viewthread&tid=*
+// @match        https://www.gebi1.com/thread-*.html
+// @match        https://www.gebi1.com/forum.php?mod=viewthread&tid=*
+// @match        https://www.advertcn.com/thread-*.html
+// @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+// @match        https://www.fglt.net/thread-*.html
+// @match        https://www.fglt.net/forum.php?mod=viewthread&tid=*
+// @match        https://www.fglt.cn/thread-*.html
+// @match        https://www.fglt.cn/forum.php?mod=viewthread&tid=*
 // @match        http://www.aihao.cc/thread-*.html
 // @match        http://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @match        https://www.aihao.cc/thread-*.html
 // @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
-// @match        https://www.advertcn.com/thread-*.html
-// @match        https://www.advertcn.com/forum.php?mod=viewthread&tid=*
+// @match        http://bbs.nas66.com/thread-*.html
+// @match        http://bbs.nas66.com/forum.php?mod=viewthread&tid=*
+// @match        https://bbs.nas66.com/thread-*.html
+// @match        https://bbs.nas66.com/forum.php?mod=viewthread&tid=*
 // @match        https://iya.app/thread-*.html
 // @match        https://iya.app/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
@@ -99,37 +108,38 @@
 
     // Global Settings · Start
     const GLOBAL_CONFIG = {
-        // Display the user's real online status
-        display_users_real_online_status: true,
+        // Display the users online status: None, Standard, Advanced
+        display_users_online_status: 'Advanced',
     }
     // Global Settings · End
 
     // Below is the core code
 
-    // Display Mode: Standard, Family, Office
-    var display_mode = GM_getValue('DISPLAY_MODE') || 'Standard';
+    // Scene mode: Standard, Family, Office
+    var scene_mode = GM_getValue('SCENE_MODE') || 'Standard';
 
-    // Display the user's real online status
-    var display_users_real_online_status = GM_getValue('DISPLAY_USERS_REAL_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_real_online_status;
+    // Display the users online status
+    var display_users_online_status = GM_getValue('DISPLAY_USERS_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_online_status;
 
     // Test code
     const ua = window.navigator.userAgent;
-    GM_log("User-Agent:", ua);
-    GM_log("");
+    GM_log('User-Agent:', ua);
+    GM_log('');
 
-    GM_log("Display Mode:", display_mode);
-    GM_log("Display the user's real online status:", display_users_real_online_status);
-    GM_log("");
+    GM_log('Scene mode:', scene_mode);
+    GM_log('Display the users online status:', display_users_online_status);
+    GM_log('');
 
     // Host Name
     const hn = window.location.hostname;
 
-    const display_mode_dic = {
+    const scene_mode_dic = {
         Standard: '标准模式',
         Family: '家庭模式',
         Office: '办公模式',
     }
-    const display_mode_cutover_dic = {
+
+    const scene_mode_cutover_dic = {
         Standard: 'Family',
         Family: 'Office',
         Office: 'Standard',
@@ -139,25 +149,57 @@
 
     // Cascading Style Sheets・Global
     GM_addStyle(`
+        :root {
+            --blue: #007bff;
+            --indigo: #6610f2;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --red: #dc3545;
+            --orange: #fd7e14;
+            --yellow: #ffc107;
+            --green: #28a745;
+            --teal: #20c997;
+            --cyan: #17a2b8;
+            --white: #fff;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --breakpoint-xs: 0;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+            --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Noto Sans CJK", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            --font-family-monospace: "Fira Code", Hack, "Source Code Pro", "Source Code Variable", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Noto Sans Mono CJK", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", monospace;
+        }
+
         body, table, input, button, select, textarea, a {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", "Noto Sans CJK", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Noto Sans CJK", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         }
 
         .mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
         .blockcode ol li {
-            font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
+            font-family: "Fira Code", Hack, "Source Code Pro", "Source Code Variable", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Noto Sans Mono CJK", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", monospace !important;
         }
 
-        .ad,
         .ads,
-        .dnch_eo_pt,
-        .dnch_eo_pb,
+        .plc .dnch_eo_pt,
+        .plc .dnch_eo_pb,
         #diynavtop,
         #drk_colee_left1,
         #drk_colee_left2,
         #drk_ledtd,
         #hd .wp .a_mu,
         table .a_pr,
+        .hdc.cl h2 a img,
+        .ad .plc .a_p,
         .a_h,
         .a_t,
         .a_pt,
@@ -177,11 +219,7 @@
             padding-top: 1px;
             position: relative;
             text-align: center;
-        }
-
-        .pls .avatar a {
-            width: 1px;
-            height: 1px;
+            object-fit: contain;
         }
 
         .pls .avatar img {
@@ -192,7 +230,7 @@
             border-radius: 50%;
             padding: 0;
             border: 4px solid #fff;
-            box-shadow: 0 2px 8px #bbb;
+            box-shadow: 0 0 4px #bbb;
         }
 
         .pls .avatar img:hover {
@@ -202,7 +240,32 @@
         .pls .m img {
             width: 120px;
             height: 120px;
+            background: none;
             object-fit: contain;
+            box-shadow: 0 0 4px #bbb;
+        }
+
+        .pls .m img:hover {
+            background: #fff;
+        }
+
+        #um .avt img,
+        #tath img,
+        .rate table img,
+        .cm .vm img,
+        .card_mn .avt img {
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 2px #bbb;
+        }
+
+        #um .avt img:hover,
+        #tath img:hover,
+        .rate table img:hover,
+        .cm .vm img:hover,
+        .card_mn .avt img:hover {
+            border-radius: 0;
+            box-shadow: none;
         }
 
         .user-online-status {
@@ -218,16 +281,24 @@
             cursor: help;
         }
 
-        .user-real-online-status {
+        .user-status-expression {
             display: block;
-            margin: 0;
-            text-indent: 2px;
-            border-collapse: collapse;
-            text-align: center;
             position: absolute;
             left: 0;
             top: 0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            border-collapse: collapse;
             cursor: help;
+        }
+
+        .user-status-expression-online::after {
+            content: '🌝';
+        }
+
+        .user-status-expression-offline::after {
+            content: '🌚';
         }
 
         .offline {
@@ -278,84 +349,124 @@
         }
     `);
 
-    // Cascading Style Sheets・www.hostloc.com
-    !!~hn.indexOf('hostloc.com') && GM_addStyle(`
-        #hiddenpoststip {
-            padding: 0;
-        }
-
-        #hiddenpoststip a {
-            height: 32px;
-            line-height: 32px;
-            font-size: 16px;
-        }
-
-        #hiddenpoststip a:hover {
-            color: #f33;
-        }
-
-        #hiddenpoststip a::before {
-            padding-right: 8px;
-            content: "🌜";
-        }
-        #hiddenpoststip a::after {
-            padding-left: 8px;
-            content: "🌛";
-        }
-    `);
-
     // Login status
-    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats') || !!document.getElementById('qmenu'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
 
     GM_log('Login status:', member);
     GM_log('');
 
-    !!member || GM_addStyle(`
-        .function-buttons {
-            padding-top: 4px;
-        }
-
-        .custom-function-button {
-            background-color: #e8eff5;
-        }
-
-        .custom-function-button:hover {
-            box-shadow: 0 1px 2px #bbb;
-        }
-
-    `);
-
-    // Set as Default avatar src
-    var default_avatar_src;
-    switch (window.location.hostname) {
-        case 'www.52pojie.cn':
-            default_avatar_src = '//avatar.52pojie.cn/images/noavatar_middle.gif';
-            break;
-
-        case 'bbs.kafan.cn':
-            default_avatar_src = '//b.kafan.cn/small.gif';
-            break;
-
-        case 'bbs.pcbeta.com':
-            default_avatar_src = '//uc.pcbeta.com/images/noavatar_middle.gif';
-            break;
-
-        default:
-            default_avatar_src = '//' + hn + '/uc_server/images/noavatar_middle.gif';
-            break;
-    }
-
     // Default avatar
     function default_avatar() {
-        const avtm = document.getElementsByClassName('avtm');
-        const avatar = !!avtm.length ? avtm : document.getElementsByClassName('avatar');
-        for (let i = 0; i < avatar.length; i++) {
-            avatar[i].innerHTML = '<img src="' + default_avatar_src + '">';
+        // https://herder.cdn.bcebos.com/uc_server/images/noavatar_big.gif
+        // https://herder.cdn.bcebos.com/uc_server/images/noavatar_middle.gif
+        // https://herder.cdn.bcebos.com/uc_server/images/noavatar_small.gif
+        if (!!~hn.indexOf('www.52pojie.cn')) {
+            GM_addStyle(`
+                .pls .avatar img,
+                .avtm img {
+                    content: url('//avatar.52pojie.cn/images/noavatar_middle.gif');
+                }
+
+                #um .avt img,
+                #tath img,
+                .rate table img,
+                .cm .vm img,
+                .card_mn .avt img {
+                    content: url('//avatar.52pojie.cn/images/noavatar_small.gif');
+                }
+            `);
+        } else {
+            GM_addStyle(`
+                .pls .avatar img,
+                .avtm img {
+                    content: url('//herder.cdn.bcebos.com/uc_server/images/noavatar_middle.gif');
+                }
+
+                #um .avt img,
+                #tath img,
+                .rate table img,
+                .cm .vm img,
+                .card_mn .avt img {
+                    content: url('//herder.cdn.bcebos.com/uc_server/images/noavatar_small.gif');
+                }
+            `);
         }
     }
 
-    // Abbreviated avatar
-    function abbreviated_avatar() {
+    // Default avatar for Family attach
+    function default_avatar_for_family_attach() {
+        GM_addStyle(`
+            .pls .avatar img,
+            .avtm img,
+            #um .avt img,
+            #tath img,
+            .rate table img,
+            .rate .avt img,
+            .cm .vm img,
+            .card_mn .avt img {
+                border-radius: 50%;
+                -webkit-transition: 0.5s;
+                -moz-transition: 0.5s;
+                -ms-transition: 0.5s;
+                -o-transition: 0.5s;
+                transition: 0.5s;
+            }
+
+            .pls .avatar img:hover,
+            .avtm img:hover,
+            #um .avt img:hover,
+            #tath img:hover,
+            .rate table img:hover,
+            .rate .avt img:hover,
+            .cm .vm img:hover,
+            .card_mn .avt img:hover {
+                content: none;
+                border-radius: 50%;
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+
+            .pls .m img {
+                content: none;
+                border-radius: 50%;
+            }
+
+            .pls .m img:hover {
+                content: none;
+                border-radius: 0;
+                -webkit-transform: none;
+                -moz-transform: none;
+                -ms-transform: none;
+                -o-transform: none;
+                transform: none;
+            }
+        `);
+
+        // Cascading Style Sheets・bbs.pcbeta.com
+        !!~hn.indexOf('bbs.pcbeta.com') && GM_addStyle(`
+            .pls .m img,
+            .pb_pls .avatar img {
+                content: none;
+                border-radius: 50%;
+                -webkit-transition: 0.5s;
+                -moz-transition: 0.5s;
+                -ms-transition: 0.5s;
+                -o-transition: 0.5s;
+                transition: 0.5s;
+            }
+
+            .pls .m img:hover,
+            .pb_pls .avatar img:hover {
+                border-radius: 0;
+            }
+        `);
+    }
+
+    // Simplified avatar
+    function simplified_avatar() {
         GM_addStyle(`
             .pls .avatar {
                 margin: 10px auto;
@@ -372,10 +483,12 @@
                 border-radius: 0;
             }
 
-            .pil,
-            p.xg1,
             .md_ctrl,
+            p.xg1,
             nav.toc,
+            .scbar_hot_td,
+            .pls .avatar_p .vm,
+            img.authicn.vm,
             fieldset {
                 display: none;
             }
@@ -389,27 +502,47 @@
     // Hidden Signature
     function hidden_signature() {
         GM_addStyle(`
-            .sign {
+            .sign,
+            .signature {
                 display: none;
             }
         `);
     }
 
-    // Display Mode
-    switch (display_mode) {
+    // Functions
+
+    // Show Dialog
+    function show_dialog(message) {
+        try {
+            if (typeof showDialog === 'function') {
+                showDialog(message, 'right');
+            } else if (typeof showError === 'function') {
+                showError(message);
+            } else {
+                alert(message);
+            }
+        } catch (error) {
+            alert(message);
+        }
+    }
+
+    // Scene mode
+    switch (scene_mode) {
         case 'Standard':
             break;
 
         case 'Family':
             // Set as Default avatar
             default_avatar();
+            // Set as Default avatar for Family attach
+            default_avatar_for_family_attach();
             break;
 
         case 'Office':
             // Set as Default avatar
             default_avatar();
-            // Set as Abbreviated avatar
-            abbreviated_avatar();
+            // Set as Simplified avatar
+            simplified_avatar();
             // Set as Hidden Signature
             hidden_signature();
             break;
@@ -428,9 +561,8 @@
             if (this.readyState === 4 && this.status === 200) {
                 let status = !!~this.response.indexOf('[在线]');
                 let span = document.createElement('span');
-                span.className = 'user-real-online-status';
-                span.title = status ? '当前在线（真实状态）' : '当前离线（真实状态）';
-                span.innerHTML = status ? '🌝' : '🌚';
+                span.className = status ? 'user-status-expression user-status-expression-online' : 'user-status-expression user-status-expression-offline';
+                span.title = status ? '当前在线' : '当前离线';
                 avatar.appendChild(span);
             }
         }, false);
@@ -441,35 +573,44 @@
         const avatar = document.getElementsByClassName('avatar');
         const info = document.getElementsByClassName('i');
 
-        if (display_users_real_online_status) {
-            // Show real users online status
-            let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 2000 : 1111;
-            for (let i = 0; i < info.length; i++) {
-                setTimeout(() => {
-                    let html = avatar[i].innerHTML;
-                    let id = /\d/.test(html) ? html.match(/\d+/)[0] : info[i].innerHTML.match(/\d+/)[0];
-                    display_user_real_online_status(avatar[i], id);
-                }, i * wait + 1000);
-            }
-        } else {
-            // Show default users online status
-            for (let i = 0; i < info.length; i++) {
-                if (!!~info[i].innerHTML.indexOf('<em>当前在线</em>')) {
-                    let div = document.createElement('div');
-                    div.className = 'user-online-status online gol';
-                    div.title = '当前在线';
-                    avatar[i].appendChild(div);
-                } else {
-                    let div = document.createElement('div');
-                    div.className = 'user-online-status offline gol';
-                    div.title = '当前离线';
-                    avatar[i].appendChild(div);
+        switch (display_users_online_status) {
+            case 'None':
+                break;
 
-                    // avatar[i].classList.add('offline');
+            case 'Standard':
+                // Show default users online status
+                for (let i = 0; i < info.length; i++) {
+                    if (!!~info[i].innerHTML.indexOf('<em>当前在线</em>')) {
+                        let div = document.createElement('div');
+                        div.className = 'user-online-status online gol';
+                        div.title = '当前在线';
+                        avatar[i].appendChild(div);
+                    } else {
+                        let div = document.createElement('div');
+                        div.className = 'user-online-status offline gol';
+                        div.title = '当前离线';
+                        avatar[i].appendChild(div);
+
+                        // avatar[i].classList.add('offline');
+                    }
                 }
-            }
-        }
+                break;
 
+            case 'Advanced':
+                // Show real users online status
+                let wait = !!~hn.indexOf('bbs.pcbeta.com') ? 3000 : 1111;
+                for (let i = 0; i < info.length; i++) {
+                    setTimeout(() => {
+                        let html = avatar[i].innerHTML;
+                        let id = /\d/.test(html) ? html.match(/\d+/)[0] : info[i].innerHTML.match(/\d+/)[0];
+                        display_user_real_online_status(avatar[i], id);
+                    }, i * wait + 1000);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
     // Execution as Show users online status
@@ -477,26 +618,40 @@
 
     // Create Button Group
     function create_button_group() {
-        // Box - For tourists
-        const box = document.createElement('div');
-        box.id = 'function-buttons';
-        box.className = 'function-buttons';
-        let box_strong;
+        // Function buttons
+        const function_buttons = document.createElement('div');
+        function_buttons.id = 'function-buttons';
+        function_buttons.className = 'function-buttons';
+        let function_buttons_package;
         switch (true) {
+            case !!document.getElementsByClassName('xm_header_top_ul').length:
+                function_buttons_package = document.getElementsByClassName('xm_header_top_ul')[0];
+                break;
+
             case !!document.getElementById('extcreditmenu'):
-                box_strong = document.getElementById('extcreditmenu').parentElement;
+                function_buttons_package = document.getElementById('extcreditmenu').parentElement;
+                break;
+
+            case !!~hn.indexOf('bbs.pcbeta.com') && !!document.getElementsByClassName('hdc').length:
+                function_buttons_package = document.getElementsByClassName('hdc')[0];
+                break;
+
+            case !!document.getElementsByClassName('menu').length:
+                function_buttons_package = document.getElementsByClassName('menu')[0];
                 break;
 
             case !!document.getElementById('pt'):
-                box_strong = document.getElementById('pt');
+                function_buttons_package = document.getElementById('pt');
                 break;
 
             default:
                 break;
         }
-        box_strong.appendChild(box);
 
-        const function_buttons = document.getElementById('function-buttons');
+        if (!!function_buttons_package === false) {
+            GM_log('No nodes');
+            return false;
+        }
 
         // Open Home button
         const open_home_button = document.createElement('button');
@@ -507,28 +662,30 @@
         }, false);
         function_buttons.appendChild(open_home_button);
 
-        // Display mode button
-        function display_mode_mouseenter() {
-            display_mode = GM_getValue('DISPLAY_MODE') || display_mode;
-            this.innerHTML = display_mode_dic[display_mode];
+        // Scene mode button
+        function scene_mode_mouseenter() {
+            scene_mode = GM_getValue('SCENE_MODE') || scene_mode;
+            this.innerHTML = scene_mode_dic[scene_mode];
         }
-        function display_mode_switch() {
+        function scene_mode_switch() {
             this.disabled = true;
             this.classList.add('button-disabled');
             setTimeout(() => {
                 this.disabled = false;
                 this.classList.remove('button-disabled');
             }, 1000);
-            display_mode = display_mode_cutover_dic[display_mode];
-            this.innerHTML = display_mode_dic[display_mode];
-            GM_setValue('DISPLAY_MODE', display_mode);
+            scene_mode = scene_mode_cutover_dic[scene_mode];
+            this.innerHTML = scene_mode_dic[scene_mode];
+            GM_setValue('SCENE_MODE', scene_mode);
+            let message = '场景模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
+            show_dialog(message);
         }
-        const display_mode_button = document.createElement('button');
-        display_mode_button.className = 'custom-function-button display-mode-button';
-        display_mode_button.innerHTML = display_mode_dic[display_mode];
-        display_mode_button.addEventListener('mouseenter', display_mode_mouseenter, false);
-        display_mode_button.addEventListener('click', display_mode_switch, false);
-        function_buttons.appendChild(display_mode_button);
+        const scene_mode_button = document.createElement('button');
+        scene_mode_button.className = 'custom-function-button scene-mode-button';
+        scene_mode_button.innerHTML = scene_mode_dic[scene_mode];
+        scene_mode_button.addEventListener('mouseenter', scene_mode_mouseenter, false);
+        scene_mode_button.addEventListener('click', scene_mode_switch, false);
+        function_buttons.appendChild(scene_mode_button);
 
         // Check in
         if (member) {
@@ -538,8 +695,15 @@
                 check_in.disabled = true;
                 check_in.classList.add('button-disabled');
                 setTimeout(() => {
-                    check_in.innerHTML = '签到完成';
+                    let message = '签到完成';
+                    check_in.innerHTML = message;
+                    show_dialog(message)
                 }, 1234);
+
+                if (!!~hn.indexOf('bbs.pcbeta.com')) {
+                    window.open('//i.pcbeta.com/home.php?mod=task&do=apply&id=149');
+                    return false;
+                }
 
                 for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
@@ -576,6 +740,8 @@
             window.open('https://t.me/joinchat/Bc2EjlPZ0aOwiA-Gn73xKA');
         }, false);
         function_buttons.appendChild(group_button);
+
+        function_buttons_package.appendChild(function_buttons);
     }
 
     // Execution as Create Button Group
@@ -583,22 +749,30 @@
 
     // Click the main building reply to skip to the bottom of the page
     function skip_bottom(params) {
-        params.removeAttribute('onclick');
-        params.addEventListener('click', function (event) {
-            params.href = 'javascript:;';
-            window.scrollTo(0, 54321);
-            let fastPostMessage = document.getElementById('fastpostmessage');
-            !!fastPostMessage && fastPostMessage.focus();
-        }, false);
+        try {
+            params.removeAttribute('onclick');
+            params.addEventListener('click', function (event) {
+                params.href = 'javascript:;';
+                window.scrollTo(0, 54321);
+                let fastPostMessage = document.getElementById('fastpostmessage');
+                !!fastPostMessage && fastPostMessage.focus();
+            }, false);
+        } catch (error) {
+            GM_log('You don\'t have permission to post content.');
+        }
     }
     if (document.getElementsByClassName('prev').length === 0) {
-        const locked = member ? document.getElementsByClassName('locked')[0] : false;
-        !!locked && skip_bottom(locked.childNodes[1]);
-        const fastre = member ? document.getElementsByClassName('fastre')[0] : false;
+        const locked = member && document.getElementsByClassName('locked');
+        if (typeof locked === 'object' && !!locked.length) {
+            for (let i = 0; i < locked.length; i++) {
+                skip_bottom(locked[i].getElementsByTagName('a')[0]);
+            }
+        }
+        const fastre = member && document.getElementsByClassName('fastre')[0];
         !!fastre && skip_bottom(fastre);
     }
 
-    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[img=1,1]https://img.alicdn.com/dot.gif[/img]';
+    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[img]' + window.location.protocol + '//herder.cdn.bcebos.com/images/dot.gif[/img]';
 
     const fastPostMessage = document.getElementById('fastpostmessage');
 
@@ -626,33 +800,195 @@
     const fastPostSubmit = document.getElementById('fastpostsubmit');
     !!fastPostSubmit && fastPostSubmit.addEventListener('click', editor_content, false);
 
-    // Attach Content
 
-    // www.hostloc.com
-    if (!!~hn.indexOf('hostloc.com') && typeof display_blocked_post === 'function') {
-        // Automatically expand all posts
-        // display_blocked_post();
-    }
+    // Automatically expand all posts
+    // if (typeof display_blocked_post === 'function') display_blocked_post();
 
-    // bbs.pcbeta.com
-    if (hn === 'bbs.pcbeta.com') {
+    // Compatibility settings
+
+    // Cascading Style Sheets・www.hostloc.com
+    !!~hn.indexOf('hostloc.com') && GM_addStyle(`
+        #hiddenpoststip {
+            padding: 0;
+        }
+
+        #hiddenpoststip a {
+            height: 32px;
+            line-height: 32px;
+            font-size: 16px;
+        }
+
+        #hiddenpoststip a:hover {
+            color: #f33;
+        }
+
+        #hiddenpoststip a::before {
+            padding-right: 8px;
+            content: "🌜";
+        }
+        #hiddenpoststip a::after {
+            padding-left: 8px;
+            content: "🌛";
+        }
+    `);
+
+    // Cascading Style Sheets・bbs.pcbeta.com
+    if (!!~hn.indexOf('bbs.pcbeta.com')) {
         GM_addStyle(`
+            #wp > div,
+            #nv_forum > span,
+            .pls .tip,
+            ignore_js_op .tip,
+            .check-in,
+            .group-button {
+                display: none;
+            }
+
+            #wp > div:first-child,
+            #wp > div.cl,
+            #wp > div.wp,
+            #nv_forum #scrolltop {
+                display: block;
+            }
+
             .pls .avatar {
                 overflow: unset;
             }
 
+            .pls .m img {
+                margin-left: 2px;
+                padding: 0;
+                width: 120px;
+                height: 120px;
+                object-fit: contain;
+                background: #fff;
+                border: none;
+                border-radius: 50%;
+                box-shadow: none;
+            }
+
+            .pls .m img:hover {
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .pb_pls .avatar img {
+                border-radius: 50%;
+                background: none;
+            }
+
+            .pb_pls .avatar img:hover {
+                border-radius: 0;
+            }
+
+            .hdc {
+                position: relative;
+            }
+
             .function-buttons {
-                padding: 4px 0;
+                position: absolute;
+                right: 0;
+                padding: 2px 8px 4px 0;
                 border-radius: 4px;
             }
 
             .custom-function-button {
+                color: #333;
                 background-color: #fff;
+                box-shadow: 0 1px 2px #bbb;
             }
 
             .custom-function-button:hover {
-                box-shadow: 0 1px 2px #bbb;
+                color: #1985db;
+                box-shadow: 0 2px 4px #bbb;
+            }
+
+            .wp .pgs {
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -webkit-user-select: none;
+                user-select: none;
             }
         `);
+
+        if (member === false) {
+            GM_addStyle(`
+                .function-buttons {
+                    padding-top: 4px;
+                    padding-right: 0;
+                }
+            `);
+        }
     }
+
+    // Cascading Style Sheets・bbs.fobshanghai.com
+    !!~hn.indexOf('bbs.fobshanghai.com') && GM_addStyle(`
+        #function-buttons.function-buttons {
+            padding-top: 48px !important;
+        }
+
+        .maintable > .spaceborder > table:first-child,
+        .line div,
+        .t_infoline .line {
+            display: none;
+        }
+
+        #aaaa {
+            display: block;
+        }
+
+        .mainheader {
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    `);
+
+    // Cascading Style Sheets・bbs.huorong.cn
+    !!~hn.indexOf('bbs.huorong.cn') && GM_addStyle(`
+        .function-buttons {
+            margin-top: 10px;
+            padding-right: 6px;
+        }
+
+        .custom-function-button {
+            background-color: #fff;
+        }
+    `);
+
+    // Cascading Style Sheets・bbs.360.cn
+    !!~hn.indexOf('bbs.360.cn') && GM_addStyle(`
+        .custom-function-button {
+            margin-top: -20px;
+            padding: 0 8px;
+            background-color: #f1f2f6;
+        }
+
+        .custom-function-button:hover {
+            color: #f33;
+            background-color: #fff;
+        }
+
+        .apk-download,
+        .apk-download-pannel,
+        .pls .tip,
+        ignore_js_op .tip {
+            display: none;
+        }
+
+        .pls .avatar img {
+            padding: 0;
+            background: none;
+            width: 54px;
+            height: 54px;
+            border: none;
+            border-radius: 50% !important;
+            box-shadow: 0 0 2px #bbb !important;
+        }
+
+        .pls .avatar img:hover {
+            border-radius: 0 !important;
+        }
+    `);
 })();
