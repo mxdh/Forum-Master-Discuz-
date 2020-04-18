@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz！修改版
 // @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.8.0
+// @version      0.8.1
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -32,10 +32,10 @@
 // @match        http://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
 // @match        https://bbs.huorong.cn/thread-*.html
 // @match        https://bbs.huorong.cn/forum.php?mod=viewthread&tid=*
-// @match        https://bbs.360.cn/thread-*.html
-// @match        https://bbs.360.cn/forum.php?mod=viewthread&tid=*
 // @match        https://iya.app/thread-*.html
 // @match        https://iya.app/forum.php?mod=viewthread&tid=*
+// @match        https://www.dospy.wang/thread-*.html
+// @match        https://www.dospy.wang/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_log
@@ -607,7 +607,7 @@
     // Execution as Show users online status
     if (member) {
         show_users_online_status();
-    } else if (site === 'PCBETA') {
+    } else if (site === 'PCBETA' || site === 'DOSPY') {
         detection_mode = 'Standard';
         show_users_online_status();
     }
@@ -625,7 +625,7 @@
         }
     }
 
-    if (site === 'HUORONG') display_check_in_button = false;
+    if (site === 'HUORONG' || site === 'DOSPY') display_check_in_button = false;
 
     // Create Button Group
     function create_button_group() {

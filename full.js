@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz！修改版
 // @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.8.0
+// @version      0.8.1
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -590,7 +590,7 @@
     // Execution as Show users online status
     if (member) {
         show_users_online_status();
-    } else if (site === 'PCBETA' || site === '17500') {
+    } else if (site === 'PCBETA' || site === 'DOSPY' || site === '17500') {
         detection_mode = 'Standard';
         show_users_online_status();
     }
@@ -608,7 +608,7 @@
         }
     }
 
-    if (site === 'HUORONG') display_check_in_button = false;
+    if (site === 'HUORONG' || site === 'DOSPY') display_check_in_button = false;
 
     // Create Button Group
     function create_button_group() {
