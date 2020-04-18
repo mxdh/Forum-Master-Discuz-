@@ -10,6 +10,7 @@
 - 远景论坛（微软极客社区）(bbs.pcbeta.com)
 - 恩山无线论坛(www.right.com.cn)
 - 火绒安全论坛(bbs.huorong.cn)
+- iYa.App 软件交流社区(iya.app)
 - DOSPY论坛(www.dospy.wang)
 
 This is a lite version. To support more forums, please use [full version](https://greasyfork.org/en/scripts/401307-forum-master-discuz-revision) or [original version](https://greasyfork.org/en/scripts/400250-forum-master-discuz)
