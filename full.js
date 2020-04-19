@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz！修改版
 // @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.8.1
+// @version      0.8.2
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -187,7 +187,6 @@
         #drk_ledtd,
         #hd .wp .a_mu,
         table .a_pr,
-        .hdc.cl h2 a img,
         .ad .plc .a_p,
         .a_h,
         .a_t,
@@ -360,13 +359,6 @@
         }
     `);
 
-    // Login status
-    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
-
-    GM_log('Login status:', member);
-    GM_log('');
-
-
     if (GLOBAL_CONFIG.text_beautification === true) {
         GM_addStyle(`
             body, table, input, button, select, textarea, a {
@@ -384,6 +376,11 @@
         `)
     }
 
+    // Login status
+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
+
+    GM_log('Login status:', member);
+    GM_log('');
 
     // Default avatar
     function default_avatar() {
@@ -483,7 +480,6 @@
         `);
     }
 
-    // Functions
 
     // Show Dialog
     function show_dialog(message) {
@@ -662,7 +658,7 @@
                 window.location.reload();
                 return;
             }
-            let message = '场景模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
+            let message = '场景模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + scene_mode_dic[scene_mode] + '</span>。';
             show_dialog(message);
             this.disabled = false;
             this.classList.remove('button-disabled');
@@ -689,7 +685,7 @@
                 window.location.reload();
                 return;
             }
-            let message = '探测模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
+            let message = '探测模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + scene_mode_dic[scene_mode] + '</span>。';
             show_dialog(message);
             this.classList.remove('button-disabled');
         }
@@ -803,7 +799,12 @@
         let fastPostMessageContent = fastPostMessage.value;
         if (fastPostMessageContent && fastPostMessageContent.length < 20) {
             fastPostMessageContent = fastPostMessageContent.trim();
+            fastPostMessage.style.opacity = '0';
             fastPostMessage.value = fastPostMessageContent.concat(attachContent);
+            setTimeout(() => {
+                fastPostMessage.value = fastPostMessageContent;
+                fastPostMessage.style.opacity = '1';
+            }, 100);
         }
     }
 
@@ -873,30 +874,21 @@
     // Cascading Style Sheets・bbs.pcbeta.com
     if (site === 'PCBETA') {
         GM_addStyle(`
+            #wp > div:first-child  {
+                display: none !important;
+            }
+
             #wp > div,
             #nv_forum > span,
             .pls .tip,
-            ignore_js_op .tip,
-            .check-in,
-            .group-button {
+            ignore_js_op .tip {
                 display: none;
             }
 
-            #wp > div:first-child,
             #wp > div.cl,
             #wp > div.wp,
             #nv_forum #scrolltop {
                 display: block;
-            }
-
-            .function-buttons {
-                position: absolute;
-                right: 0;
-                padding: 0 8px 4px 0;
-            }
-
-            .custom-function-button {
-                margin: 0 4px;
             }
 
             .pls .avatar {
@@ -919,6 +911,16 @@
 
             .hdc {
                 position: relative;
+            }
+
+            .function-buttons {
+                position: absolute;
+                right: 0;
+                padding: 0 8px 4px 0;
+            }
+
+            .custom-function-button {
+                margin: 0 4px;
             }
 
             .wp .pgs {

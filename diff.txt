@@ -1,5 +1,5 @@
---- original.js	2020-04-18 16:29:30.671711400 +0800
-+++ main.js	2020-04-18 17:21:11.637368200 +0800
+--- original.js	2020-04-19 16:10:10.081015400 +0800
++++ main.js	2020-04-19 16:14:42.127000900 +0800
 @@ -1,23 +1,16 @@
  // ==UserScript==
 -// @name         Forum Master・Discuz!
@@ -10,13 +10,13 @@
 -// @name:zh-TW   論壇大師・Discuz!　界面美化、廣告移除、功能增強……
 -// @namespace    Forum Master・Discuz!
 -// @homepage     https://greasyfork.org/scripts/400250
--// @version      0.1.1
+-// @version      0.1.3
 +// @name         Forum Master・Discuz! Revision
 +// @name:en      Forum Master・Discuz! Revision
 +// @name:zh-CN   论坛大师・Discuz！修改版
 +// @name:zh-TW   論壇大師・Discuz！修改版
 +// @namespace    Forum Master・Discuz!-mxdh
-+// @version      0.8.1
++// @version      0.8.2
  // @icon         https://www.discuz.net/favicon.ico
  // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
  // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -93,7 +93,7 @@
      /**
       * Forum Master・Discuz! - https://greasyfork.org/scripts/400250
       *
-@@ -103,23 +71,61 @@
+@@ -103,39 +71,61 @@
       * == END LICENSE ==
       */
  
@@ -138,31 +138,47 @@
  
      // Below is the core code
  
+-    // Scene mode: Standard, Family, Office
+-    var scene_mode = GM_getValue('SCENE_MODE') || 'Standard';
 +    // Host Name
 +    const hn = window.location.hostname;
-+
+ 
+-    // Display the users online status
+-    var display_users_online_status = GM_getValue('DISPLAY_USERS_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_online_status;
 +    function get_site_pos() {
 +        if (!!~hn.indexOf('.com.cn')) return -3;
 +        return -2;
 +    }
-+
+ 
+-    // Runtime Type Checks・Runtime type checks for JavaScript and TypeScript
+-    var NaN = true;
+-    var check = NaN;
+-    // Runtime type checks for JavaScript
+-    if (check === check) {
+-        // Enable for JavaScript
+-
+-        // Runtime type checks for TypeScript
+-        Check_TypeScript(window.Node);
+-    } else {
+-        // Disable for JavaScript
 +    const site_pos = get_site_pos();
 +    const site = hn.split('.').slice(site_pos, site_pos + 1).join().toUpperCase();
-+
+ 
+-        // Exit
+-        exit();
+-    }
 +    GM_log("Site name:", site);
 +
-     // Scene mode: Standard, Family, Office
--    var scene_mode = GM_getValue('SCENE_MODE') || 'Standard';
++    // Scene mode: Standard, Family, Office
 +    var scene_mode = GM_getValue(site + '_SCENE_MODE') || GLOBAL_CONFIG.scene_mode;
- 
-     // Display the users online status
--    var display_users_online_status = GM_getValue('DISPLAY_USERS_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_online_status;
++
++    // Display the users online status
 +    // GM_deleteValue(site + '_DETECTION_MODE');
 +    var detection_mode = GM_getValue(site + '_DETECTION_MODE') || GLOBAL_CONFIG.detection_mode;
  
      // Test code
      const ua = window.navigator.userAgent;
-@@ -127,26 +133,35 @@
+@@ -143,26 +133,35 @@
      GM_log('');
  
      GM_log('Scene mode:', scene_mode);
@@ -205,7 +221,7 @@
      // Cascading Style Sheets・Global
      GM_addStyle(`
          :root {
-@@ -180,15 +195,6 @@
+@@ -196,15 +195,6 @@
              --font-family-monospace: "Fira Code", Hack, "Source Code Pro", "Source Code Variable", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Noto Sans Mono CJK", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", monospace;
          }
  
@@ -221,7 +237,15 @@
          .ads,
          .plc .dnch_eo_pt,
          .plc .dnch_eo_pb,
-@@ -207,14 +213,6 @@
+@@ -214,7 +204,6 @@
+         #drk_ledtd,
+         #hd .wp .a_mu,
+         table .a_pr,
+-        .hdc.cl h2 a img,
+         .ad .plc .a_p,
+         .a_h,
+         .a_t,
+@@ -223,14 +212,6 @@
              display: none;
          }
  
@@ -236,7 +260,7 @@
          .pls .avatar {
              padding-top: 1px;
              position: relative;
-@@ -229,27 +227,26 @@
+@@ -245,27 +226,26 @@
              background: none;
              border-radius: 50%;
              padding: 0;
@@ -272,7 +296,7 @@
          #tath img,
          .rate table img,
          .cm .vm img,
-@@ -259,7 +256,7 @@
+@@ -275,7 +255,7 @@
              box-shadow: 0 0 2px #bbb;
          }
  
@@ -281,7 +305,7 @@
          #tath img:hover,
          .rate table img:hover,
          .cm .vm img:hover,
-@@ -268,6 +265,34 @@
+@@ -284,6 +264,34 @@
              box-shadow: none;
          }
  
@@ -316,7 +340,7 @@
          .user-online-status {
              display: block;
              margin: 0;
-@@ -325,18 +350,21 @@
+@@ -341,18 +349,21 @@
          }
  
          .custom-function-button {
@@ -341,17 +365,36 @@
          }
  
          .button-disabled {
-@@ -350,17 +378,36 @@
+@@ -365,45 +376,25 @@
+         }
      `);
  
-     // Login status
--    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats') || !!document.getElementById('qmenu'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
-+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
- 
-     GM_log('Login status:', member);
-     GM_log('');
- 
-+
+-    // Runtime type checks for TypeScript
+-    function Check_TypeScript(Node) {
+-        // A reasonably-typed TypeScript application gives the developer enough confidence that the operations within the applicaiton are safe and predictable. As a result, you rarely see the 'undefined is not a function' errors, which is often caused by passing a wrong type of object.
+-        // This is because the TypeScript type checker ensures that you only invoke functions with compatible parameters. The type checker, however, cannot verify this at the application or module boundary, where the application receives data from the backend, a web-worker, or just another module. Here, we cannot know statically if the data is correct. So we just have to trust that it is.
+-        let type = typeof Node;
+-        let a = [
+-            type,
+-        ];
+-        let b = [
+-            type,
+-        ];
+-        if (a === b) {
+-            a = a.push(a.push(Node, type));
+-            b = b.push(b.push(Node, type));
+-            switch (true) {
+-                case a === b:
+-                    Node = a[a.length - 1];
+-                    break;
+-
+-                case a > b:
+-                    Node = a[1];
+-                    break;
+-
+-                case a < b:
+-                    Node = b[1];
+-                    break;
 +    if (GLOBAL_CONFIG.text_beautification === true) {
 +        GM_addStyle(`
 +            body, table, input, button, select, textarea, a {
@@ -359,19 +402,30 @@
 +            }
 +        `)
 +    }
-+
+ 
+-                default:
+-                    break;
 +    if (GLOBAL_CONFIG.code_beautification === true) {
 +        GM_addStyle(`
 +            .mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
 +            .blockcode ol li {
 +                font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
-+            }
+             }
+-            !!Node && Check_TypeScript(Node);
+-            return true;
+-        } else {
+-            return false;
+-        }
 +        `)
-+    }
-+
-+
-     // Default avatar
-     function default_avatar() {
+     }
+ 
+     // Login status
+-    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
++    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats');
+ 
+     GM_log('Login status:', member);
+     GM_log('');
+@@ -413,7 +404,7 @@
          // https://herder.cdn.bcebos.com/uc_server/images/noavatar_big.gif
          // https://herder.cdn.bcebos.com/uc_server/images/noavatar_middle.gif
          // https://herder.cdn.bcebos.com/uc_server/images/noavatar_small.gif
@@ -380,7 +434,7 @@
              GM_addStyle(`
                  .pls .avatar img,
                  .avtm img {
-@@ -396,71 +443,15 @@
+@@ -449,71 +440,15 @@
      // Default avatar for Family attach
      function default_avatar_for_family_attach() {
          GM_addStyle(`
@@ -454,7 +508,32 @@
              }
          `);
      }
-@@ -572,8 +563,9 @@
+@@ -550,13 +485,6 @@
+                 background: none !important;
+             }
+         `);
+-
+-        // bbs.pcbeta.com
+-        !!~hn.indexOf('bbs.pcbeta.com') && GM_addStyle(`
+-            #wp > div:first-child  {
+-                display: none !important;
+-            }
+-        `);
+     }
+ 
+     // Hidden Signature
+@@ -569,10 +497,6 @@
+         `);
+     }
+ 
+-    // Exit
+-    function exit() {
+-        !!check && exit();
+-    }
+ 
+     // Show Dialog
+     function show_dialog(message) {
+@@ -635,8 +559,9 @@
      function show_users_online_status() {
          const avatar = document.getElementsByClassName('avatar');
          const info = document.getElementsByClassName('i');
@@ -465,7 +544,7 @@
              case 'None':
                  break;
  
-@@ -598,7 +590,6 @@
+@@ -661,7 +586,6 @@
  
              case 'Advanced':
                  // Show real users online status
@@ -473,7 +552,7 @@
                  for (let i = 0; i < info.length; i++) {
                      setTimeout(() => {
                          let html = avatar[i].innerHTML;
-@@ -614,7 +605,27 @@
+@@ -677,7 +601,27 @@
      }
  
      // Execution as Show users online status
@@ -502,7 +581,16 @@
  
      // Create Button Group
      function create_button_group() {
-@@ -632,7 +643,7 @@
+@@ -685,7 +629,7 @@
+         const function_buttons = document.createElement('div');
+         function_buttons.id = 'function-buttons';
+         function_buttons.className = 'function-buttons';
+-        let function_buttons_package = Check_TypeScript(function_buttons);
++        let function_buttons_package;
+         switch (true) {
+             case !!document.getElementsByClassName('xm_header_top_ul').length:
+                 function_buttons_package = document.getElementsByClassName('xm_header_top_ul')[0];
+@@ -695,7 +639,7 @@
                  function_buttons_package = document.getElementById('extcreditmenu').parentElement;
                  break;
  
@@ -511,7 +599,7 @@
                  function_buttons_package = document.getElementsByClassName('hdc')[0];
                  break;
  
-@@ -653,32 +664,26 @@
+@@ -716,32 +660,25 @@
              return false;
          }
  
@@ -523,7 +611,7 @@
 -            window.open(OPEN_HOME);
 -        }, false);
 -        function_buttons.appendChild(open_home_button);
- 
+-
          // Scene mode button
          function scene_mode_mouseenter() {
 -            scene_mode = GM_getValue('SCENE_MODE') || scene_mode;
@@ -545,14 +633,14 @@
 +                window.location.reload();
 +                return;
 +            }
-             let message = '场景模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
+             let message = '场景模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + scene_mode_dic[scene_mode] + '</span>。';
              show_dialog(message);
 +            this.disabled = false;
 +            this.classList.remove('button-disabled');
          }
          const scene_mode_button = document.createElement('button');
          scene_mode_button.className = 'custom-function-button scene-mode-button';
-@@ -687,8 +692,36 @@
+@@ -750,8 +687,36 @@
          scene_mode_button.addEventListener('click', scene_mode_switch, false);
          function_buttons.appendChild(scene_mode_button);
  
@@ -572,7 +660,7 @@
 +                window.location.reload();
 +                return;
 +            }
-+            let message = '探测模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
++            let message = '探测模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + scene_mode_dic[scene_mode] + '</span>。';
 +            show_dialog(message);
 +            this.classList.remove('button-disabled');
 +        }
@@ -590,7 +678,7 @@
              function check_in() {
                  const check_in = document.getElementsByClassName('check-in')[0];
                  check_in.innerHTML = '正在签到';
-@@ -697,14 +730,19 @@
+@@ -760,14 +725,19 @@
                  setTimeout(() => {
                      let message = '签到完成';
                      check_in.innerHTML = message;
@@ -612,7 +700,7 @@
                  for (let i = 0; i < 10; i++) {
                      setTimeout(() => {
                          let request = new XMLHttpRequest();
-@@ -714,7 +752,7 @@
+@@ -777,7 +747,7 @@
                      }, i * 100);
                  }
  
@@ -621,7 +709,7 @@
                      for (let i = 0; i < 20; i++) {
                          setTimeout(() => {
                              let request = new XMLHttpRequest();
-@@ -732,15 +770,6 @@
+@@ -795,15 +765,6 @@
              function_buttons.appendChild(check_in_button);
          }
  
@@ -637,11 +725,21 @@
          function_buttons_package.appendChild(function_buttons);
      }
  
-@@ -772,7 +801,19 @@
+@@ -819,8 +780,7 @@
+                 window.scrollTo(0, 54321);
+                 let fastPostMessage = document.getElementById('fastpostmessage');
+                 !!fastPostMessage && fastPostMessage.focus();
+-            },
+-            Check_TypeScript(params));
++            }, false);
+         } catch (error) {
+             GM_log('You don\'t have permission to post content.');
+         }
+@@ -836,7 +796,19 @@
          !!fastre && skip_bottom(fastre);
      }
  
--    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[img]' + window.location.protocol + '//herder.cdn.bcebos.com/images/dot.gif[/img]';
+-    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[url=' + OPEN_HOME + '][img]' + window.location.protocol + '//herder.cdn.bcebos.com/Discuz!/images/dot.gif?hn=' + hn + '[/img][/url]';
 +
 +    function get_attach_content() {
 +        switch (site) {
@@ -658,7 +756,7 @@
  
      const fastPostMessage = document.getElementById('fastpostmessage');
  
-@@ -804,10 +845,24 @@
+@@ -873,10 +845,24 @@
      // Automatically expand all posts
      // if (typeof display_blocked_post === 'function') display_blocked_post();
  
@@ -684,7 +782,7 @@
          #hiddenpoststip {
              padding: 0;
          }
-@@ -826,6 +881,7 @@
+@@ -895,6 +881,7 @@
              padding-right: 8px;
              content: "🌜";
          }
@@ -692,16 +790,29 @@
          #hiddenpoststip a::after {
              padding-left: 8px;
              content: "🌛";
-@@ -833,7 +889,7 @@
+@@ -902,8 +889,11 @@
      `);
  
      // Cascading Style Sheets・bbs.pcbeta.com
 -    if (!!~hn.indexOf('bbs.pcbeta.com')) {
-+    if (site === 'PCBETA') {
-         GM_addStyle(`
+-        GM_addStyle(`
++        site==='PCBETA' && GM_addStyle(`
++            #wp > div:first-child  {
++                display: none !important;
++            }
++
              #wp > div,
              #nv_forum > span,
-@@ -855,26 +911,14 @@
+             .pls .tip,
+@@ -911,7 +901,6 @@
+                 display: none;
+             }
+ 
+-            #wp > div:first-child,
+             #wp > div.cl,
+             #wp > div.wp,
+             #nv_forum #scrolltop {
+@@ -922,26 +911,14 @@
                  overflow: unset;
              }
  
@@ -733,7 +844,7 @@
              }
  
              .pb_pls .avatar img:hover {
-@@ -888,19 +932,11 @@
+@@ -955,19 +932,11 @@
              .function-buttons {
                  position: absolute;
                  right: 0;
@@ -755,7 +866,7 @@
              }
  
              .wp .pgs {
-@@ -910,85 +946,5 @@
+@@ -977,85 +946,4 @@
                  user-select: none;
              }
          `);
@@ -768,7 +879,7 @@
 -                }
 -            `);
 -        }
-     }
+-    }
 -
 -    // Cascading Style Sheets・bbs.fobshanghai.com
 -    !!~hn.indexOf('bbs.fobshanghai.com') && GM_addStyle(`

