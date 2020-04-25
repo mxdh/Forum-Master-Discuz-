@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz！修改版
 // @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.8.2
+// @version      0.9.0
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -73,6 +73,11 @@
 
     // Global Settings · Start
     const GLOBAL_CONFIG = {
+        // Clean posts' format: true/false
+        // 清除帖子格式: true/false
+        // 清除帖子格式: true/false
+        clean_post: false,
+
         // Display the users' online status: 'None', 'Standard', 'Advanced'
         // 显示用户的在线状态: 'None', 'Standard', 'Advanced'
         // 顯示用戶的在線狀態: 'None', 'Standard', 'Advanced'
@@ -124,8 +129,10 @@
     var scene_mode = GM_getValue(site + '_SCENE_MODE') || GLOBAL_CONFIG.scene_mode;
 
     // Display the users online status
-    // GM_deleteValue(site + '_DETECTION_MODE');
     var detection_mode = GM_getValue(site + '_DETECTION_MODE') || GLOBAL_CONFIG.detection_mode;
+
+    // Clean posts' format
+    var clean_post = GM_getValue(site + '_CLEAN_POST') || GLOBAL_CONFIG.clean_post;
 
     // Test code
     const ua = window.navigator.userAgent;
@@ -137,6 +144,16 @@
     GM_log('Detection mode:', detection_mode);
     GM_log(typeof detection_mode);
     GM_log('');
+
+    const clean_post_dic = {
+        false: '关闭',
+        true: '开启'
+    }
+
+    const clean_post_cutover_dic = {
+        false: true,
+        true: false
+    }
 
     const detection_mode_dic = {
         None: '关闭',
@@ -376,7 +393,7 @@
         }
     `);
 
-    if (GLOBAL_CONFIG.text_beautification === true) {
+    if (GLOBAL_CONFIG.text_beautification) {
         GM_addStyle(`
             body, table, input, button, select, textarea, a {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei New", "Microsoft Yahei", "WenQuanYi Micro Hei", "Noto Sans CJK", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -384,11 +401,34 @@
         `)
     }
 
-    if (GLOBAL_CONFIG.code_beautification === true) {
+    if (GLOBAL_CONFIG.code_beautification) {
         GM_addStyle(`
             .mono, .md, .code, .pre, .tt, mono, md, code, pre, tt,
             .blockcode ol li {
                 font-family: "Fira Code", Hack, "Source Code Pro", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Microsoft YaHei Mono", "WenQuanYi Zen Hei Mono", "Noto Sans Mono CJK", monospace !important;
+            }
+        `)
+    }
+
+    if (clean_post) {
+        GM_addStyle(`
+            .t_f font{
+                font-size:inherit !important;
+                color:inherit !important;
+                background-color:inherit !important;
+                font-family:inherit !important;
+            }
+            .t_f u{
+                text-decoration:inherit !important;
+            }
+            .t_f strong{
+                font-weight:inherit !important;
+            }
+            .t_f i{
+                font-style:inherit !important;
+            }
+            .plhin {
+                background: none !important;
             }
         `)
     }
@@ -702,7 +742,7 @@
                 window.location.reload();
                 return;
             }
-            let message = '探测模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + scene_mode_dic[scene_mode] + '</span>。';
+            let message = '探测模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + detection_mode_dic[detection_mode] + '</span>。';
             show_dialog(message);
             this.classList.remove('button-disabled');
         }
@@ -713,6 +753,34 @@
             detection_mode_button.addEventListener('mouseenter', detection_mode_mouseenter, false);
             detection_mode_button.addEventListener('click', detection_mode_switch, false);
             function_buttons.appendChild(detection_mode_button);
+        }
+
+        // Clean post button
+        function clean_post_mouseenter() {
+            clean_post = GM_getValue(site + '_CLEAN_POST') || clean_post;
+            this.innerHTML = '清除格式：' + clean_post_dic[clean_post];
+        }
+        function clean_post_switch() {
+            this.disabled = true;
+            this.classList.add('button-disabled');
+            clean_post = clean_post_cutover_dic[clean_post];
+            this.innerHTML = '清除格式：' + clean_post_dic[clean_post];
+            GM_setValue(site + '_CLEAN_POST', clean_post);
+            if (GLOBAL_CONFIG.auto_reload) {
+                window.location.reload();
+                return;
+            }
+            let message = '清除格式模式切换成功，刷新页面即可进入 <span style="color: var(--info);">' + clean_post_dic[clean_post] + '</span>。';
+            show_dialog(message);
+            this.classList.remove('button-disabled');
+        }
+        if (member) {
+            const clean_post_button = document.createElement('button');
+            clean_post_button.className = 'custom-function-button detection-mode-button';
+            clean_post_button.innerHTML = '清除格式：' + clean_post_dic[clean_post];
+            clean_post_button.addEventListener('mouseenter', clean_post_mouseenter, false);
+            clean_post_button.addEventListener('click', clean_post_switch, false);
+            function_buttons.appendChild(clean_post_button);
         }
 
         // Check in
@@ -889,7 +957,7 @@
     `);
 
     // Cascading Style Sheets・bbs.pcbeta.com
-        site==='PCBETA' && GM_addStyle(`
+    site === 'PCBETA' && GM_addStyle(`
             #wp > div:first-child  {
                 display: none !important;
             }
