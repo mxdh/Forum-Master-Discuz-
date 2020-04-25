@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz！修改版
 // @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.9.0
+// @version      0.9.1
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -36,6 +36,10 @@
 // @match        https://iya.app/forum.php?mod=viewthread&tid=*
 // @match        https://www.dospy.wang/thread-*.html
 // @match        https://www.dospy.wang/forum.php?mod=viewthread&tid=*
+// @match        http://www.aihao.cc/thread-*.html
+// @match        http://www.aihao.cc/forum.php?mod=viewthread&tid=*
+// @match        https://www.aihao.cc/thread-*.html
+// @match        https://www.aihao.cc/forum.php?mod=viewthread&tid=*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_log
