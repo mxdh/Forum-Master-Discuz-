@@ -4,7 +4,7 @@
 // @name:zh-CN   论坛大师・Discuz！修改版
 // @name:zh-TW   論壇大師・Discuz！修改版
 // @namespace    Forum Master・Discuz!-mxdh
-// @version      0.9.1
+// @version      0.9.2
 // @icon         https://www.discuz.net/favicon.ico
 // @description  Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
 // @description:en    Forum Master - Discuz!　Beautify the interface, Remove ads, Enhance functions.
@@ -660,9 +660,9 @@
             const status_images = document.getElementsByClassName('qq_bind');
             if (!!status_images.length) {
                 !!status_images[0].src.slice(-6, -4) === 'dk' && document.getElementById('pper_a').click();
-                display_check_in_button = false;
             }
         }
+        display_check_in_button = false;
     }
 
     if (site === 'HUORONG' || site === 'DOSPY') display_check_in_button = false;
@@ -797,16 +797,11 @@
                 setTimeout(() => {
                     let message = '签到完成';
                     check_in.innerHTML = message;
-                    if (site != 'KAFAN') show_dialog(message)
+                    show_dialog(message)
                 }, 1234);
 
                 if (site === 'PCBETA') {
                     window.open('//i.pcbeta.com/home.php?mod=task&do=apply&id=149');
-                    return false;
-                }
-
-                if (site === 'KAFAN') {
-                    showWindow('dsu_amupper', 'plugin.php?id=dsu_amupper&ppersubmit=true&formhash=' + document.getElementsByName('formhash')[0].value);
                     return false;
                 }
 
